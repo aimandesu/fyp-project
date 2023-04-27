@@ -20,6 +20,11 @@ class _OnboardingState extends State<Onboarding> {
     super.dispose();
   }
 
+  void saveOnboardingComplete() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('onboardingComplete', true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,12 +61,11 @@ class _OnboardingState extends State<Onboarding> {
       ),
       bottomSheet: isLastPage
           ? TextButton(
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                prefs.setBool('onboardingComplete', true);
-
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SignupLogin()));
+              onPressed: () {
+                saveOnboardingComplete();
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const SignupLogin();
+                }));
               },
               child: const Text("Get Started"),
             )

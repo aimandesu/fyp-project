@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: const ColorScheme.dark(
+          primary: Colors.blue,
+        ),
       ),
       home: onboardingComplete
           ? const SignupLogin()
