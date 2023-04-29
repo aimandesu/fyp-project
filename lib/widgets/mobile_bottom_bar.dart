@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 
+import '../profile/profile.dart';
+
 class MobileBottomBar extends StatelessWidget {
   const MobileBottomBar({super.key});
 
@@ -25,7 +27,7 @@ class MobileBottomBar extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.search_rounded),
+              icon: const Icon(Icons.home),
             ),
             IconButton(
               onPressed: () {},
@@ -40,7 +42,9 @@ class MobileBottomBar extends StatelessWidget {
               icon: Icon(Icons.data_array_rounded),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(Profile.routeName);
+              },
               icon: Icon(Icons.people_rounded),
             ),
           ],

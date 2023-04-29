@@ -5,6 +5,7 @@ import 'package:fyp_project/signup_login/signup_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'onboarding/onboarding.dart';
+import 'profile/profile.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,13 +30,27 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: const ColorScheme.dark(
-          primary: Colors.blue,
+        colorScheme: const ColorScheme(
+          brightness: Brightness.dark,
+          primary: Colors.deepPurple,
+          onPrimary: Colors.white,
+          secondary: Colors.deepPurple,
+          onSecondary: Colors.pink,
+          error: Colors.red,
+          onError: Colors.green,
+          background: Colors.yellow,
+          onBackground: Colors.teal,
+          surface: Colors.blueGrey,
+          onSurface: Colors.white,
         ),
       ),
+      debugShowCheckedModeBanner: false,
       home: onboardingComplete
           ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
           : const Onboarding(),
+      routes: {
+        Profile.routeName: (context) => const Profile(),
+      },
     );
   }
 }
