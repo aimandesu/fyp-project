@@ -31,21 +31,21 @@ class MobileBottomBar extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.menu_book_rounded),
+              icon: const Icon(Icons.menu_book_rounded),
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.camera_alt_rounded),
+              icon: const Icon(Icons.camera_alt_rounded),
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.data_array_rounded),
+              icon: const Icon(Icons.data_array_rounded),
             ),
             IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Profile.routeName);
               },
-              icon: Icon(Icons.people_rounded),
+              icon: const Icon(Icons.people_rounded),
             ),
           ],
         ),

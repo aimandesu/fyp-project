@@ -31,17 +31,18 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: const ColorScheme(
-          brightness: Brightness.dark,
-          primary: Colors.deepPurple,
-          onPrimary: Colors.white,
-          secondary: Colors.deepPurple,
-          onSecondary: Colors.pink,
+          brightness: Brightness.light,
+          primary: Color.fromRGBO(51, 66, 200, 1), //controls appbar
+          onPrimary: Colors
+              .white, //why is this text color in appbar? Color.fromRGBO(0, 98, 200, 1)
+          secondary: Color.fromARGB(255, 190, 36, 87),
+          onSecondary: Color.fromARGB(255, 232, 24, 93),
           error: Colors.red,
           onError: Colors.green,
           background: Colors.yellow,
           onBackground: Colors.teal,
-          surface: Colors.blueGrey,
-          onSurface: Colors.white,
+          surface: Color.fromRGBO(51, 66, 200, 1), //controls appbar
+          onSurface: Colors.white, //controls appbar
         ),
       ),
       debugShowCheckedModeBanner: false,

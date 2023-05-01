@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../responsive_layout_controller.dart';
+
 class NameAndTitle extends StatelessWidget {
   const NameAndTitle({
     super.key,
@@ -7,17 +9,36 @@ class NameAndTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = ResponsiveLayoutController.isTablet(context);
+
     return Container(
-      color: Colors.red,
+      decoration: BoxDecoration(
+        borderRadius:
+            isTablet ? BorderRadius.circular(0) : BorderRadius.circular(15),
+        color: Theme.of(context).colorScheme.primary,
+      ),
       child: Row(
         children: [
-          Icon(Icons.add),
+          Icon(
+            Icons.add,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Aiman Afiq bin Esam"),
-              Text("Ketua Kampung Taman Botani"),
+              Text(
+                "Aiman Afiq bin Esam",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              Text(
+                "Ketua Kampung Taman Botani",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
             ],
           ),
         ],

@@ -12,64 +12,66 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
-        child: ResponsiveLayoutController(
-      mobile: Column(
-        children: [
-          Container(
-            width: size.width * 1,
-            height: size.height * 0.35,
-            child: IcProfile(),
-          ),
-          Container(
-            width: size.width * 1,
-            height: size.height * 0.08,
-            margin: EdgeInsets.all(15),
-            child: NameAndTitle(),
-          ),
-          Container(
-            width: size.width * 1,
-            height: size.height * 0.2,
-            margin: EdgeInsets.all(15),
-            child: ProfileDetails(),
-          ),
-        ],
-      ),
-      tablet: Column(
-        children: [
-          SizedBox(
-            height: 250,
-            child: Row(
-              children: [
-                Container(
-                  width: size.width * 0.6,
-                  child: IcProfile(),
-                ),
-                Container(
-                  width: size.width * 0.4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        // width: size.width * 1,
-                        height: 125,
-                        // margin: EdgeInsets.all(15),
-                        child: NameAndTitle(),
-                      ),
-                      Container(
-                        // width: size.width * 1,
-                        height: 125,
-                        // margin: EdgeInsets.all(15),
-                        child: ProfileDetails(),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+      child: ResponsiveLayoutController(
+        mobile: Column(
+          children: [
+            SizedBox(
+              width: size.width * 1,
+              height: size.height * 0.35,
+              child: const IcProfile(),
             ),
-          )
-        ],
+            Container(
+              width: size.width * 1,
+              height: size.height * 0.08,
+              margin: const EdgeInsets.all(15),
+              child: const NameAndTitle(),
+            ),
+            Container(
+              width: size.width * 1,
+              height: size.height * 0.2,
+              margin: const EdgeInsets.all(15),
+              child: const ProfileDetails(),
+            ),
+          ],
+        ),
+        tablet: Column(
+          children: [
+            SizedBox(
+              height: 250,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: size.width * 0.6,
+                    child: const IcProfile(),
+                  ),
+                  SizedBox(
+                    width: size.width * 0.4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: const [
+                        SizedBox(
+                          // width: size.width * 1,
+                          height: 125,
+                          // margin: EdgeInsets.all(15),
+                          child: NameAndTitle(),
+                        ),
+                        SizedBox(
+                          // width: size.width * 1,
+                          height: 125,
+                          // margin: EdgeInsets.all(15),
+                          child: ProfileDetails(),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

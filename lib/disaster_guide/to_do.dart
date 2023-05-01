@@ -14,7 +14,10 @@ class ToDo extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(subTopic),
-      subtitle: Text(subTopicDescription),
+      subtitle: Text(
+        subTopicDescription,
+        textAlign: TextAlign.justify,
+      ),
     );
   }
 }

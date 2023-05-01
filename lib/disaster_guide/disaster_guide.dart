@@ -12,23 +12,52 @@ class DisasterGuide extends StatefulWidget {
 class _DisasterGuideState extends State<DisasterGuide> {
   @override
   Widget build(BuildContext context) {
+    // Size size = MediaQuery.of(context).size;
+
     return ListView.builder(
       itemCount: disasterGuidelines.toList().length,
       itemBuilder: (context, index) {
         return Column(
           children: [
             Container(
+              // height: size.height * 0.1,
+
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 15,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Theme.of(context).colorScheme.primary,
+              ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(disasterGuidelines[index].mainTopic),
+                  Text(
+                    disasterGuidelines[index].mainTopic,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
                   IconButton(
-                      onPressed: () {
-                        setState(() {
-                          disasterGuidelines[index].showSubTopic =
-                              !disasterGuidelines[index].showSubTopic;
-                        });
-                      },
-                      icon: Icon(Icons.open_in_browser))
+                    onPressed: () {
+                      setState(() {
+                        disasterGuidelines[index].showSubTopic =
+                            !disasterGuidelines[index].showSubTopic;
+                      });
+                    },
+                    icon: disasterGuidelines[index].showSubTopic
+                        ? Icon(
+                            Icons.keyboard_arrow_up_rounded,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          )
+                        : Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                  ),
                 ],
               ),
             ),
@@ -37,11 +66,13 @@ class _DisasterGuideState extends State<DisasterGuide> {
                 : Column(
                     children: disasterGuidelines[index]
                         .whatTodo
-                        .map((oneStep) => ToDo(
-                              subTopic: oneStep["subTopic"].toString(),
-                              subTopicDescription:
-                                  oneStep["subTopicDescription"].toString(),
-                            ))
+                        .map(
+                          (oneStep) => ToDo(
+                            subTopic: oneStep["subTopic"].toString(),
+                            subTopicDescription:
+                                oneStep["subTopicDescription"].toString(),
+                          ),
+                        )
                         .toList(),
                   )
           ],

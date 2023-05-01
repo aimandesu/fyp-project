@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/camera/camera.dart';
 import 'package:fyp_project/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/profile/profile.dart';
-import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/signup_login/signup_login.dart';
-import 'package:fyp_project/widgets/mobile_bottom_bar.dart';
+
+import 'package:fyp_project/statistic_page/statistic_page.dart';
 
 import 'home/home.dart';
 
@@ -29,35 +29,23 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   void initState() {
     _pages = [
       {
-        'page': const ResponsiveLayoutController(
-          mobile: Home(),
-          tablet: Home(),
-        ),
+        'page': const Home(),
         'title': 'Utama',
       },
       {
-        'page': const ResponsiveLayoutController(
-          mobile: DisasterGuide(),
-          tablet: Home(),
-        ),
+        'page': const DisasterGuide(),
         'title': 'Panduan',
       },
       {
-        'page': const ResponsiveLayoutController(
-          mobile: Home(),
-          tablet: Home(),
-        ),
+        'page': const Camera(),
         'title': 'Gambar',
       },
       {
-        'page': const ResponsiveLayoutController(
-          mobile: Home(),
-          tablet: Home(),
-        ),
+        'page': const StatisticPage(),
         'title': 'Data',
       },
       {
-        'page': Profile(),
+        'page': const Profile(),
         'title': 'Profil',
       },
     ].toList();
@@ -71,7 +59,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
         return [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
           ),
         ];
       } else {
@@ -88,30 +76,76 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedPageIndex,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 20,
+        // backgroundColor: Theme.of(context).colorScheme.primary,
         onTap: _selectPage,
-        unselectedItemColor: Theme.of(context).colorScheme.onSecondary,
-        selectedItemColor: Theme.of(context).colorScheme.onPrimary,
-        items: const [
+        unselectedItemColor: Theme.of(context).colorScheme.secondary,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: const Icon(Icons.home),
             label: 'Utama',
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Icon(
+                Icons.home,
+                size: 40,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book_rounded),
+            icon: const Icon(Icons.menu_book_rounded),
             label: 'Panduan',
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Icon(
+                Icons.menu_book_rounded,
+                size: 40,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt_rounded),
+            icon: const Icon(Icons.camera_alt_rounded),
             label: 'Gambar',
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Icon(
+                Icons.camera_alt_rounded,
+                size: 40,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.data_array_rounded),
+            icon: const Icon(Icons.data_array_rounded),
             label: 'Data',
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Icon(
+                Icons.data_array_rounded,
+                size: 40,
+              ),
+            ),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people_rounded),
+            icon: const Icon(Icons.people_rounded),
             label: 'Profil',
+            activeIcon: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Icon(
+                Icons.people_rounded,
+                size: 40,
+              ),
+            ),
           )
         ],
       ),

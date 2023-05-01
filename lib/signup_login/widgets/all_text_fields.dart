@@ -15,7 +15,7 @@ class AllTextFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTablet = ResponsiveLayoutController.isTablet(context);
-    return Container(
+    return SizedBox(
       height: isTablet
           ? (mediaQuery.size.height - paddingTop) * 0.9
           : (mediaQuery.size.height - paddingTop) * 0.55,
