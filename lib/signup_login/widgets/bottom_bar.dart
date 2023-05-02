@@ -5,10 +5,14 @@ class BottomBar extends StatelessWidget {
     super.key,
     required this.mediaQuery,
     required this.paddingTop,
+    required this.showSignUp,
+    required this.negateShowSignUp,
   });
 
   final MediaQueryData mediaQuery;
   final double paddingTop;
+  final bool showSignUp;
+  final VoidCallback negateShowSignUp;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +22,29 @@ class BottomBar extends StatelessWidget {
       child: Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          TextButton(
-            onPressed: null,
-            child: Text("Login Instead"),
+        children: [
+          Container(
+            margin: const EdgeInsets.only(
+              left: 10,
+              bottom: 1,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            child: TextButton(
+              onPressed: negateShowSignUp,
+              child: Text(
+                "Login Instead",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
           ),
           IconButton(
-            onPressed: null,
-            icon: Icon(Icons.arrow_forward_ios),
+            onPressed: () {},
+            icon: const Icon(Icons.arrow_forward_ios),
           ),
         ],
       ),

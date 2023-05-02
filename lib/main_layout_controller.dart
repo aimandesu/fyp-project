@@ -59,7 +59,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
         return [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.menu),
           ),
         ];
       } else {
@@ -73,81 +73,93 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
         actions: appBarActionWidget(),
       ),
       body: _pages[_selectedPageIndex]['page'] as Widget,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedPageIndex,
-        elevation: 20,
-        // backgroundColor: Theme.of(context).colorScheme.primary,
-        onTap: _selectPage,
-        unselectedItemColor: Theme.of(context).colorScheme.secondary,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: 'Utama',
-            activeIcon: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Icon(
-                Icons.home,
-                size: 40,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedPageIndex,
+          // elevation: 10,
+          // backgroundColor: Theme.of(context).colorScheme.primary,
+          onTap: _selectPage,
+          unselectedItemColor: Theme.of(context).colorScheme.secondary,
+          selectedItemColor: Theme.of(context).colorScheme.primary,
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: 'Utama',
+              activeIcon: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: const Icon(
+                  Icons.home,
+                  size: 40,
+                ),
               ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.menu_book_rounded),
-            label: 'Panduan',
-            activeIcon: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Icon(
-                Icons.menu_book_rounded,
-                size: 40,
-              ),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.camera_alt_rounded),
-            label: 'Gambar',
-            activeIcon: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Icon(
-                Icons.camera_alt_rounded,
-                size: 40,
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.menu_book_rounded),
+              label: 'Panduan',
+              activeIcon: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: const Icon(
+                  Icons.menu_book_rounded,
+                  size: 40,
+                ),
               ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.data_array_rounded),
-            label: 'Data',
-            activeIcon: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Icon(
-                Icons.data_array_rounded,
-                size: 40,
-              ),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.people_rounded),
-            label: 'Profil',
-            activeIcon: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Icon(
-                Icons.people_rounded,
-                size: 40,
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.camera_alt_rounded),
+              label: 'Gambar',
+              activeIcon: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: const Icon(
+                  Icons.camera_alt_rounded,
+                  size: 40,
+                ),
               ),
             ),
-          )
-        ],
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.data_array_rounded),
+              label: 'Data',
+              activeIcon: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: const Icon(
+                  Icons.data_array_rounded,
+                  size: 40,
+                ),
+              ),
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.people_rounded),
+              label: 'Profil',
+              activeIcon: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: const Icon(
+                  Icons.people_rounded,
+                  size: 40,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/home/home.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/signup_login/signup_login.dart';
+import 'package:fyp_project/user_group/user_group.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'onboarding/onboarding.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: onboardingComplete
-          ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+          ? const SignupLogin() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
           : const Onboarding(),
       routes: {
         Profile.routeName: (context) => const Profile(),
