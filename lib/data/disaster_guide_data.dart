@@ -7,18 +7,24 @@ var disasterGuidelines = [
     whatTodo: [
       {
         "subTopic": "during flood",
-        "subTopicDescription":
-            "1. kena doa banyak-banyak \n2. kena belajar rajin2"
+        "subTopicDescription": [
+          "1. dont go outside",
+          "2.Belajar",
+        ]
       },
       {
         "subTopic": "before flood",
-        "subTopicDescription":
-            "s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        "subTopicDescription": [
+          "1. belajar",
+          "2. Keep control",
+        ]
       },
       {
         "subTopic": "after flood",
-        "subTopicDescription":
-            "s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        "subTopicDescription": [
+          "1. belajar",
+          "2.Belajar",
+        ]
       }
     ],
   ),
@@ -28,13 +34,17 @@ var disasterGuidelines = [
     whatTodo: [
       {
         "subTopic": "before",
-        "subTopicDescription":
-            "s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        "subTopicDescription": [
+          "1. belajar",
+          "2.Belajar",
+        ]
       },
       {
         "subTopic": "before",
-        "subTopicDescription":
-            "s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        "subTopicDescription": [
+          "1. belajar",
+          "2.Belajar",
+        ]
       },
     ],
   ),
@@ -44,8 +54,10 @@ var disasterGuidelines = [
     whatTodo: [
       {
         "subTopic": "before",
-        "subTopicDescription":
-            "s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        "subTopicDescription": [
+          "1. belajar",
+          "2.Belajar",
+        ]
       },
     ],
   ),

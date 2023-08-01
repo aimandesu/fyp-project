@@ -1,7 +1,7 @@
 class DisasterGuideModel {
   final String mainTopic;
   final String subTopic;
-  final List<Map<String, String>> whatTodo;
+  final List<Map<String, dynamic>> whatTodo;
   bool showSubTopic;
 
   DisasterGuideModel({

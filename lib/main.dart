@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           onPrimary: Colors
               .white, //why is this text color in appbar? Color.fromRGBO(0, 98, 200, 1)
           secondary: Color.fromARGB(255, 190, 36, 87),
-          onSecondary: Color.fromARGB(255, 232, 24, 93),
+          onSecondary: Colors.orange,
           error: Colors.red,
           onError: Colors.green,
           background: Colors.yellow,
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: onboardingComplete
-          ? const SignupLogin() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+          ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
           : const Onboarding(),
       routes: {
         Profile.routeName: (context) => const Profile(),

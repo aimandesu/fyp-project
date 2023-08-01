@@ -4,12 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-class StatisticPage extends StatelessWidget {
-  const StatisticPage({super.key});
+class Statistic extends StatelessWidget {
+  const Statistic({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     Future<Map<String, dynamic>> testData() async {
       final response = await http.get(
           Uri.parse(
@@ -31,46 +31,46 @@ class StatisticPage extends StatelessWidget {
       return extractedData;
     }
 
-    return SingleChildScrollView(
+    return Container(
+      height: size.height * 0.1,
+      padding: EdgeInsets.symmetric(
+        horizontal: 5,
+      ),
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: Theme.of(context).colorScheme.primary,
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          InteractiveViewer(
-            // panEnabled: false, // Set it to false
-            boundaryMargin: const EdgeInsets.all(100),
-            minScale: 1,
-            maxScale: 2,
-            child: CachedNetworkImage(
-              imageUrl:
-                  "https://api.met.gov.my/static/images/satelit-latest.gif",
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+          Padding(
+            padding: EdgeInsets.only(
+              left: 5,
+            ),
+            child: Text(
+              "Statistic",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
-          InteractiveViewer(
-            // panEnabled: false, // Set it to false
-            boundaryMargin: const EdgeInsets.all(100),
-            minScale: 1,
-            maxScale: 2,
-            child: CachedNetworkImage(
-              imageUrl: "https://api.met.gov.my/static/images/radar-latest.gif",
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+          Container(
+            height: size.height * 0.05,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.blue,
             ),
-          ),
-          InteractiveViewer(
-            // panEnabled: false, // Set it to false
-            boundaryMargin: const EdgeInsets.all(100),
-            minScale: 1,
-            maxScale: 2,
-            child: CachedNetworkImage(
-              imageUrl: "https://api.met.gov.my/static/images/swirl-latest.gif",
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  CircularProgressIndicator(value: downloadProgress.progress),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("Satelit"),
+                Text("Radar"),
+                Text("Swirl"),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );

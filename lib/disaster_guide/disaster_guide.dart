@@ -70,7 +70,7 @@ class _DisasterGuideState extends State<DisasterGuide> {
                           (oneStep) => ToDo(
                             subTopic: oneStep["subTopic"].toString(),
                             subTopicDescription:
-                                oneStep["subTopicDescription"].toString(),
+                                oneStep["subTopicDescription"].join("\n"),
                           ),
                         )
                         .toList(),

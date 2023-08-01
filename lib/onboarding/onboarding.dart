@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/onboarding/onboarding_page.dart';
 import 'package:fyp_project/signup_login/signup_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -28,6 +29,13 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 70,
+        // backgroundColor: Colors.white,
+        title: const Text(
+          "Natural Disaster",
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.only(bottom: 80),
         child: PageView(
@@ -37,25 +45,37 @@ class _OnboardingState extends State<Onboarding> {
               () => isLastPage = index == 2,
             );
           },
-          children: [
-            Container(
-              color: Colors.red,
-              child: const Center(
-                child: Text("page 1"),
-              ),
+          children: const [
+            OnboardingPage(
+              lottieDir: 'assets/map.json',
+              text: "Disaster Place Donation",
             ),
-            Container(
-              color: Colors.blue,
-              child: const Center(
-                child: Text("page 2"),
-              ),
+            OnboardingPage(
+              lottieDir: 'assets/help.json',
+              text: "Support Cause",
             ),
-            Container(
-              color: Colors.pink,
-              child: const Center(
-                child: Text("page 3"),
-              ),
-            )
+            OnboardingPage(
+              lottieDir: 'assets/disaster.json',
+              text: "Together help",
+            ),
+            // Container(
+            //   color: Colors.red,
+            //   child: const Center(
+            //     child: Text("page 1"),
+            //   ),
+            // ),
+            // Container(
+            //   color: Colors.blue,
+            //   child: const Center(
+            //     child: Text("page 2"),
+            //   ),
+            // ),
+            // Container(
+            //   color: Colors.pink,
+            //   child: const Center(
+            //     child: Text("page 3"),
+            //   ),
+            // )
           ],
         ),
       ),
@@ -67,7 +87,10 @@ class _OnboardingState extends State<Onboarding> {
                   return const SignupLogin();
                 }));
               },
-              child: const Text("Get Started"),
+              child: Row(children: const [
+                Spacer(),
+                Text("Get Started"),
+              ]),
             )
           : Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -83,11 +106,11 @@ class _OnboardingState extends State<Onboarding> {
                     child: SmoothPageIndicator(
                       controller: pageviewController,
                       count: 3,
-                      effect: const WormEffect(
-                        spacing: 16,
-                        dotColor: Colors.black,
-                        activeDotColor: Colors.yellow,
-                      ),
+                      effect: WormEffect(
+                          spacing: 16,
+                          dotColor: Colors.black,
+                          activeDotColor:
+                              Theme.of(context).colorScheme.primary),
                       onDotClicked: (index) => pageviewController.animateToPage(
                         index,
                         duration: const Duration(milliseconds: 500),

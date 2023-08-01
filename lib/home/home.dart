@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
+import 'package:fyp_project/statistic/statistic.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -16,7 +17,8 @@ class Home extends StatelessWidget {
               width: size.width * 1,
               height: size.height * 0.25,
               child: const ShelterMap(),
-            )
+            ),
+            Statistic(),
           ],
         ),
         tablet: const Center(

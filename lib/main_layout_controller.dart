@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/camera/camera.dart';
 import 'package:fyp_project/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/profile/profile.dart';
+import 'package:fyp_project/statistic/satelit.dart';
 
-import 'package:fyp_project/statistic_page/statistic_page.dart';
+import 'package:fyp_project/statistic/statistic.dart';
 
 import 'home/home.dart';
 
@@ -30,47 +31,81 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     _pages = [
       {
         'page': const Home(),
-        'title': 'Utama',
+        'title': 'Peta',
+        'icon': const Icon(
+          Icons.home,
+          size: 30,
+        ),
+      },
+
+      {
+        'page': const Camera(),
+        'title': 'Mohon Bantuan',
+        'icon': const Icon(
+          Icons.camera_alt_rounded,
+          size: 30,
+        ),
       },
       {
         'page': const DisasterGuide(),
         'title': 'Panduan',
+        'icon': const Icon(
+          Icons.menu_book_rounded,
+          size: 30,
+        ),
       },
-      {
-        'page': const Camera(),
-        'title': 'Gambar',
-      },
-      {
-        'page': const StatisticPage(),
-        'title': 'Data',
-      },
+      // {
+      //   'page': const Satelit(),
+      //   'title': 'Data',
+      // },
       {
         'page': const Profile(),
         'title': 'Profil',
+        'icon': const Icon(
+          Icons.people_rounded,
+          size: 30,
+        ),
       },
     ].toList();
     super.initState();
   }
 
+  Widget? _buildFloatingActionButton() {
+    if (_pages[_selectedPageIndex]['title'].toString() == "Panduan") {
+      return FloatingActionButton(
+        onPressed: () {
+          // Handle the floating action button tap event here
+        },
+        child: const Icon(
+          Icons.support_agent,
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  List<Widget>? _buildAppBarWidget() {
+    if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
+      return [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.menu),
+        ),
+      ];
+
+      //floating action button
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> appBarActionWidget() {
-      if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
-        return [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.menu),
-          ),
-        ];
-      } else {
-        return [];
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),
-        actions: appBarActionWidget(),
+        actions: _buildAppBarWidget(),
       ),
       body: _pages[_selectedPageIndex]['page'] as Widget,
       bottomNavigationBar: Container(
@@ -92,75 +127,90 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           onTap: _selectPage,
           unselectedItemColor: Theme.of(context).colorScheme.secondary,
           selectedItemColor: Theme.of(context).colorScheme.primary,
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: 'Utama',
+          items: List.generate(_pages.length, (index) {
+            return BottomNavigationBarItem(
+              icon: _pages[index]['icon'] as Widget,
+              label: _pages[index]['title'] as String,
               activeIcon: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: const Icon(
-                  Icons.home,
-                  size: 40,
-                ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: _pages[index]['icon'] as Widget),
+            );
+          }
+
+              // [
+              //   BottomNavigationBarItem(
+              //     icon: const Icon(Icons.home),
+              //     label: _pages[_selectedPageIndex]['title'] as String,
+              //     activeIcon: Container(
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(25),
+              //       ),
+              //       child: const Icon(
+              //         Icons.home,
+              //         size: 30,
+              //       ),
+              //     ),
+              //   ),
+              //   BottomNavigationBarItem(
+              //     icon: const Icon(Icons.camera_alt_rounded),
+              //     label: _pages[_selectedPageIndex]['title'] as String,
+              //     activeIcon: Container(
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(25),
+              //       ),
+              //       child: const Icon(
+              //         Icons.camera_alt_rounded,
+              //         size: 30,
+              //       ),
+              //     ),
+              //   ),
+              //   BottomNavigationBarItem(
+              //     icon: const Icon(Icons.menu_book_rounded),
+              //     label: _pages[_selectedPageIndex]['title'] as String,
+              //     activeIcon: Container(
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(25),
+              //       ),
+              //       child: const Icon(
+              //         Icons.menu_book_rounded,
+              //         size: 30,
+              //       ),
+              //     ),
+              //   ),
+
+              //   // BottomNavigationBarItem(
+              //   //   icon: const Icon(Icons.data_array_rounded),
+              //   //   label: 'Data',
+              //   //   activeIcon: Container(
+              //   //     decoration: BoxDecoration(
+              //   //       borderRadius: BorderRadius.circular(25),
+              //   //     ),
+              //   //     child: const Icon(
+              //   //       Icons.data_array_rounded,
+              //   //       size: 40,
+              //   //     ),
+              //   //   ),
+              //   // ),
+              //   BottomNavigationBarItem(
+              //     icon: const Icon(Icons.people_rounded),
+              //     label: _pages[_selectedPageIndex]['title'] as String,
+              //     activeIcon: Container(
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(25),
+              //       ),
+              //       child: const Icon(
+              //         Icons.people_rounded,
+              //         size: 30,
+              //       ),
+              //     ),
+              //   )
+              // ],
               ),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.menu_book_rounded),
-              label: 'Panduan',
-              activeIcon: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: const Icon(
-                  Icons.menu_book_rounded,
-                  size: 40,
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.camera_alt_rounded),
-              label: 'Gambar',
-              activeIcon: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: const Icon(
-                  Icons.camera_alt_rounded,
-                  size: 40,
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.data_array_rounded),
-              label: 'Data',
-              activeIcon: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: const Icon(
-                  Icons.data_array_rounded,
-                  size: 40,
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.people_rounded),
-              label: 'Profil',
-              activeIcon: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: const Icon(
-                  Icons.people_rounded,
-                  size: 40,
-                ),
-              ),
-            )
-          ],
         ),
       ),
+      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 }
