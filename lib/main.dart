@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/dbHelper/mongoDB.dart';
 import 'package:fyp_project/home/home.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/signup_login/signup_login.dart';
@@ -10,7 +11,7 @@ import 'profile/profile.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  // await MongoDB.connect();
   final prefs = await SharedPreferences.getInstance();
   final onboardingComplete = prefs.getBool('onboardingComplete') ?? false;
 
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: onboardingComplete
           ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
-          : const Onboarding(),
+          : const MainLayoutController(), //Onboarding(),
       routes: {
         Profile.routeName: (context) => const Profile(),
       },

@@ -41,6 +41,9 @@ dependencies:
   image_picker: ^0.8.7+4
   lottie: ^2.3.2
   mongo_dart: ^0.9.1
+  google_maps_flutter: ^2.3.0
+  flutter_polyline_points: ^1.0.0
+  location: ^5.0.1
 
 dev_dependencies:
   flutter_test:
