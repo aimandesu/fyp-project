@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -33,10 +32,10 @@ class Statistic extends StatelessWidget {
 
     return Container(
       height: size.height * 0.1,
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 5,
       ),
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         color: Theme.of(context).colorScheme.primary,
@@ -46,7 +45,7 @@ class Statistic extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 5,
             ),
             child: Text(
@@ -62,7 +61,7 @@ class Statistic extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
               color: Colors.blue,
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text("Satelit"),

@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Satelit extends StatelessWidget {
   const Satelit({super.key});
@@ -10,7 +8,7 @@ class Satelit extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Satelit"),
+        const Text("Satelit"),
         InteractiveViewer(
           // panEnabled: false, // Set it to false
           boundaryMargin: const EdgeInsets.all(100),

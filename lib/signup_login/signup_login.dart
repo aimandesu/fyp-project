@@ -89,7 +89,7 @@ class _SignupLoginState extends State<SignupLogin> {
               title: const Text("Login"),
               leading: IconButton(
                 onPressed: negateShowSignUp,
-                icon: Icon(Icons.keyboard_return),
+                icon: const Icon(Icons.keyboard_return),
               ),
             ),
       body: SingleChildScrollView(

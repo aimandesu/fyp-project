@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:fyp_project/models/user_model.dart';
-import 'package:fyp_project/providers/maps.dart';
-
 class Camera extends StatelessWidget {
   const Camera({super.key});
 

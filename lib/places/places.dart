@@ -1,13 +1,9 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fyp_project/location_service.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/statistic/statistic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Places extends StatefulWidget {
@@ -63,14 +59,14 @@ class _PlacesState extends State<Places> {
 
   @override
   void initState() {
-    _setMarker(LatLng(4.597582544822808, 101.07344786441814));
+    _setMarker(const LatLng(4.597582544822808, 101.07344786441814));
     super.initState();
   }
 
   void _setMarker(LatLng point) {
     setState(() {
       _markers.add(Marker(
-        markerId: MarkerId('marker'),
+        markerId: const MarkerId('marker'),
         position: point,
       ));
     });
@@ -207,11 +203,11 @@ class _PlacesState extends State<Places> {
                     );
                     _setPolyLine(directions['polyline_decoded']);
                   },
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                 )
               ],
             ),
-            Container(
+            SizedBox(
               height: size.height * 0.7,
               width: size.width * 1,
               child: GoogleMap(

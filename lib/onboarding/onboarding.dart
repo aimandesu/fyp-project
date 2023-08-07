@@ -87,7 +87,7 @@ class _OnboardingState extends State<Onboarding> {
                   return const SignupLogin();
                 }));
               },
-              child: Row(children: const [
+              child: const Row(children: [
                 Spacer(),
                 Text("Get Started"),
               ]),
