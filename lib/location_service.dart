@@ -15,7 +15,7 @@ class LocationService {
 
     var placeId = json['candidates'][0]['place_id'] as String;
 
-    print(placeId);
+    // print(placeId);
     return placeId;
   }
 
@@ -27,7 +27,7 @@ class LocationService {
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
     var results = json['result'] as Map<String, dynamic>;
-    print(results);
+    // print(results);
     return results;
   }
 
@@ -47,7 +47,7 @@ class LocationService {
       'polyline_decoded': PolylinePoints()
           .decodePolyline(json['routes'][0]['overview_polyline']['points'])
     };
-    print(results['polyline_decoded']);
+    // print(results['polyline_decoded']);
     return results;
   }
 }

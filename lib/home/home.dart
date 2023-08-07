@@ -1,10 +1,15 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/models/places_model.dart';
+import 'package:fyp_project/providers/maps.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/statistic/statistic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 // const LatLng currentLocation = LatLng(25.1193, 55.3773);
 
@@ -22,37 +27,11 @@ class _HomeState extends State<Home> {
   LocationData? currentLocation;
 
   void getCurrentLocation() async {
-    // Location location = Location();
-
-    // bool _serviceEnabled;
-    // PermissionStatus _permissionGranted;
-    // LocationData _locationData;
-
-    // _serviceEnabled = await location.serviceEnabled();
-    // if (!_serviceEnabled) {
-    //   _serviceEnabled = await location.requestService();
-    //   if (!_serviceEnabled) {
-    //     return;
-    //   }
-    // }
-
-    // _permissionGranted = await location.hasPermission();
-    // if (_permissionGranted == PermissionStatus.denied) {
-    //   _permissionGranted = await location.requestPermission();
-    //   if (_permissionGranted != PermissionStatus.granted) {
-    //     return;
-    //   }
-    // }
-
-    // currentLocation = await location.getLocation();
     Location location = Location();
     location.getLocation().then((location) {
       setState(() {
         currentLocation = location;
       });
-
-      print(currentLocation!.longitude!);
-      print(currentLocation!.latitude!);
     });
   }
 
@@ -122,22 +101,79 @@ class _HomeState extends State<Home> {
     fillColor: Colors.transparent,
   );
 
+  CameraPosition? _currentPlex;
+  // Marker? _currentMarker;
+
+  final Set<Marker> _markers = <Marker>{};
+
+  void setCurrentPlex(LatLng point) {
+    _currentPlex = CameraPosition(
+      target: point,
+      zoom: 14,
+    );
+  }
+
+  var markerId = 0;
+
+  void setMarker(LatLng point) {
+    setState(() {
+      // _markers.clear();
+      markerId++;
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker$markerId'),
+          // infoWindow: const InfoWindow(title: "From Json Marker"),
+          // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          position: point,
+        ),
+      );
+    });
+  }
+
+  Future<void> goToPlace(LatLng point) async {
+    final GoogleMapController controller = await _controller.future;
+    await controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: point,
+        zoom: 14,
+      ),
+    ));
+    setMarker(point);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    CameraPosition? _currentPlex;
-
     if (currentLocation != null) {
-      _currentPlex = CameraPosition(
-        target: //LatLng(37.43296265331129, -122.0883235707872),
-            LatLng(
-          currentLocation!.latitude!,
-          currentLocation!.longitude!,
-        ),
-        zoom: 14.4746,
-      );
+      setCurrentPlex(LatLng(
+        currentLocation!.latitude!,
+        currentLocation!.longitude!,
+      ));
+      setMarker(LatLng(
+        currentLocation!.latitude!,
+        currentLocation!.longitude!,
+      ));
     }
+
+    // Widget displayCard(
+    //   PlacesModel data,
+    // ) {
+    //   return ListTile(
+    //     onTap: () {
+    //       // print(data.location);
+    //       goToPlace(
+    //         LatLng(
+    //           data.location.first['latitude'],
+    //           data.location.first['longitude'],
+    //         ),
+    //       );
+    //     },
+    //     title: Text(
+    //       data.location.first['name'].toString(),
+    //     ),
+    //   );
+    // }
 
     return SingleChildScrollView(
       child: ResponsiveLayoutController(
@@ -148,46 +184,73 @@ class _HomeState extends State<Home> {
               height: size.height * 0.25,
               child: const ShelterMap(),
             ),
-            Statistic(),
+            const Statistic(),
             currentLocation == null
                 ? const Text("loading")
-                : Container(
+                : SizedBox(
                     height: size.height * 0.7,
                     width: size.width * 1,
                     child: GoogleMap(
-                      mapType: MapType.normal,
-                      markers: {
-                        // _kGooglePlexMarker,
-                        _tescoMarker
-                        // _kLakeMarker,
+                      gestureRecognizers: {
+                        Factory<OneSequenceGestureRecognizer>(
+                            () => EagerGestureRecognizer()),
                       },
-                      // polylines: {
-                      //   _kPolyLine,
-                      // },
-                      // polygons: {
-                      //   _kPolygon,
-                      // },
+                      mapType: MapType.normal,
+                      markers: _markers,
                       initialCameraPosition: _currentPlex as CameraPosition,
                       onMapCreated: (GoogleMapController controller) {
                         _controller.complete(controller);
                       },
                     ),
-
-                    // const GoogleMap(
-                    //   initialCameraPosition: CameraPosition(
-                    //     target: currentLocation,
-                    //     zoom: 14,
-                    //   ),
-                    // ),
                   ),
 
             // IconButton(
             //   onPressed: _goToTheLake,
             //   icon: const Icon(Icons.directions_boat),
             // )
+            // SizedBox(
+            //   height: 200,
+            //   child: StreamBuilder<List<Map<String, dynamic>>>(
+            //       stream:
+            //           Provider.of<Maps>(context).listPlaces("Kinta", "Ipoh"),
+            //       builder: (context, snapshot) {
+            //         if (snapshot.connectionState == ConnectionState.waiting) {
+            //           return const Center(
+            //             child: CircularProgressIndicator(),
+            //           );
+            //         } else {
+            //           if (snapshot.hasData) {
+            //             return Container(
+            //               child: ListView.builder(
+            //                   itemCount: snapshot.data!.length,
+            //                   itemBuilder: (context, index) {
+            //                     print(snapshot.data);
+            //                     print(snapshot.data!.length);
+            //                     return displayCard(
+            //                         PlacesModel.fromJson(snapshot.data![index])
+            //                         // index,
+            //                         );
+            //                   }),
+            //             );
+            //           } else {
+            //             print("snapshot data");
+            //             print(snapshot.data);
+            //             return const Text("no data");
+            //           }
+            //         }
+            //       }),
+            // ),
+            IconButton(
+              onPressed: () => goToPlace(
+                const LatLng(4.544346551396297, 101.06816792254945),
+              ),
+              icon: const Icon(
+                Icons.change_circle,
+              ),
+            )
           ],
         ),
-        tablet: Text("tablet"),
+        tablet: const Text("tablet"),
       ),
     );
   }

@@ -74,8 +74,6 @@ class _PlacesState extends State<Places> {
         position: point,
       ));
     });
-
-    print("here the marker $_markers");
   }
 
   void _setPolygon() {
