@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "95274423701",
+    "project_id": "natural-hazard-hub",
+    "storage_bucket": "natural-hazard-hub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95274423701:android:9dc8d4ca4495e14d10929c",
+        "android_client_info": {
+          "package_name": "com.example.fyp_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95274423701-2ml8o6ekhblp8s0tvr4mae0ad6qammua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBECC42UzQQJMaLlvhkdVYGxd54B8ggS1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95274423701-2ml8o6ekhblp8s0tvr4mae0ad6qammua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
