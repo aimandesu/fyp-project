@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/help_form/widgets/files_upload.dart';
+import 'package:fyp_project/help_form/widgets/picture_upload.dart';
 import 'package:fyp_project/help_form/widgets/textfield_decoration.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HelpForm extends StatefulWidget {
   const HelpForm({super.key});
@@ -15,11 +19,57 @@ class _HelpFormState extends State<HelpForm> {
   final nameController = TextEditingController();
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
+  List<File>? _pictures = [];
 
-  void clearTextFields() {
+  void _clearTextFields() {
     nameController.clear();
     addressController.clear();
     phoneController.clear();
+  }
+
+  // void _picturesAvailable() async {
+  //   List<File>? updatedPictures = await Navigator.of(context)
+  //       .pushNamed(PictureUpload.routeName, arguments: _pictures);
+  //   // print(updatedPictures!.length);
+  //   // if (updatedPictures == null) {
+  //   //   print("null");
+  //   // }
+  //   // if (updatedPictures != null) {
+  //   //   setState(() {
+  //   //     _pictures = updatedPictures;
+  //   //   });
+  //   // }
+  // }
+
+  // @override
+  // void didChangeDependencies() {
+  //   _picturesAvailable();
+  //   super.didChangeDependencies();
+  // }
+
+  void _removePicture(int index) {
+    setState(() {
+      _pictures = _pictures!..removeAt(index);
+    });
+  }
+
+  @override
+  void initState() {
+    // _picturesAvailable();
+    super.initState();
+  }
+
+  Future<void> _navigatePictureUpload(BuildContext context) async {
+    // final result = await Navigator.push(context,
+    //     MaterialPageRoute(builder: (context) => const PictureUpload()));
+    var result =
+        await Navigator.pushNamed(context, PictureUpload.routeName, arguments: {
+      "pictures": _pictures,
+    });
+    if (!mounted) return;
+    setState(() {
+      _pictures = result as List<File>?;
+    });
   }
 
   @override
@@ -34,16 +84,28 @@ class _HelpFormState extends State<HelpForm> {
     return ResponsiveLayoutController(
       mobile: Column(
         children: [
+          // GestureDetector(
+          //   onTap: () => _navigatePictureUpload(context),
+          //   child:
           Container(
             margin: marginDefined,
             // color: Colors.red,
             height: size.height * 0.3,
             width: size.width * 1,
             decoration: inputDecorationDefined(context),
-            child: const Center(
-              child: Text("Ambil Gambar"),
-            ),
+            child: _pictures!.isEmpty
+                ? const Center(child: Text("Ambil Gambar"))
+                : ListView.builder(
+                    itemCount: _pictures!.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Image(
+                          image: FileImage(
+                        _pictures![index],
+                      ));
+                    }),
           ),
+          // ),
           Row(
             children: [
               Container(

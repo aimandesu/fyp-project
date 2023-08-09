@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fyp_project/help_form/help_form.dart';
+import 'package:fyp_project/help_form/widgets/picture_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +65,7 @@ class MyApp extends StatelessWidget {
             ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
             : const MainLayoutController(), //Onboarding(),
         routes: {
-          Profile.routeName: (context) => const Profile(),
+          PictureUpload.routeName: (context) => const PictureUpload(),
         },
       ),
     );
