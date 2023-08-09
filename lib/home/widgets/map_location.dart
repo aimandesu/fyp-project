@@ -212,20 +212,20 @@ class _MapLocationState extends State<MapLocation> {
                     borderRadius: BorderRadius.circular(25),
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  child: currentLocation == null
-                      ? Container()
-                      : GoogleMap(
-                          // gestureRecognizers: {
-                          //   Factory<OneSequenceGestureRecognizer>(
-                          //       () => EagerGestureRecognizer()),
-                          // },
-                          mapType: MapType.normal,
-                          markers: _markers,
-                          initialCameraPosition: _currentPlex as CameraPosition,
-                          onMapCreated: (GoogleMapController controller) {
-                            _controller.complete(controller);
-                          },
-                        ),
+                  // child: currentLocation == null
+                  //     ? Container()
+                  //     : GoogleMap(
+                  //         // gestureRecognizers: {
+                  //         //   Factory<OneSequenceGestureRecognizer>(
+                  //         //       () => EagerGestureRecognizer()),
+                  //         // },
+                  //         mapType: MapType.normal,
+                  //         markers: _markers,
+                  //         initialCameraPosition: _currentPlex as CameraPosition,
+                  //         onMapCreated: (GoogleMapController controller) {
+                  //           _controller.complete(controller);
+                  //         },
+                  //       ),
                 ),
                 Expanded(
                   child: StreamBuilder<dynamic>(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/camera/camera.dart';
+import 'package:fyp_project/help_form/help_form.dart';
 import 'package:fyp_project/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/places/places.dart';
 import 'package:fyp_project/profile/profile.dart';
@@ -27,16 +27,16 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void initState() {
     _pages = [
+      // {
+      //   'page': const Home(),
+      //   'title': 'Peta',
+      //   'icon': const Icon(
+      //     Icons.home,
+      //     size: 30,
+      //   ),
+      // },
       {
-        'page': const Home(),
-        'title': 'Peta',
-        'icon': const Icon(
-          Icons.home,
-          size: 30,
-        ),
-      },
-      {
-        'page': const Camera(),
+        'page': const HelpForm(),
         'title': 'Bantuan',
         'icon': const Icon(
           Icons.camera_alt_rounded,
@@ -51,14 +51,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           size: 30,
         ),
       },
-      {
-        'page': const Places(),
-        'title': 'Tempat',
-        'icon': const Icon(
-          Icons.map,
-          size: 30,
-        ),
-      },
+      // {
+      //   'page': const Places(),
+      //   'title': 'Tempat',
+      //   'icon': const Icon(
+      //     Icons.map,
+      //     size: 30,
+      //   ),
+      // },
       {
         'page': const Profile(),
         'title': 'Profil',
