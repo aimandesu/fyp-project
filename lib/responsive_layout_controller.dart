@@ -11,17 +11,17 @@ class ResponsiveLayoutController extends StatelessWidget {
   final Widget tablet;
 
   static bool isMobile(BuildContext context) =>
-      MediaQuery.of(context).size.width < 630;
+      MediaQuery.of(context).size.width < 550;
 
   static bool isTablet(BuildContext context) =>
       MediaQuery.of(context).size.width < 1100 &&
-      MediaQuery.of(context).size.width >= 630;
+      MediaQuery.of(context).size.width >= 600;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth >= 630) {
+        if (constraints.maxWidth >= 600 && constraints.maxHeight >= 600) {
           return tablet;
         } else {
           return mobile;

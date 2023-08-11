@@ -48,9 +48,9 @@ class Profile extends StatelessWidget {
                   ),
                   SizedBox(
                     width: size.width * 0.4,
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
+                      children: [
                         SizedBox(
                           // width: size.width * 1,
                           height: 125,

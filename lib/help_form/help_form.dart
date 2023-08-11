@@ -89,21 +89,36 @@ class _HelpFormState extends State<HelpForm> {
           //   child:
           Container(
             margin: marginDefined,
+            padding: paddingDefined,
             // color: Colors.red,
             height: size.height * 0.3,
             width: size.width * 1,
             decoration: inputDecorationDefined(context),
-            child: _pictures!.isEmpty
-                ? const Center(child: Text("Ambil Gambar"))
-                : ListView.builder(
-                    itemCount: _pictures!.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Image(
-                          image: FileImage(
-                        _pictures![index],
-                      ));
-                    }),
+            child: Stack(
+              children: [
+                _pictures!.isEmpty
+                    ? const Center(child: Text("Tiada Gambar"))
+                    : ListView.builder(
+                        itemCount: _pictures!.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Image(
+                              // width: size.width * 1,
+                              image: FileImage(
+                            _pictures![index],
+                          ));
+                        }),
+                Positioned(
+                  // top: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: IconButton(
+                    onPressed: () => _navigatePictureUpload(context),
+                    icon: const Icon(Icons.add),
+                  ),
+                ),
+              ],
+            ),
           ),
           // ),
           Row(
