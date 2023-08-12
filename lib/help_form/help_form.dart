@@ -41,19 +41,21 @@ class _HelpFormState extends State<HelpForm> {
     });
   }
 
-  void deleteField(int index) {
-    setState(() {
-      _listFamilies.removeAt(index);
-    });
-    print(_listFamilies.length);
-  }
-
   void _collectData() {
     print(_listFamilies.length);
     List<Map<String, String>> data = [];
     for (var controllers in _listFamilies) {
       int i = _listFamilies.indexOf(controllers);
-      print(i);
+      _listFamilies[i].forEach((key, value) {
+        data.add({
+          "Nama": value
+              .text, //why 1? kita delete index 0 but dia controller 1, bukn i = 0 sbb tu error
+          "Umur": value.text,
+          "No IC": value.text,
+          "Hubungan": value.text,
+        });
+      });
+      // print(i);
       // data.add({
       //   "Nama": controllers['Nama$i']!
       //       .text, //why 1? kita delete index 0 but dia controller 1, bukn i = 0 sbb tu error
@@ -147,20 +149,14 @@ class _HelpFormState extends State<HelpForm> {
             genderAndAgeInput(size, context),
             definedInput(context, "Alamat", addressController),
             const Text("Kategori Mangsa"),
-            _listFamilies.isEmpty ? Container() : tableInput(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: _addFamilyMember,
-                  icon: Icon(Icons.add),
-                ),
-                IconButton(
-                  onPressed: _collectData,
-                  icon: Icon(Icons.get_app),
-                ),
-              ],
+            const Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Senarai Isi Rumah")),
             ),
+            _listFamilies.isEmpty ? Container() : tableInput(),
+            tableDecision(),
             const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -200,6 +196,36 @@ class _HelpFormState extends State<HelpForm> {
     );
   }
 
+  Row tableDecision() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Container(
+            margin: marginDefined,
+            child: ElevatedButton(
+                onPressed: _addFamilyMember,
+                child: const Text("Tambah Ahli Keluarga")),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            margin: marginDefined,
+            child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _listFamilies.removeLast();
+                  });
+                },
+                child: const Text("Padam ")),
+          ),
+        )
+      ],
+    );
+  }
+
+  //method taken out
+
   SingleChildScrollView tableInput() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -212,7 +238,6 @@ class _HelpFormState extends State<HelpForm> {
               DataColumn(label: Text('Umur')),
               DataColumn(label: Text('No IC')),
               DataColumn(label: Text('Hubungan')),
-              DataColumn(label: Text("Padam"))
             ],
             rows: _listFamilies.map<DataRow>((controllers) {
               return DataRow(cells: [
@@ -228,10 +253,6 @@ class _HelpFormState extends State<HelpForm> {
                 DataCell(TextField(
                     controller: controllers[
                         'Hubungan${_listFamilies.indexOf(controllers)}'])),
-                DataCell(IconButton(
-                    onPressed: () =>
-                        deleteField(_listFamilies.indexOf(controllers)),
-                    icon: const Icon(Icons.delete)))
               ]);
             }).toList(),
           ),
