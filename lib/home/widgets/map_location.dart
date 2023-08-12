@@ -83,6 +83,11 @@ class _MapLocationState extends State<MapLocation> {
       currentSubDistrict,
     );
     setMarker(points);
+    goToPlace(LatLng(points.first['latitude'], points.first['longitude']));
+    // setCurrentPlex(LatLng(
+    //     points.first['latitude'],
+    //     points.first[
+    //         'longitude'])); //this one should find nearest place, not first point of the subdistrict
   }
 
   void listSubDistrict(String currentDistrict) async {
