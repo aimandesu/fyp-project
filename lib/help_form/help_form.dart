@@ -5,6 +5,7 @@ import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/help_form/widgets/files_upload.dart';
 import 'package:fyp_project/help_form/widgets/picture_display.dart';
 import 'package:fyp_project/help_form/widgets/picture_upload.dart';
+import 'package:fyp_project/help_form/widgets/table_input.dart';
 import 'package:fyp_project/help_form/widgets/textfield_decoration.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,10 +31,10 @@ class _HelpFormState extends State<HelpForm> {
   void _addFamilyMember() {
     int index = _listFamilies.length;
     Map<String, TextEditingController> controllers = {
-      'Nama$index': TextEditingController(),
-      'Umur$index': TextEditingController(),
-      'No IC$index': TextEditingController(),
-      'Hubungan$index': TextEditingController(),
+      'name$index': TextEditingController(),
+      'age$index': TextEditingController(),
+      'ICno$index': TextEditingController(),
+      'relationship$index': TextEditingController(),
     };
 
     setState(() {
@@ -41,31 +42,28 @@ class _HelpFormState extends State<HelpForm> {
     });
   }
 
+  void _removeLast() {
+    if (_listFamilies.isEmpty) return;
+    setState(() {
+      _listFamilies.removeLast();
+    });
+  }
+
   void _collectData() {
-    print(_listFamilies.length);
     List<Map<String, String>> data = [];
+
     for (var controllers in _listFamilies) {
-      int i = _listFamilies.indexOf(controllers);
-      _listFamilies[i].forEach((key, value) {
-        data.add({
-          "Nama": value
-              .text, //why 1? kita delete index 0 but dia controller 1, bukn i = 0 sbb tu error
-          "Umur": value.text,
-          "No IC": value.text,
-          "Hubungan": value.text,
-        });
+      Map<String, String> newDataEntry = {};
+
+      controllers.forEach((key, value) {
+        key = key.replaceAll(RegExp(r'[0-9]'), '');
+        newDataEntry[key] = value.text;
       });
-      // print(i);
-      // data.add({
-      //   "Nama": controllers['Nama$i']!
-      //       .text, //why 1? kita delete index 0 but dia controller 1, bukn i = 0 sbb tu error
-      //   "Umur": controllers['Umur$i']!.text,
-      //   "No IC": controllers['No IC$i']!.text,
-      //   "Hubungan": controllers['Hubungan$i']!.text,
-      // });
+
+      data.add(newDataEntry);
     }
     print(data);
-    _clearTextFields();
+    // _clearTextFields();
   }
 
   void _clearTextFields() {
@@ -155,7 +153,9 @@ class _HelpFormState extends State<HelpForm> {
                   alignment: Alignment.centerLeft,
                   child: Text("Senarai Isi Rumah")),
             ),
-            _listFamilies.isEmpty ? Container() : tableInput(),
+            TableInput(
+              listFamilies: _listFamilies,
+            ),
             tableDecision(),
             const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -196,6 +196,8 @@ class _HelpFormState extends State<HelpForm> {
     );
   }
 
+  //method taken out
+
   Row tableDecision() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -212,52 +214,10 @@ class _HelpFormState extends State<HelpForm> {
           child: Container(
             margin: marginDefined,
             child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _listFamilies.removeLast();
-                  });
-                },
-                child: const Text("Padam ")),
+                onPressed: _removeLast, child: const Text("Padam ")),
           ),
         )
       ],
-    );
-  }
-
-  //method taken out
-
-  SingleChildScrollView tableInput() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DataTable(
-            columns: const [
-              DataColumn(label: Text('Nama')),
-              DataColumn(label: Text('Umur')),
-              DataColumn(label: Text('No IC')),
-              DataColumn(label: Text('Hubungan')),
-            ],
-            rows: _listFamilies.map<DataRow>((controllers) {
-              return DataRow(cells: [
-                DataCell(TextField(
-                    controller: controllers[
-                        'Nama${_listFamilies.indexOf(controllers)}'])),
-                DataCell(TextField(
-                    controller: controllers[
-                        'Umur${_listFamilies.indexOf(controllers)}'])),
-                DataCell(TextField(
-                    controller: controllers[
-                        'No IC${_listFamilies.indexOf(controllers)}'])),
-                DataCell(TextField(
-                    controller: controllers[
-                        'Hubungan${_listFamilies.indexOf(controllers)}'])),
-              ]);
-            }).toList(),
-          ),
-        ],
-      ),
     );
   }
 

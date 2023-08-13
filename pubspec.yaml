@@ -44,6 +44,7 @@ dependencies:
   provider: ^6.0.5
   cloud_firestore: ^4.8.4
   camera: ^0.10.5+3
+  file_picker: ^5.3.3
 
 dev_dependencies:
   flutter_test:
