@@ -6,8 +6,8 @@ import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'camera/camera_module.dart';
-import 'camera/camera_option.dart';
+import 'camera_module.dart';
+import 'camera_option.dart';
 
 class PictureUpload extends StatefulWidget {
   static const routeName = "/picture-upload";

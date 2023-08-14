@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fyp_project/help_form/help_form.dart';
-import 'package:fyp_project/help_form/widgets/picture_upload.dart';
+import 'package:fyp_project/help_form/widgets/camera/picture_upload.dart';
+import 'package:fyp_project/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
             : const MainLayoutController(), //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),
+          PDFUpload.routeName: (context) => const PDFUpload(),
         },
       ),
     );
