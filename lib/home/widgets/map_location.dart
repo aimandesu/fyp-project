@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
-import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/statistic/statistic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -217,20 +213,20 @@ class _MapLocationState extends State<MapLocation> {
                     borderRadius: BorderRadius.circular(25),
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  // child: currentLocation == null
-                  //     ? Container()
-                  //     : GoogleMap(
-                  //         // gestureRecognizers: {
-                  //         //   Factory<OneSequenceGestureRecognizer>(
-                  //         //       () => EagerGestureRecognizer()),
-                  //         // },
-                  //         mapType: MapType.normal,
-                  //         markers: _markers,
-                  //         initialCameraPosition: _currentPlex as CameraPosition,
-                  //         onMapCreated: (GoogleMapController controller) {
-                  //           _controller.complete(controller);
-                  //         },
-                  //       ),
+                  child: currentLocation == null
+                      ? Container()
+                      : GoogleMap(
+                          // gestureRecognizers: {
+                          //   Factory<OneSequenceGestureRecognizer>(
+                          //       () => EagerGestureRecognizer()),
+                          // },
+                          mapType: MapType.normal,
+                          markers: _markers,
+                          initialCameraPosition: _currentPlex as CameraPosition,
+                          onMapCreated: (GoogleMapController controller) {
+                            _controller.complete(controller);
+                          },
+                        ),
                 ),
                 Expanded(
                   child: StreamBuilder<dynamic>(
@@ -244,7 +240,7 @@ class _MapLocationState extends State<MapLocation> {
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
-                              return Container(
+                              return SizedBox(
                                 height: size.height * 0.2,
                                 child: ListView.builder(
                                     itemCount: snapshot.data![index].length,

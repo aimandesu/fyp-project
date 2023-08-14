@@ -1,12 +1,7 @@
-import 'dart:async';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/home/widgets/map_location.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/statistic/statistic.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 import 'widgets/shelter_map.dart';
 
@@ -33,7 +28,7 @@ class _HomeState extends State<Home> {
             ),
             const Statistic(),
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               child: const MapLocation(),
             ),
           ],

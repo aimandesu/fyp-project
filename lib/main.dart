@@ -1,14 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:fyp_project/help_form/help_form.dart';
+
+import 'package:fyp_project/help_form/widgets/camera/picture_display.dart';
 import 'package:fyp_project/help_form/widgets/camera/picture_upload.dart';
 import 'package:fyp_project/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'profile/profile.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -68,6 +67,7 @@ class MyApp extends StatelessWidget {
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),
           PDFUpload.routeName: (context) => const PDFUpload(),
+          PictureDisplay.routeName: (context) => const PictureDisplay(),
         },
       ),
     );

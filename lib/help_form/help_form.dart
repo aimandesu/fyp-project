@@ -1,16 +1,13 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
-import 'package:fyp_project/help_form/widgets/pdf/files_upload.dart';
+import 'package:fyp_project/help_form/widgets/files_upload.dart';
+import 'package:fyp_project/help_form/widgets/images_upload.dart';
 import 'package:fyp_project/help_form/widgets/pdf/pdf_upload.dart';
-import 'package:fyp_project/help_form/widgets/picture_display.dart';
 import 'package:fyp_project/help_form/widgets/camera/picture_upload.dart';
 import 'package:fyp_project/help_form/widgets/table_input.dart';
 import 'package:fyp_project/help_form/widgets/textfield_decoration.dart';
-import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:image_picker/image_picker.dart';
 
 class HelpForm extends StatefulWidget {
   const HelpForm({super.key});
@@ -65,7 +62,7 @@ class _HelpFormState extends State<HelpForm> {
 
       data.add(newDataEntry);
     }
-    print(data);
+    // print(data);
     // _clearTextFields();
   }
 
@@ -82,12 +79,6 @@ class _HelpFormState extends State<HelpForm> {
         controller.clear();
       }
     }
-  }
-
-  void _removePicture(int index) {
-    setState(() {
-      _pictures = _pictures!..removeAt(index);
-    });
   }
 
   Future<void> _navigatePictureUpload(BuildContext context) async {
@@ -109,15 +100,21 @@ class _HelpFormState extends State<HelpForm> {
       arguments: {"pdf": _selectedPDF},
     );
     if (!mounted) return;
+
+    Map<String, dynamic> resultMap = result as Map<String, dynamic>;
+
     setState(() {
-      _selectedPDF = result as File?;
+      _selectedPDF = resultMap["pdf"] as File?;
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('PDF uploaded successfully!'),
-        duration: Duration(seconds: 2), // You can adjust the duration as needed
-      ),
-    );
+    if (resultMap["showUpload"]) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('PDF uploaded successfully!'),
+          duration:
+              Duration(seconds: 2), // You can adjust the duration as needed
+        ),
+      );
+    }
   }
 
   @override
@@ -151,72 +148,37 @@ class _HelpFormState extends State<HelpForm> {
     //maybe if we proceed, then the will be volunteer comes and take a look first at damage done?
 
     return SingleChildScrollView(
-      child: ResponsiveLayoutController(
-        mobile: Column(
-          children: [
-            // GestureDetector(
-            //   onTap: () => _navigatePictureUpload(context),
-            //   child:
-            PictureDisplay(
-              height: size.height * 0.3,
-              width: size.width * 1,
-              pictures: _pictures as List<File>,
-              navigatePictureUpload: _navigatePictureUpload,
-            ),
-            // ),
-            nameAndPhoneInput(size, context),
-            definedInput(context, "No Kad Pengenalan", noICController),
-            genderAndAgeInput(size, context),
-            definedInput(context, "Alamat", addressController),
-            const Text("Kategori Mangsa"),
-            const Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Senarai Isi Rumah")),
-            ),
-            TableInput(
-              listFamilies: _listFamilies,
-            ),
-            tableDecision(),
-            FilesUpload(
-              fileName: "Surat Pengesahan Ketua Kampung",
-              navigatePDFUpload: _navigatePDFUpload,
-              selectedPDF: _selectedPDF,
-            ),
-          ],
-        ),
-        tablet: Column(
-          children: [
-            PictureDisplay(
-              height: 300,
-              width: size.width * 1,
-              pictures: _pictures as List<File>,
-              navigatePictureUpload: _navigatePictureUpload,
-            ),
-            nameAndPhoneInput(size, context),
-            definedInput(context, "No Kad Pengenalan", noICController),
-            genderAndAgeInput(size, context),
-            definedInput(context, "Alamat", addressController),
-            const Text("Kategori Mangsa"),
-            const Text("Kategori Mangsa"),
-            const Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Senarai Isi Rumah")),
-            ),
-            TableInput(
-              listFamilies: _listFamilies,
-            ),
-            tableDecision(),
-            FilesUpload(
-              fileName: "Surat Pengesahan Ketua Kampung",
-              navigatePDFUpload: _navigatePDFUpload,
-              selectedPDF: _selectedPDF,
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          // GestureDetector(
+          //   onTap: () => _navigatePictureUpload(context),
+          //   child:
+          nameAndPhoneInput(size, context),
+          definedInput(context, "No Kad Pengenalan", noICController),
+          genderAndAgeInput(size, context),
+          definedInput(context, "Alamat", addressController),
+          const Text("Kategori Mangsa"),
+          const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Senarai Isi Rumah")),
+          ),
+          TableInput(
+            listFamilies: _listFamilies,
+          ),
+          tableDecision(),
+          ImagesUpload(
+            navigatePictureUpload: _navigatePictureUpload,
+            pictures: _pictures,
+          ),
+          FilesUpload(
+            fileName: "Surat Pengesahan Ketua Kampung",
+            navigatePDFUpload: _navigatePDFUpload,
+            selectedPDF: _selectedPDF,
+          ),
+          // ),
+        ],
       ),
     );
   }

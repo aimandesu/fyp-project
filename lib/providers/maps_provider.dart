@@ -68,7 +68,7 @@ class MapsProvider with ChangeNotifier {
         if (district == targetDistrict) {
           // print("location all : $location");
           if (subDistrict == targetSubDistrict) {
-            print("location only with: $location");
+            // print("location only with: $location");
             for (var locate in location) {
               listSubDistrict.add({
                 "latitude": locate['latitude'],
@@ -79,7 +79,7 @@ class MapsProvider with ChangeNotifier {
         }
       }
     });
-    print("list sub district: $listSubDistrict");
+    // print("list sub district: $listSubDistrict");
     return listSubDistrict;
   }
 }

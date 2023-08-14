@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fyp_project/help_form/widgets/camera/picture_display.dart';
 
 import '../../../constant.dart';
 
@@ -14,6 +15,7 @@ class CameraOption extends StatelessWidget {
       required this.uploadPhotos,
       required this.clearImageCache,
       required this.isPortrait,
+      required this.removePicture,
       super.key});
 
   final double width;
@@ -24,6 +26,7 @@ class CameraOption extends StatelessWidget {
   final VoidCallback uploadPhotos;
   final VoidCallback clearImageCache;
   final bool isPortrait;
+  final Function removePicture;
 
   @override
   Widget build(BuildContext context) {
@@ -34,30 +37,45 @@ class CameraOption extends StatelessWidget {
         direction: isPortrait ? Axis.horizontal : Axis.vertical,
         children: [
           // RecentPictures(size: size, pictures: _pictures),
-          Container(
-            margin: marginDefined,
-            height: size.height * 0.1,
-            width: size.height * 0.1,
-            color: pictures!.isEmpty ? Colors.black : null,
-            child: pictures!.isEmpty
-                ? null
-                : FittedBox(
-                    fit: BoxFit.fill,
-                    child: Image(
-                      image: FileImage(pictures!.last),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                PictureDisplay.routeName,
+                arguments: {
+                  "pictures": pictures,
+                  "removePicture": removePicture,
+                },
+              );
+            },
+            child: Container(
+              margin: marginDefined,
+              height: size.height * 0.1,
+              width: size.height * 0.1,
+              color: pictures!.isEmpty ? Colors.black : null,
+              child: pictures!.isEmpty
+                  ? null
+                  : FittedBox(
+                      fit: BoxFit.fill,
+
+                      //go to picture display, terima delete punya logic and terima list of gmbr
+
+                      child: Image(
+                        image: FileImage(pictures!.last),
+                      ),
                     ),
-                  ),
+            ),
           ),
           const Spacer(),
           IconButton(
             onPressed: takePicture,
             // _takePicture("camera"),
-            icon: Icon(Icons.camera),
+            icon: const Icon(Icons.camera),
           ),
           const Spacer(),
           IconButton(
             onPressed: uploadPhotos,
-            icon: Icon(
+            icon: const Icon(
               Icons.photo_album,
             ),
           ),
@@ -66,7 +84,7 @@ class CameraOption extends StatelessWidget {
               clearImageCache;
               Navigator.pop(context, pictures);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.done,
             ),
           )

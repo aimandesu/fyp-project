@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/help_form/help_form.dart';
 import 'package:fyp_project/disaster_guide/disaster_guide.dart';
-import 'package:fyp_project/places/places.dart';
 import 'package:fyp_project/profile/profile.dart';
 
 import 'home/home.dart';
@@ -27,14 +26,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void initState() {
     _pages = [
-      // {
-      //   'page': const Home(),
-      //   'title': 'Peta',
-      //   'icon': const Icon(
-      //     Icons.home,
-      //     size: 30,
-      //   ),
-      // },
+      {
+        'page': const Home(),
+        'title': 'Peta',
+        'icon': const Icon(
+          Icons.home,
+          size: 30,
+        ),
+      },
       {
         'page': const HelpForm(),
         'title': 'Bantuan',

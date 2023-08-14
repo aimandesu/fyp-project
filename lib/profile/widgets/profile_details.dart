@@ -18,26 +18,26 @@ class ProfileDetails extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text("first"),
               Text("second"),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text("first"),
               Text("second"),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text("first"),
               Text("second"),
             ],

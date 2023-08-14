@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -134,6 +133,7 @@ class _PictureUploadState extends State<PictureUpload> {
                     takePicture: _takePicture,
                     uploadPhotos: _uploadPhotos,
                     clearImageCache: _clearImageCache,
+                    removePicture: _removePicture,
                     isPortrait: isPortrait,
                   )
                 ],
@@ -153,6 +153,7 @@ class _PictureUploadState extends State<PictureUpload> {
                     takePicture: _takePicture,
                     uploadPhotos: _uploadPhotos,
                     clearImageCache: _clearImageCache,
+                    removePicture: _removePicture,
                     isPortrait: isPortrait,
                   ),
                 ],
@@ -173,6 +174,7 @@ class _PictureUploadState extends State<PictureUpload> {
                     takePicture: _takePicture,
                     uploadPhotos: _uploadPhotos,
                     clearImageCache: _clearImageCache,
+                    removePicture: _removePicture,
                     isPortrait: isPortrait,
                   )
                 ],
@@ -192,6 +194,7 @@ class _PictureUploadState extends State<PictureUpload> {
                     takePicture: _takePicture,
                     uploadPhotos: _uploadPhotos,
                     clearImageCache: _clearImageCache,
+                    removePicture: _removePicture,
                     isPortrait: isPortrait,
                   ),
                 ],

@@ -4,8 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-import 'package:pdfx/pdfx.dart';
-
 class PDFUpload extends StatefulWidget {
   static const routeName = "/pdf-upload";
   const PDFUpload({super.key});
@@ -18,7 +16,7 @@ class _PDFUploadState extends State<PDFUpload> {
   File? _selectedPDF;
 
   void getBack() {
-    Navigator.pop(context, _selectedPDF);
+    Navigator.pop(context, {"pdf": _selectedPDF, "showUpload": true});
   }
 
   void _pickPdf() async {
@@ -53,7 +51,7 @@ class _PDFUploadState extends State<PDFUpload> {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, _selectedPDF);
+        Navigator.pop(context, {"pdf": _selectedPDF, "showUpload": false});
         return true;
       },
       child: Scaffold(
@@ -63,6 +61,9 @@ class _PDFUploadState extends State<PDFUpload> {
                 ? SizedBox(
                     height: size.height * 0.9,
                     width: size.width * 1,
+                    child: const Center(
+                      child: Text("No PDF File"),
+                    ),
                   )
                 : SizedBox(
                     height: size.height * 0.9,

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../../constant.dart';
-import '../textfield_decoration.dart';
+import '../../constant.dart';
+import 'textfield_decoration.dart';
 
 class FilesUpload extends StatelessWidget {
   const FilesUpload({
@@ -20,8 +20,8 @@ class FilesUpload extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 300,
       margin: marginDefined,
-      padding: paddingDefined,
       decoration: inputDecorationDefined(context),
       child: Row(
         children: [
@@ -30,7 +30,7 @@ class FilesUpload extends StatelessWidget {
             child: Text(fileName),
           ),
           selectedPDF == null
-              ? const Icon(Icons.remove)
+              ? const Icon(Icons.close)
               : const Icon(Icons.done),
         ],
       ),
