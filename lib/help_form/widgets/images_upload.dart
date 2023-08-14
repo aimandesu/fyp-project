@@ -17,16 +17,11 @@ class ImagesUpload extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      margin: marginDefined,
-      decoration: inputDecorationDefined(context),
+    return ElevatedButton(
+      onPressed: () => navigatePictureUpload(context),
       child: Row(
         children: [
-          OutlinedButton(
-            onPressed: () => navigatePictureUpload(context),
-            child: const Text("Upload Gambar"),
-          ),
+          const Text("Upload Gambar"),
           pictures!.isEmpty ? const Icon(Icons.close) : const Icon(Icons.done),
         ],
       ),

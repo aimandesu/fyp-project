@@ -19,16 +19,11 @@ class FilesUpload extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      margin: marginDefined,
-      decoration: inputDecorationDefined(context),
+    return ElevatedButton(
+      onPressed: () => navigatePDFUpload(context),
       child: Row(
         children: [
-          OutlinedButton(
-            onPressed: () => navigatePDFUpload(context),
-            child: Text(fileName),
-          ),
+          Text(fileName),
           selectedPDF == null
               ? const Icon(Icons.close)
               : const Icon(Icons.done),

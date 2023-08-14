@@ -21,7 +21,7 @@ class _HelpFormState extends State<HelpForm> {
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
   final noICController = TextEditingController();
-  final genderController = TextEditingController();
+  // final genderController = TextEditingController();
   final ageController = TextEditingController();
   final List<Map<String, TextEditingController>> _listFamilies = [];
 
@@ -71,7 +71,6 @@ class _HelpFormState extends State<HelpForm> {
     addressController.clear();
     phoneController.clear();
     noICController.clear();
-    genderController.clear();
     ageController.clear();
     for (var controllers in _listFamilies) {
       // deleteField(_listFamilies.indexOf(controllers));
@@ -128,7 +127,6 @@ class _HelpFormState extends State<HelpForm> {
     addressController.dispose();
     phoneController.dispose();
     noICController.dispose();
-    genderController.dispose();
     ageController.dispose();
     for (var controllers in _listFamilies) {
       for (var controller in controllers.values) {
@@ -149,34 +147,58 @@ class _HelpFormState extends State<HelpForm> {
 
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // GestureDetector(
           //   onTap: () => _navigatePictureUpload(context),
           //   child:
+          const Padding(
+            padding: paddingDefined,
+            child: Text(
+              "Maklumat Anda",
+              style: textStyling,
+            ),
+          ),
           nameAndPhoneInput(size, context),
           definedInput(context, "No Kad Pengenalan", noICController),
           genderAndAgeInput(size, context),
           definedInput(context, "Alamat", addressController),
-          const Text("Kategori Mangsa"),
           const Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Senarai Isi Rumah")),
+            padding: paddingDefined,
+            child: Text(
+              "Kategori Mangsa",
+              style: textStyling,
+            ),
+          ),
+          const Padding(
+            padding: paddingDefined,
+            child: Text(
+              "Senarai isi rumah",
+              style: textStyling,
+            ),
           ),
           TableInput(
             listFamilies: _listFamilies,
           ),
           tableDecision(),
-          ImagesUpload(
-            navigatePictureUpload: _navigatePictureUpload,
-            pictures: _pictures,
-          ),
-          FilesUpload(
-            fileName: "Surat Pengesahan Ketua Kampung",
-            navigatePDFUpload: _navigatePDFUpload,
-            selectedPDF: _selectedPDF,
-          ),
+          Container(
+            margin: marginDefined,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ImagesUpload(
+                  navigatePictureUpload: _navigatePictureUpload,
+                  pictures: _pictures,
+                ),
+                FilesUpload(
+                  fileName: "Pengesahan Ketua Kampung",
+                  navigatePDFUpload: _navigatePDFUpload,
+                  selectedPDF: _selectedPDF,
+                ),
+              ],
+            ),
+          )
+
           // ),
         ],
       ),
@@ -249,7 +271,7 @@ class _HelpFormState extends State<HelpForm> {
             decoration: inputDecorationDefined(context),
             child: TextFieldDecoration(
               hintText: "No Telefon",
-              textInputType: TextInputType.name,
+              textInputType: TextInputType.phone,
               textEditingController: phoneController,
             ),
           ),
@@ -267,11 +289,6 @@ class _HelpFormState extends State<HelpForm> {
           height: 60,
           width: size.width * 0.5,
           decoration: inputDecorationDefined(context),
-          child: TextFieldDecoration(
-            hintText: "Jantina",
-            textInputType: TextInputType.name,
-            textEditingController: genderController,
-          ),
         ),
         Expanded(
           child: Container(
@@ -281,7 +298,7 @@ class _HelpFormState extends State<HelpForm> {
             decoration: inputDecorationDefined(context),
             child: TextFieldDecoration(
               hintText: "Umur",
-              textInputType: TextInputType.name,
+              textInputType: TextInputType.number,
               textEditingController: ageController,
             ),
           ),

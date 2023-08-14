@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -116,29 +117,45 @@ class _PictureUploadState extends State<PictureUpload> {
         return true;
       },
       child: Scaffold(
-          body: ResponsiveLayoutController(
-        mobile: isPortrait
-            ? Column(
-                children: [
-                  CameraModule(
-                    height: size.height * 0.9,
-                    width: size.width * 1,
-                    cameraController: _cameraController,
+        // body: ResponsiveLayoutController(
+        // mobile: isPortrait
+        //     ?
+        body: isPortrait
+            ? const Padding(
+                padding: paddingDefined,
+                child: Center(
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    "Please enable auto rotation and go into landscape mode",
+                    style: TextStyle(
+                      fontSize: 23,
+                    ),
                   ),
-                  CameraOption(
-                    width: size.width * 1,
-                    height: size.height * 0.1,
-                    size: size,
-                    pictures: _pictures,
-                    takePicture: _takePicture,
-                    uploadPhotos: _uploadPhotos,
-                    clearImageCache: _clearImageCache,
-                    removePicture: _removePicture,
-                    isPortrait: isPortrait,
-                  )
-                ],
+                ),
               )
-            : Row(
+            :
+            // Column(
+            //     children: [
+            //       CameraModule(
+            //         height: size.height * 0.9,
+            //         width: size.width * 1,
+            //         cameraController: _cameraController,
+            //       ),
+            //       CameraOption(
+            //         width: size.width * 1,
+            //         height: size.height * 0.1,
+            //         size: size,
+            //         pictures: _pictures,
+            //         takePicture: _takePicture,
+            //         uploadPhotos: _uploadPhotos,
+            //         clearImageCache: _clearImageCache,
+            //         removePicture: _removePicture,
+            //         isPortrait: isPortrait,
+            //       )
+            //     ],
+            //   )
+            // :
+            Row(
                 children: [
                   CameraModule(
                     height: size.height * 1,
@@ -158,48 +175,49 @@ class _PictureUploadState extends State<PictureUpload> {
                   ),
                 ],
               ),
-        tablet: isPortrait
-            ? Column(
-                children: [
-                  CameraModule(
-                    height: size.height * 0.9,
-                    width: size.width * 1,
-                    cameraController: _cameraController,
-                  ),
-                  CameraOption(
-                    width: size.width * 1,
-                    height: size.height * 0.1,
-                    size: size,
-                    pictures: _pictures,
-                    takePicture: _takePicture,
-                    uploadPhotos: _uploadPhotos,
-                    clearImageCache: _clearImageCache,
-                    removePicture: _removePicture,
-                    isPortrait: isPortrait,
-                  )
-                ],
-              )
-            : Row(
-                children: [
-                  CameraModule(
-                    height: size.height * 1,
-                    width: size.width * 0.9,
-                    cameraController: _cameraController,
-                  ),
-                  CameraOption(
-                    width: size.width * 0.1,
-                    height: size.height * 1,
-                    size: size,
-                    pictures: _pictures,
-                    takePicture: _takePicture,
-                    uploadPhotos: _uploadPhotos,
-                    clearImageCache: _clearImageCache,
-                    removePicture: _removePicture,
-                    isPortrait: isPortrait,
-                  ),
-                ],
-              ),
-      )),
+        // tablet: isPortrait
+        //     ? Column(
+        //         children: [
+        //           CameraModule(
+        //             height: size.height * 0.9,
+        //             width: size.width * 1,
+        //             cameraController: _cameraController,
+        //           ),
+        //           CameraOption(
+        //             width: size.width * 1,
+        //             height: size.height * 0.1,
+        //             size: size,
+        //             pictures: _pictures,
+        //             takePicture: _takePicture,
+        //             uploadPhotos: _uploadPhotos,
+        //             clearImageCache: _clearImageCache,
+        //             removePicture: _removePicture,
+        //             isPortrait: isPortrait,
+        //           )
+        //         ],
+        //       )
+        //     : Row(
+        //         children: [
+        //           CameraModule(
+        //             height: size.height * 1,
+        //             width: size.width * 0.9,
+        //             cameraController: _cameraController,
+        //           ),
+        //           CameraOption(
+        //             width: size.width * 0.1,
+        //             height: size.height * 1,
+        //             size: size,
+        //             pictures: _pictures,
+        //             takePicture: _takePicture,
+        //             uploadPhotos: _uploadPhotos,
+        //             clearImageCache: _clearImageCache,
+        //             removePicture: _removePicture,
+        //             isPortrait: isPortrait,
+        //           ),
+        //         ],
+        //       ),
+        // ),
+      ),
     );
   }
 }
@@ -232,7 +250,3 @@ class _PictureUploadState extends State<PictureUpload> {
 //     );
 //   }
 // }
-
-
-
-

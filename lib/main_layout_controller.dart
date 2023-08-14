@@ -26,14 +26,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void initState() {
     _pages = [
-      {
-        'page': const Home(),
-        'title': 'Peta',
-        'icon': const Icon(
-          Icons.home,
-          size: 30,
-        ),
-      },
+      // {
+      //   'page': const Home(),
+      //   'title': 'Peta',
+      //   'icon': const Icon(
+      //     Icons.home,
+      //     size: 30,
+      //   ),
+      // },
       {
         'page': const HelpForm(),
         'title': 'Bantuan',

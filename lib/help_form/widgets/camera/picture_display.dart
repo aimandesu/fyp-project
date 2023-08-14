@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import '../textfield_decoration.dart';
 
 class PictureDisplay extends StatefulWidget {
   static const routeName = "/picture-display";
@@ -16,6 +15,11 @@ class PictureDisplay extends StatefulWidget {
 class _PictureDisplayState extends State<PictureDisplay> {
   List<File>? pictures;
   late Function removePicture;
+  bool showOption = false;
+
+  double _scale = 1.0;
+  double _previousScale = 1.0;
+  // Offset _offset = Offset(0, 0);
 
   @override
   Widget build(BuildContext context) {
@@ -23,51 +27,97 @@ class _PictureDisplayState extends State<PictureDisplay> {
 
     final arguments =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    var isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     pictures = arguments['pictures'] as List<File>?;
     removePicture = arguments['removePicture'] as Function;
 
     return Scaffold(
       body: Container(
-        height: size.height * 1,
-        width: size.width * 1,
+        color: Colors.black,
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              showOption = !showOption;
+            });
+          },
+          child: Column(
+            children: [
+              pictures!.isEmpty
+                  ? const Center(child: Text("Tiada Gambar"))
+                  : SizedBox(
+                      width: size.width * 1,
+                      height: size.height * 0.9,
+                      child: Center(
+                        child: ListView.builder(
+                            itemCount: pictures!.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return SizedBox(
+                                width: size.width,
+                                // height: size.height * 0.9,
+                                child: GestureDetector(
+                                  onScaleUpdate: (ScaleUpdateDetails details) {
+                                    // Apply zoom-in scaling
+                                    double newScale =
+                                        _previousScale * details.scale;
+                                    if (newScale < 1.0) {
+                                      newScale = 1.0; // Prevent over-zoom
+                                    }
+                                    if (newScale > 4.0) {
+                                      newScale = 4.0; // Limit maximum zoom
+                                    }
 
-        // color: Colors.red,
-
-        decoration: inputDecorationDefined(context),
-        child: Stack(
-          children: [
-            pictures!.isEmpty
-                ? const Center(child: Text("Tiada Gambar"))
-                : ListView.builder(
-                    itemCount: pictures!.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            removePicture(index);
-                          });
-                        },
-                        child: Image(
-                            // width: size.width * 1,
-                            image: FileImage(
-                          pictures![index],
-                        )),
-                      );
-                    }),
-            Positioned(
-              // top: 0,
-              right: 0,
-              bottom: 0,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.add),
-              ),
-            ),
-          ],
+                                    setState(() {
+                                      _scale = newScale;
+                                    });
+                                  },
+                                  onScaleEnd: (_) {
+                                    _previousScale = _scale;
+                                  },
+                                  // onPanUpdate: (details) {
+                                  //   // Apply dragging if zoomed in
+                                  //   if (_scale > 1.0) {
+                                  //     setState(() {
+                                  //       _offset = Offset(
+                                  //         _offset.dx + details.delta.dx,
+                                  //         _offset.dy + details.delta.dy,
+                                  //       );
+                                  //     });
+                                  //   }
+                                  // },
+                                  child: Transform.scale(
+                                    scale: _scale,
+                                    child: Image(
+                                        fit: BoxFit.fitWidth,
+                                        image: FileImage(
+                                          pictures![index],
+                                        )),
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                    ),
+              !showOption
+                  ? Container()
+                  : SizedBox(
+                      width: size.width * 1,
+                      height: size.height * 0.1,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(Icons.add),
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
     );

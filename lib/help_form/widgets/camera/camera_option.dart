@@ -30,11 +30,13 @@ class CameraOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
       height: height,
+      color: Colors.black,
       child: Flex(
         direction: isPortrait ? Axis.horizontal : Axis.vertical,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // RecentPictures(size: size, pictures: _pictures),
           GestureDetector(
@@ -52,7 +54,7 @@ class CameraOption extends StatelessWidget {
               margin: marginDefined,
               height: size.height * 0.1,
               width: size.height * 0.1,
-              color: pictures!.isEmpty ? Colors.black : null,
+              color: pictures!.isEmpty ? Colors.white : null,
               child: pictures!.isEmpty
                   ? null
                   : FittedBox(
@@ -66,28 +68,48 @@ class CameraOption extends StatelessWidget {
                     ),
             ),
           ),
-          const Spacer(),
-          IconButton(
-            onPressed: takePicture,
-            // _takePicture("camera"),
-            icon: const Icon(Icons.camera),
+          const SizedBox(height: 50),
+          Center(
+            child: GestureDetector(
+              onTap: takePicture,
+              child: Container(
+                // margin: marginDefined,
+                // color: Colors.white,
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(35),
+                ),
+                // child: ,
+              ),
+            ),
           ),
-          const Spacer(),
+          // IconButton(
+          //   onPressed: takePicture,
+          //   // _takePicture("camera"),
+          //   icon: const Icon(Icons.camera),
+          // ),
+          // const Spacer(),
+          const SizedBox(height: 50),
           IconButton(
+            iconSize: 30,
             onPressed: uploadPhotos,
             icon: const Icon(
               Icons.photo_album,
+              color: Colors.white,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              clearImageCache;
-              Navigator.pop(context, pictures);
-            },
-            icon: const Icon(
-              Icons.done,
-            ),
-          )
+          // IconButton(
+          //   onPressed: () {
+          //     clearImageCache;
+          //     Navigator.pop(context, pictures);
+          //   },
+          //   icon: const Icon(
+          //     Icons.done,
+          //     color: Colors.white,
+          //   ),
+          // )
         ],
       ),
     );
