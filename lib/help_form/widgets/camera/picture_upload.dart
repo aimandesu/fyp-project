@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'camera_module.dart';
 import 'camera_option.dart';
+import 'picture_display.dart';
 
 class PictureUpload extends StatefulWidget {
   static const routeName = "/picture-upload";
@@ -121,16 +122,36 @@ class _PictureUploadState extends State<PictureUpload> {
         // mobile: isPortrait
         //     ?
         body: isPortrait
-            ? const Padding(
+            ? Padding(
                 padding: paddingDefined,
-                child: Center(
-                  child: Text(
-                    textAlign: TextAlign.center,
-                    "Please enable auto rotation and go into landscape mode",
-                    style: TextStyle(
-                      fontSize: 23,
+                child: Stack(
+                  children: [
+                    const Center(
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        "Please enable auto rotation and go into landscape mode",
+                        style: TextStyle(
+                          fontSize: 23,
+                        ),
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              PictureDisplay.routeName,
+                              arguments: {
+                                "pictures": _pictures,
+                                "removePicture": _removePicture,
+                              },
+                            );
+                          },
+                          child: const Text("Go to photos captured")),
+                    ),
+                  ],
                 ),
               )
             :

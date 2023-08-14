@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fyp_project/constant.dart';
 
 class PictureDisplay extends StatefulWidget {
   static const routeName = "/picture-display";
@@ -41,20 +42,33 @@ class _PictureDisplayState extends State<PictureDisplay> {
               showOption = !showOption;
             });
           },
-          child: Column(
-            children: [
-              pictures!.isEmpty
-                  ? const Center(child: Text("Tiada Gambar"))
-                  : SizedBox(
-                      width: size.width * 1,
-                      height: size.height * 0.9,
-                      child: Center(
-                        child: ListView.builder(
-                            itemCount: pictures!.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return SizedBox(
+          child: pictures!.isEmpty
+              ? const Center(
+                  child: Text(
+                    "Tiada Gambar",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  width: size.width * 1,
+                  height: size.height * 1,
+                  child: Center(
+                    child: ListView.builder(
+                      itemCount: pictures!.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Stack(
+                          children: [
+                            Center(
+                              child: Container(
                                 width: size.width,
+                                padding: isPortrait
+                                    ? null
+                                    : const EdgeInsets.symmetric(
+                                        horizontal: 100, vertical: 10),
                                 // height: size.height * 0.9,
                                 child: GestureDetector(
                                   onScaleUpdate: (ScaleUpdateDetails details) {
@@ -95,29 +109,41 @@ class _PictureDisplayState extends State<PictureDisplay> {
                                         )),
                                   ),
                                 ),
-                              );
-                            }),
-                      ),
+                              ),
+                            ),
+                            pictures!.isEmpty
+                                ? Container()
+                                : Positioned(
+                                    top: isPortrait ? null : 0,
+                                    bottom: isPortrait ? 0 : null,
+                                    child: !showOption
+                                        ? Container()
+                                        : Container(
+                                            width: size.width * 1,
+                                            height: 60,
+                                            color: Colors.grey[900],
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      removePicture(index);
+                                                    });
+                                                  },
+                                                  icon:
+                                                      const Icon(Icons.delete),
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                  ),
+                          ],
+                        );
+                      },
                     ),
-              !showOption
-                  ? Container()
-                  : SizedBox(
-                      width: size.width * 1,
-                      height: size.height * 0.1,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(Icons.add),
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    ),
-            ],
-          ),
+                  ),
+                ),
         ),
       ),
     );

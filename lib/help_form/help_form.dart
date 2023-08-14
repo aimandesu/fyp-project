@@ -181,21 +181,25 @@ class _HelpFormState extends State<HelpForm> {
             listFamilies: _listFamilies,
           ),
           tableDecision(),
-          Container(
-            margin: marginDefined,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ImagesUpload(
-                  navigatePictureUpload: _navigatePictureUpload,
-                  pictures: _pictures,
-                ),
-                FilesUpload(
-                  fileName: "Pengesahan Ketua Kampung",
-                  navigatePDFUpload: _navigatePDFUpload,
-                  selectedPDF: _selectedPDF,
-                ),
-              ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Container(
+              margin: marginDefined,
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ImagesUpload(
+                    navigatePictureUpload: _navigatePictureUpload,
+                    pictures: _pictures,
+                  ),
+                  const Padding(padding: paddingDefined),
+                  FilesUpload(
+                    fileName: "Pengesahan Ketua Kampung",
+                    navigatePDFUpload: _navigatePDFUpload,
+                    selectedPDF: _selectedPDF,
+                  ),
+                ],
+              ),
             ),
           )
 
