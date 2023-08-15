@@ -1,4 +1,8 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:fyp_project/constant.dart';
 import 'dart:async';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,6 +21,8 @@ class _MapLocationState extends State<MapLocation> {
       Completer<GoogleMapController>();
 
   LocationData? currentLocation;
+  // LatLng? destinationLocation;
+
   CameraPosition? _currentPlex;
   final Set<Marker> _markers = <Marker>{};
   int markerId = 0;
@@ -25,12 +31,51 @@ class _MapLocationState extends State<MapLocation> {
   String _currentDistrict = "";
   String _currentSubDistrict = "";
 
+  List<LatLng> polylineCoordinates = [];
+
+  void getPolyPoints(LatLng destinationLocation) async {
+    // print(destinationLocation.latitude);
+    // print(destinationLocation.longitude);
+    polylineCoordinates = [];
+    print("polyline called");
+    PolylinePoints polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleApiKey,
+      PointLatLng(currentLocation!.latitude as double,
+          currentLocation!.longitude as double),
+      PointLatLng(destinationLocation.latitude, destinationLocation.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      print("result is not empty");
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+      setState(() {});
+    }
+  }
+
   void getCurrentLocation() async {
     Location location = Location();
+
     location.getLocation().then((location) {
       setState(() {
         currentLocation = location;
       });
+    });
+    GoogleMapController googleMapController = await _controller.future;
+
+    location.onLocationChanged.listen((newLoc) {
+      currentLocation = newLoc;
+      googleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            zoom: 13.5,
+            target: LatLng(newLoc.latitude!, newLoc.longitude!),
+          ),
+        ),
+      );
+      setState(() {});
     });
   }
 
@@ -53,6 +98,25 @@ class _MapLocationState extends State<MapLocation> {
     });
   }
 
+  void setYourPosMarker(LatLng point) {
+    setState(() {
+      // _markers.clear();
+      // _markers.clear();
+      String markerId = "your_location";
+      // for (var point in point) {
+      //   markerId++;
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker$markerId'),
+          // infoWindow: const InfoWindow(title: "From Json Marker"),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          position: point,
+        ),
+      );
+      // }
+    });
+  }
+
   Future<void> goToPlace(LatLng point) async {
     final GoogleMapController controller = await _controller.future;
     await controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -62,6 +126,10 @@ class _MapLocationState extends State<MapLocation> {
       ),
     ));
     // setMarker(point);
+    // destinationLocation = ;
+    // print(point.latitude);
+    // print(point.longitude);
+    getPolyPoints(LatLng(point.latitude, point.longitude));
   }
 
   void setCurrentPlex(LatLng point) {
@@ -71,7 +139,20 @@ class _MapLocationState extends State<MapLocation> {
     );
   }
 
-  void k(String currentSubDistrict) async {
+  void goToLocation(String currentSubDistrict) async {
+    List<Map<String, dynamic>> points =
+        await Provider.of<MapsProvider>(context, listen: false)
+            .listMarkersSubDistrict(
+      _currentDistrict,
+      currentSubDistrict,
+    );
+
+    goToPlace(LatLng(points.first['latitude'], points.first['longitude']));
+    // getPolyPoints();
+    //sini
+  }
+
+  void initializeSubDistrict(String currentSubDistrict) async {
     List<Map<String, dynamic>> points =
         await Provider.of<MapsProvider>(context, listen: false)
             .listMarkersSubDistrict(
@@ -92,7 +173,7 @@ class _MapLocationState extends State<MapLocation> {
         .listSubDistrict(currentDistrict);
     setState(() {
       _currentSubDistrict = _subDistrict.first;
-      k(_currentSubDistrict);
+      initializeSubDistrict(_currentSubDistrict);
     });
   }
 
@@ -100,7 +181,7 @@ class _MapLocationState extends State<MapLocation> {
     _subDistrict = await Provider.of<MapsProvider>(context, listen: false)
         .listSubDistrict(currentDistrict);
     _currentSubDistrict = _subDistrict.first;
-    k(_currentSubDistrict);
+    initializeSubDistrict(_currentSubDistrict);
   }
 
   void listDistrict() async {
@@ -127,10 +208,10 @@ class _MapLocationState extends State<MapLocation> {
         currentLocation!.latitude!,
         currentLocation!.longitude!,
       ));
-      // setMarker(LatLng(
-      //   currentLocation!.latitude!,
-      //   currentLocation!.longitude!,
-      // ));
+      setYourPosMarker(LatLng(
+        currentLocation!.latitude!,
+        currentLocation!.longitude!,
+      ));
     }
 
     return SizedBox(
@@ -186,7 +267,7 @@ class _MapLocationState extends State<MapLocation> {
                       });
                       // print("curk:$_currentSubDistrict");
                       setState(() {
-                        k(_currentSubDistrict);
+                        goToLocation(_currentSubDistrict);
                       });
                     },
                   );
@@ -216,15 +297,23 @@ class _MapLocationState extends State<MapLocation> {
                   child: currentLocation == null
                       ? Container()
                       : GoogleMap(
-                          // gestureRecognizers: {
-                          //   Factory<OneSequenceGestureRecognizer>(
-                          //       () => EagerGestureRecognizer()),
-                          // },
+                          gestureRecognizers: {
+                            Factory<OneSequenceGestureRecognizer>(
+                                () => EagerGestureRecognizer()),
+                          },
                           mapType: MapType.normal,
                           markers: _markers,
                           initialCameraPosition: _currentPlex as CameraPosition,
                           onMapCreated: (GoogleMapController controller) {
                             _controller.complete(controller);
+                          },
+                          polylines: {
+                            Polyline(
+                              polylineId: const PolylineId("route"),
+                              points: polylineCoordinates,
+                              color: Colors.blue,
+                              width: 6,
+                            )
                           },
                         ),
                 ),

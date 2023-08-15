@@ -22,7 +22,9 @@ class _HelpFormState extends State<HelpForm> {
   final phoneController = TextEditingController();
   final noICController = TextEditingController();
   // final genderController = TextEditingController();
+  String gender = "male";
   final ageController = TextEditingController();
+  String category = "Berpindah ke PPS";
   final List<Map<String, TextEditingController>> _listFamilies = [];
 
   File? _selectedPDF;
@@ -159,7 +161,7 @@ class _HelpFormState extends State<HelpForm> {
               style: textStyling,
             ),
           ),
-          nameAndPhoneInput(size, context),
+          definedInput(context, "Name", nameController),
           definedInput(context, "No Kad Pengenalan", noICController),
           genderAndAgeInput(size, context),
           definedInput(context, "Alamat", addressController),
@@ -170,6 +172,7 @@ class _HelpFormState extends State<HelpForm> {
               style: textStyling,
             ),
           ),
+          kategoriMangsa(size, context),
           const Padding(
             padding: paddingDefined,
             child: Text(
@@ -252,26 +255,15 @@ class _HelpFormState extends State<HelpForm> {
     );
   }
 
-  Row nameAndPhoneInput(Size size, BuildContext context) {
+  Row genderAndAgeInput(Size size, BuildContext context) {
     return Row(
       children: [
-        Container(
-          margin: marginDefined,
-          padding: paddingDefined,
-          height: 60,
-          width: size.width * 0.6,
-          decoration: inputDecorationDefined(context),
-          child: TextFieldDecoration(
-            hintText: "Nama",
-            textInputType: TextInputType.name,
-            textEditingController: nameController,
-          ),
-        ),
         Expanded(
           child: Container(
             margin: marginDefined,
             padding: paddingDefined,
             height: 60,
+            // width: size.width * 0.3,
             decoration: inputDecorationDefined(context),
             child: TextFieldDecoration(
               hintText: "No Telefon",
@@ -280,34 +272,77 @@ class _HelpFormState extends State<HelpForm> {
             ),
           ),
         ),
-      ],
-    );
-  }
-
-  Row genderAndAgeInput(Size size, BuildContext context) {
-    return Row(
-      children: [
+        Expanded(
+          child: Container(
+            // margin: marginDefined,
+            padding: paddingDefined,
+            height: 60,
+            // width: size.width * 0.3,
+            decoration: inputDecorationDefined(context),
+            child: DropdownButton(
+              value: gender,
+              isExpanded: true,
+              // hint: Text("gender"),
+              onChanged: (String? value) {
+                setState(() {
+                  gender = value!;
+                });
+              },
+              items: ["male", "female"].map((value) {
+                return DropdownMenuItem(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
         Container(
           margin: marginDefined,
           padding: paddingDefined,
           height: 60,
-          width: size.width * 0.5,
+          width: size.width * 0.2,
           decoration: inputDecorationDefined(context),
-        ),
-        Expanded(
-          child: Container(
-            margin: marginDefined,
-            padding: paddingDefined,
-            height: 60,
-            decoration: inputDecorationDefined(context),
-            child: TextFieldDecoration(
-              hintText: "Umur",
-              textInputType: TextInputType.number,
-              textEditingController: ageController,
-            ),
+          child: TextFieldDecoration(
+            hintText: "Umur",
+            textInputType: TextInputType.number,
+            textEditingController: ageController,
           ),
         ),
       ],
+    );
+  }
+
+  Container kategoriMangsa(Size size, BuildContext context) {
+    return Container(
+      margin: marginDefined,
+      padding: paddingDefined,
+      height: 60,
+      width: size.width * 1,
+      decoration: inputDecorationDefined(context),
+      child: DropdownButton(
+        isExpanded: true,
+        value: category,
+        // hint: Text("gender"),
+        onChanged: (String? value) {
+          setState(() {
+            category = value!;
+          });
+        },
+        items: [
+          "Berpindah ke PPS",
+          "Berpindah Ke Selain PPS",
+          "Tidak Berpindah",
+          "Pemilik Gerai / Rumah Kedai",
+          "Pemilik Rumah",
+          "Penyewa Rumah",
+        ].map((value) {
+          return DropdownMenuItem(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      ),
     );
   }
 }
