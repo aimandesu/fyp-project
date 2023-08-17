@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/help_form/help_form.dart';
-import 'package:fyp_project/disaster_guide/disaster_guide.dart';
-import 'package:fyp_project/profile/profile.dart';
+import 'package:fyp_project/screen/help_form/help_form.dart';
+import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
+import 'package:fyp_project/screen/profile/profile.dart';
 
-import 'home/home.dart';
+import 'screen/home/home.dart';
 
 class MainLayoutController extends StatefulWidget {
   const MainLayoutController({super.key});
@@ -26,14 +26,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void initState() {
     _pages = [
-      {
-        'page': const Home(),
-        'title': 'Peta',
-        'icon': const Icon(
-          Icons.home,
-          size: 30,
-        ),
-      },
+      // {
+      //   'page': const Home(),
+      //   'title': 'Peta',
+      //   'icon': const Icon(
+      //     Icons.home,
+      //     size: 30,
+      //   ),
+      // },
       {
         'page': const HelpForm(),
         'title': 'Bantuan',

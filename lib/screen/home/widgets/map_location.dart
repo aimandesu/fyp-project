@@ -63,20 +63,22 @@ class _MapLocationState extends State<MapLocation> {
         currentLocation = location;
       });
     });
-    GoogleMapController googleMapController = await _controller.future;
 
-    location.onLocationChanged.listen((newLoc) {
-      currentLocation = newLoc;
-      googleMapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            zoom: 13.5,
-            target: LatLng(newLoc.latitude!, newLoc.longitude!),
-          ),
-        ),
-      );
-      setState(() {});
-    });
+    //somehow error
+    // GoogleMapController googleMapController = await _controller.future;
+
+    // location.onLocationChanged.listen((newLoc) {
+    //   currentLocation = newLoc;
+    //   googleMapController.animateCamera(
+    //     CameraUpdate.newCameraPosition(
+    //       CameraPosition(
+    //         zoom: 13.5,
+    //         target: LatLng(newLoc.latitude!, newLoc.longitude!),
+    //       ),
+    //     ),
+    //   );
+    //   setState(() {});
+    // });
   }
 
   void setMarker(List<Map<String, dynamic>> point) {

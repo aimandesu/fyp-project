@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/home/widgets/map_location.dart';
+import 'package:fyp_project/screen/home/widgets/map_location.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/statistic/statistic.dart';
+import 'package:fyp_project/screen/statistic/statistic.dart';
 
 import 'widgets/shelter_map.dart';
 

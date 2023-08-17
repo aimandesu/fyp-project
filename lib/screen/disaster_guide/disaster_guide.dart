@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/data/disaster_guide_data.dart';
-import 'package:fyp_project/disaster_guide/to_do.dart';
+import 'package:fyp_project/screen/disaster_guide/to_do.dart';
 
 class DisasterGuide extends StatefulWidget {
   const DisasterGuide({super.key});

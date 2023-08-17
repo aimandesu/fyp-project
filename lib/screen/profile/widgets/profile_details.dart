@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../responsive_layout_controller.dart';
+import '../../../responsive_layout_controller.dart';
 
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails({

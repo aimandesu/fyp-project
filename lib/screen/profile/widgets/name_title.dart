@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../responsive_layout_controller.dart';
+import '../../../responsive_layout_controller.dart';
 
 class NameAndTitle extends StatelessWidget {
   const NameAndTitle({
+    required this.name,
+    required this.communityAt,
     super.key,
   });
+
+  final String name;
+  final Map<String, dynamic> communityAt;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +33,13 @@ class NameAndTitle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Aiman Afiq bin Esam",
+                name,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               Text(
-                "Ketua Kampung Taman Botani",
+                communityAt['place'],
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
                 ),

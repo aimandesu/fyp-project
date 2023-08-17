@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
-import 'package:fyp_project/help_form/widgets/files_upload.dart';
-import 'package:fyp_project/help_form/widgets/images_upload.dart';
-import 'package:fyp_project/help_form/widgets/pdf/pdf_upload.dart';
-import 'package:fyp_project/help_form/widgets/camera/picture_upload.dart';
-import 'package:fyp_project/help_form/widgets/table_input.dart';
-import 'package:fyp_project/help_form/widgets/textfield_decoration.dart';
+import 'package:fyp_project/screen/help_form/widgets/files_upload.dart';
+import 'package:fyp_project/screen/help_form/widgets/images_upload.dart';
+import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
+import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
+import 'package:fyp_project/screen/help_form/widgets/table_input.dart';
+import 'package:fyp_project/screen/help_form/widgets/textfield_decoration.dart';
 
 class HelpForm extends StatefulWidget {
   const HelpForm({super.key});
