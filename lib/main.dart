@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/onboarding/onboarding.dart';
 
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_display.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
@@ -6,6 +7,7 @@ import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
+import 'package:fyp_project/signup_login/signup_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      //still dont understand how this works?
       providers: [
         ChangeNotifierProvider(
           create: (_) => MapsProvider(),
@@ -66,8 +69,8 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: onboardingComplete
-            ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
-            : const MainLayoutController(), //Onboarding(),
+            ? const SignupLogin() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+            : const Onboarding(), //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),
           PDFUpload.routeName: (context) => const PDFUpload(),

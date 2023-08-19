@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
+import 'package:fyp_project/models/helpform_model.dart';
 import 'package:fyp_project/screen/help_form/widgets/files_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/images_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
@@ -21,7 +22,8 @@ class _HelpFormState extends State<HelpForm> {
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
   final noICController = TextEditingController();
-  // final genderController = TextEditingController();
+  final postcodeController = TextEditingController();
+  final districtController = TextEditingController();
   String gender = "male";
   final ageController = TextEditingController();
   String category = "Berpindah ke PPS";
@@ -51,7 +53,7 @@ class _HelpFormState extends State<HelpForm> {
     });
   }
 
-  void _collectData() {
+  void _collectdataAndSend(BuildContext context) {
     List<Map<String, String>> data = [];
 
     for (var controllers in _listFamilies) {
@@ -64,8 +66,24 @@ class _HelpFormState extends State<HelpForm> {
 
       data.add(newDataEntry);
     }
-    // print(data);
-    // _clearTextFields();
+    // print(data); [{}, {}]
+
+    final helpForm = HelpFormModel(
+      name: nameController.text,
+      address: addressController.text,
+      postcode: postcodeController.text,
+      district: districtController.text,
+      phone: phoneController.text,
+      noIC: noICController.text,
+      gender: gender,
+      age: int.parse(ageController.text),
+      category: category,
+      selectedPDF: _selectedPDF as File,
+      pictures: _pictures as List<File>,
+      familyMembers: data,
+    );
+
+    _clearTextFields();
   }
 
   void _clearTextFields() {
@@ -204,8 +222,11 @@ class _HelpFormState extends State<HelpForm> {
                 ],
               ),
             ),
-          )
-
+          ),
+          IconButton(
+            onPressed: () => _collectdataAndSend,
+            icon: const Icon(Icons.send),
+          ),
           // ),
         ],
       ),

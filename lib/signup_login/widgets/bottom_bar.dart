@@ -1,50 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/constant.dart';
+
+import '../../responsive_layout_controller.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({
     super.key,
     required this.mediaQuery,
     required this.paddingTop,
-    required this.showSignUp,
-    required this.negateShowSignUp,
+    required this.sendForm,
   });
 
   final MediaQueryData mediaQuery;
   final double paddingTop;
-  final bool showSignUp;
-  final VoidCallback negateShowSignUp;
+  final VoidCallback sendForm;
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = ResponsiveLayoutController.isTablet(context);
     return SizedBox(
       width: mediaQuery.size.width * 1,
-      height: (mediaQuery.size.height - paddingTop) * 0.1,
+      height: isTablet ? 100 : (mediaQuery.size.height - paddingTop) * 0.1,
       child: Flex(
         direction: Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          const Spacer(),
           Container(
-            margin: const EdgeInsets.only(
-              left: 10,
-              bottom: 1,
-            ),
+            margin: marginDefined,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Theme.of(context).colorScheme.primary,
             ),
             child: TextButton(
-              onPressed: negateShowSignUp,
+              onPressed: sendForm,
               child: Text(
-                "Login Instead",
+                "Hantar Informasi",
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.arrow_forward_ios),
           ),
         ],
       ),

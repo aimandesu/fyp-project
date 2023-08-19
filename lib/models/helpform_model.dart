@@ -12,6 +12,7 @@ class HelpFormModel {
   final String category;
   final File selectedPDF;
   final List<File> pictures;
+  final List<Map<String, String>> familyMembers;
 
   //kena tmbh district, ni for pisahkn reference tu
 
@@ -27,5 +28,26 @@ class HelpFormModel {
     required this.category,
     required this.selectedPDF,
     required this.pictures,
+    required this.familyMembers,
   });
+
+  //for firebase toJson type
+  Map<String, dynamic> toJson(
+    String selectedPDF,
+    List<String> pictures,
+  ) =>
+      {
+        'name': name,
+        'adress': address,
+        'postcode': postcode,
+        'district': district,
+        'phone': phone,
+        'noIC': noIC,
+        'gender': gender,
+        'age': age,
+        'category': category,
+        'selectedPDF': selectedPDF,
+        'pictures': pictures,
+        'familyMembers': familyMembers,
+      }; //things that from reference download
 }

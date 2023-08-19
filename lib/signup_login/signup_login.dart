@@ -14,28 +14,27 @@ class SignupLogin extends StatefulWidget {
 }
 
 class _SignupLoginState extends State<SignupLogin> {
-  bool showSignUp = true;
+  // bool showSignUp = true;
 
   File? frontIC;
   File? backIC;
   final positionController = TextEditingController();
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+
   final addressController = TextEditingController();
 
-  void takePicture(bool isFront, bool isCamera) {
-    _takePicture(isFront, isCamera);
-  }
+  // void takePicture(bool isFront, bool isCamera) {
+  //   _takePicture(isFront, isCamera);
+  // }
 
-  void removePicture(bool isFront) {
-    _removePicture(isFront);
-  }
+  // void removePicture(bool isFront) {
+  //   _removePicture(isFront);
+  // }
 
-  Future<void> _takePicture(bool isFront, bool isCamera) async {
+  Future<void> takePicture(bool isFront) async {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
-      source: isCamera ? ImageSource.camera : ImageSource.gallery,
+      source: ImageSource.gallery,
       maxWidth: 1920,
     );
 
@@ -54,7 +53,7 @@ class _SignupLoginState extends State<SignupLogin> {
     }
   }
 
-  void _removePicture(bool isFront) {
+  void removePicture(bool isFront) {
     if (isFront) {
       setState(() {
         frontIC = null;
@@ -66,10 +65,22 @@ class _SignupLoginState extends State<SignupLogin> {
     }
   }
 
-  void negateShowSignUp() {
-    setState(() {
-      showSignUp = !showSignUp;
-    });
+  void sendForm() {
+    //fireabase sent stuff
+  }
+
+  // void negateShowSignUp() {
+  //   setState(() {
+  //     showSignUp = !showSignUp;
+  //   });
+  // }
+
+  @override
+  void dispose() {
+    positionController.dispose();
+    nameController.dispose();
+    addressController.dispose();
+    super.dispose();
   }
 
   @override
@@ -81,83 +92,81 @@ class _SignupLoginState extends State<SignupLogin> {
     final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
 
     return Scaffold(
-      appBar: showSignUp
-          ? AppBar(
-              title: const Text("Sign Up"),
-            )
-          : AppBar(
-              title: const Text("Login"),
-              leading: IconButton(
-                onPressed: negateShowSignUp,
-                icon: const Icon(Icons.keyboard_return),
-              ),
-            ),
+      appBar:
+          // showSignUp
+          //     ?
+          AppBar(
+        title: const Text("Sign Up"),
+      ),
+      // : AppBar(
+      //     title: const Text("Login"),
+      //     leading: IconButton(
+      //       onPressed: negateShowSignUp,
+      //       icon: const Icon(Icons.keyboard_return),
+      //     ),
+      //   ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: showSignUp
-            ? ResponsiveLayoutController(
-                mobile: Column(
-                  children: [
-                    ICimage(
-                      mediaQuery: mediaQuery,
-                      paddingTop: paddingTop,
-                      frontIC: frontIC,
-                      backIC: backIC,
-                      takePicture: takePicture,
-                      removePicture: removePicture,
-                    ),
-                    AllTextFields(
-                      mediaQuery: mediaQuery,
-                      paddingTop: paddingTop,
-                      positionController: positionController,
-                      nameController: nameController,
-                      emailController: emailController,
-                      passwordController: passwordController,
-                      addressController: addressController,
-                    ),
-                    BottomBar(
-                      mediaQuery: mediaQuery,
-                      paddingTop: paddingTop,
-                      showSignUp: showSignUp,
-                      negateShowSignUp: negateShowSignUp,
-                    ),
-                  ],
-                ),
-                tablet: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ICimage(
-                          mediaQuery: mediaQuery,
-                          paddingTop: paddingTop,
-                          frontIC: frontIC,
-                          backIC: backIC,
-                          takePicture: takePicture,
-                          removePicture: removePicture,
-                        ),
-                        AllTextFields(
-                          mediaQuery: mediaQuery,
-                          paddingTop: paddingTop,
-                          positionController: positionController,
-                          nameController: nameController,
-                          emailController: emailController,
-                          passwordController: passwordController,
-                          addressController: addressController,
-                        ),
-                      ],
-                    ),
-                    BottomBar(
-                      mediaQuery: mediaQuery,
-                      paddingTop: paddingTop,
-                      showSignUp: showSignUp,
-                      negateShowSignUp: negateShowSignUp,
-                    ),
-                  ],
-                ),
-              )
-            : Container(),
+        child:
+            //  showSignUp
+            //     ?
+            ResponsiveLayoutController(
+          mobile: Column(
+            children: [
+              ICimage(
+                mediaQuery: mediaQuery,
+                paddingTop: paddingTop,
+                frontIC: frontIC,
+                backIC: backIC,
+                takePicture: takePicture,
+                removePicture: removePicture,
+              ),
+              AllTextFields(
+                mediaQuery: mediaQuery,
+                paddingTop: paddingTop,
+                positionController: positionController,
+                nameController: nameController,
+                addressController: addressController,
+              ),
+              BottomBar(
+                mediaQuery: mediaQuery,
+                paddingTop: paddingTop,
+                sendForm: sendForm,
+              ),
+            ],
+          ),
+          tablet: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ICimage(
+                    mediaQuery: mediaQuery,
+                    paddingTop: paddingTop,
+                    frontIC: frontIC,
+                    backIC: backIC,
+                    takePicture: takePicture,
+                    removePicture: removePicture,
+                  ),
+                  AllTextFields(
+                    mediaQuery: mediaQuery,
+                    paddingTop: paddingTop,
+                    positionController: positionController,
+                    nameController: nameController,
+                    addressController: addressController,
+                  ),
+                ],
+              ),
+              BottomBar(
+                mediaQuery: mediaQuery,
+                paddingTop: paddingTop,
+                sendForm: sendForm,
+              ),
+            ],
+          ),
+        ),
+        // : Container(),
       ),
     );
   }
