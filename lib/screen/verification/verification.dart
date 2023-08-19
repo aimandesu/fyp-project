@@ -6,14 +6,14 @@ import 'widgets/all_text_fields.dart';
 import 'widgets/bottom_bar.dart';
 import 'widgets/ic_image.dart';
 
-class SignupLogin extends StatefulWidget {
-  const SignupLogin({super.key});
+class Verification extends StatefulWidget {
+  const Verification({super.key});
 
   @override
-  State<SignupLogin> createState() => _SignupLoginState();
+  State<Verification> createState() => _VerificationState();
 }
 
-class _SignupLoginState extends State<SignupLogin> {
+class _VerificationState extends State<Verification> {
   // bool showSignUp = true;
 
   File? frontIC;

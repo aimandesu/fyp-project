@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/onboarding/onboarding_page.dart';
-import 'package:fyp_project/signup_login/signup_login.dart';
+import 'package:fyp_project/screen/verification/verification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -84,7 +84,7 @@ class _OnboardingState extends State<Onboarding> {
               onPressed: () {
                 saveOnboardingComplete();
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const SignupLogin();
+                  return const Verification();
                 }));
               },
               child: const Row(children: [
