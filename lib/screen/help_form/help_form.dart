@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/models/helpform_model.dart';
+import 'package:fyp_project/providers/helpform_provider.dart';
 import 'package:fyp_project/screen/help_form/widgets/files_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/images_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/table_input.dart';
 import 'package:fyp_project/screen/help_form/widgets/textfield_decoration.dart';
+import 'package:provider/provider.dart';
 
 class HelpForm extends StatefulWidget {
   const HelpForm({super.key});
@@ -53,7 +55,7 @@ class _HelpFormState extends State<HelpForm> {
     });
   }
 
-  void _collectdataAndSend(BuildContext context) {
+  void _collectdataAndSend() {
     List<Map<String, String>> data = [];
 
     for (var controllers in _listFamilies) {
@@ -71,8 +73,8 @@ class _HelpFormState extends State<HelpForm> {
     final helpForm = HelpFormModel(
       name: nameController.text,
       address: addressController.text,
-      postcode: postcodeController.text,
-      district: districtController.text,
+      postcode: "31650", //postcodeController.text
+      district: "ipoh", //districtController.text
       phone: phoneController.text,
       noIC: noICController.text,
       gender: gender,
@@ -83,7 +85,13 @@ class _HelpFormState extends State<HelpForm> {
       familyMembers: data,
     );
 
-    _clearTextFields();
+    print("sending");
+
+    //provider stuff to send
+    HelpFormProvider.sendHelpForm(helpForm, context);
+
+    print("got sent");
+    // _clearTextFields();
   }
 
   void _clearTextFields() {
@@ -165,13 +173,18 @@ class _HelpFormState extends State<HelpForm> {
     //fullfill then put checkbox
     //maybe if we proceed, then the will be volunteer comes and take a look first at damage done?
 
+    /*
+    here I want to check if the user has gone through ic or not, if not denied the request that
+    the user can proceed with this thing
+     */
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // GestureDetector(
-          //   onTap: () => _navigatePictureUpload(context),
-          //   child:
+          const SizedBox(
+            height: 10,
+          ),
           const Padding(
             padding: paddingDefined,
             child: Text(
@@ -183,6 +196,9 @@ class _HelpFormState extends State<HelpForm> {
           definedInput(context, "No Kad Pengenalan", noICController),
           genderAndAgeInput(size, context),
           definedInput(context, "Alamat", addressController),
+          const SizedBox(
+            height: 30,
+          ),
           const Padding(
             padding: paddingDefined,
             child: Text(
@@ -191,6 +207,9 @@ class _HelpFormState extends State<HelpForm> {
             ),
           ),
           kategoriMangsa(size, context),
+          const SizedBox(
+            height: 30,
+          ),
           const Padding(
             padding: paddingDefined,
             child: Text(
@@ -202,39 +221,73 @@ class _HelpFormState extends State<HelpForm> {
             listFamilies: _listFamilies,
           ),
           tableDecision(),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Container(
-              margin: marginDefined,
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ImagesUpload(
-                    navigatePictureUpload: _navigatePictureUpload,
-                    pictures: _pictures,
-                  ),
-                  const Padding(padding: paddingDefined),
-                  FilesUpload(
-                    fileName: "Pengesahan Ketua Kampung",
-                    navigatePDFUpload: _navigatePDFUpload,
-                    selectedPDF: _selectedPDF,
-                  ),
-                ],
-              ),
+          const SizedBox(
+            height: 30,
+          ),
+          const Padding(
+            padding: paddingDefined,
+            child: Text(
+              "Pengesahan dan Bukti",
+              style: textStyling,
             ),
           ),
-          IconButton(
-            onPressed: () => _collectdataAndSend,
-            icon: const Icon(Icons.send),
+          proofAndVerification(),
+          const SizedBox(
+            height: 30,
           ),
-          // ),
+          submitButton(context),
         ],
       ),
     );
   }
 
-  //method taken out
+  SingleChildScrollView proofAndVerification() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        margin: marginDefined,
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ImagesUpload(
+              navigatePictureUpload: _navigatePictureUpload,
+              pictures: _pictures,
+            ),
+            const Padding(padding: paddingDefined),
+            FilesUpload(
+              fileName: "Pengesahan Ketua Kampung",
+              navigatePDFUpload: _navigatePDFUpload,
+              selectedPDF: _selectedPDF,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
+  Align submitButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        margin: marginDefined,
+        padding: paddingDefined,
+        width: 100,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+            width: 1,
+          ),
+        ),
+        child: IconButton(
+          onPressed: _collectdataAndSend,
+          icon: const Icon(Icons.send),
+        ),
+      ),
+    );
+  }
+
+  //method taken out
   Row tableDecision() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

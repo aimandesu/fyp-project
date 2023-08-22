@@ -13,6 +13,12 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /*
+    here I want to be able first to check if user has put their ic card 
+    or whatever like that, if none yet do like the user can't sign in
+    help form won't be submitted
+     */
+
     Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(

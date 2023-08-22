@@ -8,3 +8,13 @@ const paddingDefined = EdgeInsets.all(5);
 const textStyling = TextStyle(
   fontSize: 30,
 );
+
+Decoration decorationDefined(Color color, double circular) {
+  return BoxDecoration(
+    color: color,
+    borderRadius: BorderRadius.circular(circular),
+    border: Border.all(
+      width: 1,
+    ),
+  );
+}

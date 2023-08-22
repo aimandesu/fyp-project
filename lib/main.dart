@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'chat/chat.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -70,12 +71,13 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: onboardingComplete
-            ? const SignLogin() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+            ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
             : const Onboarding(), //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),
           PDFUpload.routeName: (context) => const PDFUpload(),
           PictureDisplay.routeName: (context) => const PictureDisplay(),
+          Chat.routeName: (context) => const Chat(),
         },
       ),
     );

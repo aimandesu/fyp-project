@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/chat/chat.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
@@ -73,7 +74,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   Widget? _buildFloatingActionButton() {
     if (_pages[_selectedPageIndex]['title'].toString() == "Panduan") {
       return FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, Chat.routeName),
         child: const Icon(
           Icons.support_agent,
         ),

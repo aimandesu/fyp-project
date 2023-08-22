@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/models/helpform_model.dart';
 
 class HelpFormProvider {
-  Future<void> sendHelpForm(
+  static Future<void> sendHelpForm(
     HelpFormModel helpFormModel,
     BuildContext context,
   ) async {
@@ -20,13 +20,15 @@ class HelpFormProvider {
     try {
       //pdf url
       final data = await helpFormModel.selectedPDF.readAsBytes();
-      await reference.child("$pathFiles/file").putData(data);
-      pdfUrl = await reference.getDownloadURL();
+      Reference referenceDirectory = reference.child("$pathFiles/file");
+      await referenceDirectory.putData(data);
+      pdfUrl = await referenceDirectory.getDownloadURL();
 
       //picture url
       for (var picture in helpFormModel.pictures) {
-        await reference.child("$pathFiles/cases").putFile(picture);
-        final url = await reference.getDownloadURL();
+        Reference referenceDirectory = reference.child("$pathFiles/cases");
+        await referenceDirectory.putFile(picture);
+        String url = await referenceDirectory.getDownloadURL();
         imgUrl.add(url);
       }
     } on FirebaseException catch (e) {
@@ -42,7 +44,7 @@ class HelpFormProvider {
       }
       //ke here kena guna technique alert stack trace
     } finally {
-      final helpForm = FirebaseFirestore.instance.collection('helpForm');
+      final helpForm = FirebaseFirestore.instance.collection('form');
       final json = helpFormModel.toJson(pdfUrl, imgUrl);
       await helpForm.add(json).then((value) {
         helpForm.doc(value.id).update({
