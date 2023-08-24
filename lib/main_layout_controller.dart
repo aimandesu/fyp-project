@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/chat/chat.dart';
+import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
@@ -27,14 +28,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void initState() {
     _pages = [
-      // {
-      //   'page': const Home(),
-      //   'title': 'Peta',
-      //   'icon': const Icon(
-      //     Icons.home,
-      //     size: 30,
-      //   ),
-      // },
+      {
+        'page': const Home(),
+        'title': 'Peta',
+        'icon': const Icon(
+          Icons.home,
+          size: 30,
+        ),
+      },
       {
         'page': const HelpForm(),
         'title': 'Bantuan',
@@ -74,7 +75,10 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   Widget? _buildFloatingActionButton() {
     if (_pages[_selectedPageIndex]['title'].toString() == "Panduan") {
       return FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, Chat.routeName),
+        onPressed: () {
+          ChatProvider.askAssistance();
+          Navigator.pushNamed(context, Chat.routeName);
+        },
         child: const Icon(
           Icons.support_agent,
         ),

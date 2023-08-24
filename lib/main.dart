@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/onboarding/onboarding.dart';
+import 'package:fyp_project/providers/chat_provider.dart';
 
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_display.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
@@ -13,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'chat/chat.dart';
+import 'screen/chat/chat.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProfileProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ChatProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -71,7 +75,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: onboardingComplete
-            ? const MainLayoutController() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+            ? const SignLogin() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
             : const Onboarding(), //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),
