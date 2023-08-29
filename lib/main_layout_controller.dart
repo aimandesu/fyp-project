@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/screen/chat/chat.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
@@ -6,6 +7,7 @@ import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
 
 import 'screen/home/home.dart';
+import 'services/auth_service.dart';
 
 class MainLayoutController extends StatefulWidget {
   const MainLayoutController({super.key});
@@ -28,16 +30,22 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   }
 
   @override
+  void didChangeDependencies() {
+    AuthService().signUserInfo();
+    super.didChangeDependencies();
+  }
+
+  @override
   void initState() {
     _pages = [
-      {
-        'page': const Home(),
-        'title': 'Peta',
-        'icon': const Icon(
-          Icons.home,
-          size: 30,
-        ),
-      },
+      // {
+      //   'page': const Home(),
+      //   'title': 'Peta',
+      //   'icon': const Icon(
+      //     Icons.home,
+      //     size: 30,
+      //   ),
+      // },
       {
         'page': const HelpForm(),
         'title': 'Bantuan',
@@ -96,7 +104,9 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
       return [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+          },
           icon: const Icon(Icons.menu),
         ),
       ];

@@ -10,6 +10,7 @@ import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
 import 'package:fyp_project/screen/verification/verification.dart';
+import 'package:fyp_project/services/auth_service.dart';
 import 'package:fyp_project/signlogin/signlogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';

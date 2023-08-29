@@ -89,8 +89,11 @@ class _SignLoginState extends State<SignLogin> {
                       ),
               ),
               IconButton(
-                  onPressed: () => AuthService().signInWithGoogle(),
-                  icon: Icon(Icons.add_circle_outline_sharp))
+                onPressed: () => AuthService().signInWithGoogle(),
+
+                //here buat signUserInfo funtion gak supposedly
+                icon: const Icon(Icons.add_circle_outline_sharp),
+              ),
             ],
           ),
         ),

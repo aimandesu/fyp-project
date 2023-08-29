@@ -35,6 +35,8 @@ class Profile extends StatelessWidget {
                 final communityAt = snapshot.data!['communityAt'];
                 final name = snapshot.data!['name'];
 
+                //here buat update profile guna widget sama update profile
+
                 return ResponsiveLayoutController(
                   //ganti future builder
                   mobile: Column(
@@ -107,7 +109,7 @@ class Profile extends StatelessWidget {
                   ),
                 );
               } else {
-                return const Text("no data");
+                return const Text("no data"); //here buat tmpt nak isi data tu.
               }
             }
           }),

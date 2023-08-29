@@ -4,6 +4,8 @@ import 'package:fyp_project/screen/verification/verification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../signlogin/signlogin.dart';
+
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
 
@@ -84,7 +86,7 @@ class _OnboardingState extends State<Onboarding> {
               onPressed: () {
                 saveOnboardingComplete();
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const Verification();
+                  return const SignLogin();
                 }));
               },
               child: const Row(children: [
