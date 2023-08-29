@@ -25,9 +25,9 @@ class HelpFormProvider {
       pdfUrl = await referenceDirectory.getDownloadURL();
 
       //picture url
-      for (var picture in helpFormModel.pictures) {
-        Reference referenceDirectory = reference.child("$pathFiles/cases");
-        await referenceDirectory.putFile(picture);
+      for (int i = 0; i < helpFormModel.pictures.length; i++) {
+        Reference referenceDirectory = reference.child("$pathFiles/cases/$i");
+        await referenceDirectory.putFile(helpFormModel.pictures[i]);
         String url = await referenceDirectory.getDownloadURL();
         imgUrl.add(url);
       }
@@ -44,7 +44,7 @@ class HelpFormProvider {
       }
       //ke here kena guna technique alert stack trace
     } finally {
-      final helpForm = FirebaseFirestore.instance.collection('form');
+      final helpForm = FirebaseFirestore.instance.collection("form");
       final json = helpFormModel.toJson(pdfUrl, imgUrl);
       await helpForm.add(json).then((value) {
         helpForm.doc(value.id).update({

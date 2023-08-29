@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
+import 'package:fyp_project/services/auth_service.dart';
 import 'package:fyp_project/signlogin/widgets/input_field.dart';
 import 'package:lottie/lottie.dart';
 
@@ -86,7 +87,10 @@ class _SignLoginState extends State<SignLogin> {
                         reversedOption: "Login",
                         loginOrSign: signUser,
                       ),
-              )
+              ),
+              IconButton(
+                  onPressed: () => AuthService().signInWithGoogle(),
+                  icon: Icon(Icons.add_circle_outline_sharp))
             ],
           ),
         ),

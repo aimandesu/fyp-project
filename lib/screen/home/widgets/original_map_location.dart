@@ -1,22 +1,22 @@
+import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:fyp_project/constant.dart';
-import 'dart:async';
 import 'package:fyp_project/providers/maps_provider.dart';
+import 'package:fyp_project/responsive_layout_controller.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
-class MapLocation extends StatefulWidget {
-  const MapLocation({super.key});
+class OriginalMapLocation extends StatefulWidget {
+  const OriginalMapLocation({super.key});
 
   @override
-  State<MapLocation> createState() => _MapLocationState();
+  State<OriginalMapLocation> createState() => _OriginalMapLocationState();
 }
 
-class _MapLocationState extends State<MapLocation> {
+class _OriginalMapLocationState extends State<OriginalMapLocation> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -29,52 +29,13 @@ class _MapLocationState extends State<MapLocation> {
   String _currentDistrict = "";
   String _currentSubDistrict = "";
 
-  List<LatLng> polylineCoordinates = [];
-
-  void getPolyPoints(LatLng destinationLocation) async {
-    // print(destinationLocation.latitude);
-    // print(destinationLocation.longitude);
-    polylineCoordinates = [];
-    PolylinePoints polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey,
-      PointLatLng(currentLocation!.latitude as double,
-          currentLocation!.longitude as double),
-      PointLatLng(destinationLocation.latitude, destinationLocation.longitude),
-    );
-
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
-      setState(() {});
-    }
-  }
-
   void getCurrentLocation() async {
     Location location = Location();
-
     location.getLocation().then((location) {
       setState(() {
         currentLocation = location;
       });
     });
-
-    //somehow error
-    // GoogleMapController googleMapController = await _controller.future;
-
-    // location.onLocationChanged.listen((newLoc) {
-    //   currentLocation = newLoc;
-    //   googleMapController.animateCamera(
-    //     CameraUpdate.newCameraPosition(
-    //       CameraPosition(
-    //         zoom: 13.5,
-    //         target: LatLng(newLoc.latitude!, newLoc.longitude!),
-    //       ),
-    //     ),
-    //   );
-    //   setState(() {});
-    // });
   }
 
   void setMarker(List<Map<String, dynamic>> point) {
@@ -96,25 +57,6 @@ class _MapLocationState extends State<MapLocation> {
     });
   }
 
-  void setYourPosMarker(LatLng point) {
-    setState(() {
-      // _markers.clear();
-      // _markers.clear();
-      String markerId = "your_location";
-      // for (var point in point) {
-      //   markerId++;
-      _markers.add(
-        Marker(
-          markerId: MarkerId('marker$markerId'),
-          // infoWindow: const InfoWindow(title: "From Json Marker"),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          position: point,
-        ),
-      );
-      // }
-    });
-  }
-
   Future<void> goToPlace(LatLng point) async {
     final GoogleMapController controller = await _controller.future;
     await controller.animateCamera(CameraUpdate.newCameraPosition(
@@ -124,10 +66,6 @@ class _MapLocationState extends State<MapLocation> {
       ),
     ));
     // setMarker(point);
-    // destinationLocation = ;
-    // print(point.latitude);
-    // print(point.longitude);
-    getPolyPoints(LatLng(point.latitude, point.longitude));
   }
 
   void setCurrentPlex(LatLng point) {
@@ -137,30 +75,7 @@ class _MapLocationState extends State<MapLocation> {
     );
   }
 
-  // void goToLocation(String currentSubDistrict) async {
-  //   List<Map<String, dynamic>> points =
-  //       await Provider.of<MapsProvider>(context, listen: false)
-  //           .listMarkersSubDistrict(
-  //     _currentDistrict,
-  //     currentSubDistrict,
-  //   );
-
-  //   goToPlace(LatLng(points.first['latitude'], points.first['longitude']));
-  //   // getPolyPoints();
-  //   //sini
-  // }
-
-  void listSubDistrict(String currentDistrict) async {
-    // print(_currentDistrict);
-    _subDistrict = await Provider.of<MapsProvider>(context, listen: false)
-        .listSubDistrict(currentDistrict);
-    setState(() {
-      _currentSubDistrict = _subDistrict.first;
-      initializeSubDistrict(_currentSubDistrict);
-    });
-  }
-
-  void initializeSubDistrict(String currentSubDistrict) async {
+  void k(String currentSubDistrict) async {
     List<Map<String, dynamic>> points =
         await Provider.of<MapsProvider>(context, listen: false)
             .listMarkersSubDistrict(
@@ -168,18 +83,23 @@ class _MapLocationState extends State<MapLocation> {
       currentSubDistrict,
     );
     setMarker(points);
-    goToPlace(LatLng(points.first['latitude'], points.first['longitude']));
-    // setCurrentPlex(LatLng(
-    //     points.first['latitude'],
-    //     points.first[
-    //         'longitude'])); //this one should find nearest place, not first point of the subdistrict
+  }
+
+  void listSubDistrict(String currentDistrict) async {
+    // print(_currentDistrict);
+    _subDistrict = await Provider.of<MapsProvider>(context, listen: false)
+        .listSubDistrict(currentDistrict);
+    setState(() {
+      _currentSubDistrict = _subDistrict.first;
+      k(_currentSubDistrict);
+    });
   }
 
   void initialSubDistrict(currentDistrict) async {
     _subDistrict = await Provider.of<MapsProvider>(context, listen: false)
         .listSubDistrict(currentDistrict);
     _currentSubDistrict = _subDistrict.first;
-    initializeSubDistrict(_currentSubDistrict);
+    k(_currentSubDistrict);
   }
 
   void listDistrict() async {
@@ -206,10 +126,10 @@ class _MapLocationState extends State<MapLocation> {
         currentLocation!.latitude!,
         currentLocation!.longitude!,
       ));
-      setYourPosMarker(LatLng(
-        currentLocation!.latitude!,
-        currentLocation!.longitude!,
-      ));
+      // setMarker(LatLng(
+      //   currentLocation!.latitude!,
+      //   currentLocation!.longitude!,
+      // ));
     }
 
     return SizedBox(
@@ -265,8 +185,7 @@ class _MapLocationState extends State<MapLocation> {
                       });
                       // print("curk:$_currentSubDistrict");
                       setState(() {
-                        // goToLocation(_currentSubDistrict);
-                        initializeSubDistrict(_currentSubDistrict);
+                        k(_currentSubDistrict);
                       });
                     },
                   );
@@ -296,23 +215,15 @@ class _MapLocationState extends State<MapLocation> {
                   child: currentLocation == null
                       ? Container()
                       : GoogleMap(
-                          gestureRecognizers: {
-                            Factory<OneSequenceGestureRecognizer>(
-                                () => EagerGestureRecognizer()),
-                          },
+                          // gestureRecognizers: {
+                          //   Factory<OneSequenceGestureRecognizer>(
+                          //       () => EagerGestureRecognizer()),
+                          // },
                           mapType: MapType.normal,
                           markers: _markers,
                           initialCameraPosition: _currentPlex as CameraPosition,
                           onMapCreated: (GoogleMapController controller) {
                             _controller.complete(controller);
-                          },
-                          polylines: {
-                            Polyline(
-                              polylineId: const PolylineId("route"),
-                              points: polylineCoordinates,
-                              color: Colors.blue,
-                              width: 6,
-                            )
                           },
                         ),
                 ),
@@ -328,7 +239,7 @@ class _MapLocationState extends State<MapLocation> {
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
-                              return SizedBox(
+                              return Container(
                                 height: size.height * 0.2,
                                 child: ListView.builder(
                                     itemCount: snapshot.data![index].length,

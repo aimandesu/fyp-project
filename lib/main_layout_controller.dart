@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/chat/chat.dart';
+import 'package:fyp_project/screen/chat/chat.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
@@ -15,6 +15,8 @@ class MainLayoutController extends StatefulWidget {
 }
 
 class _MainLayoutControllerState extends State<MainLayoutController> {
+  //check if user has data or not, then give according to their page i think
+
   late List<Map<String, Object>> _pages;
 
   int _selectedPageIndex = 0;
@@ -69,6 +71,8 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
         ),
       },
     ].toList();
+
+    //signUserInfo check if dia dh sign info or not
     super.initState();
   }
 

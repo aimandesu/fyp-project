@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/onboarding/onboarding.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
@@ -75,7 +76,15 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         home: onboardingComplete
-            ? const SignLogin() //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+            ? StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return const MainLayoutController();
+                  } else {
+                    return const SignLogin();
+                  }
+                }) //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
             : const Onboarding(), //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),

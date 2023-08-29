@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:fyp_project/location_service.dart';
+import 'package:fyp_project/places_tutorial/location_service.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/chat/widgets/chat_area.dart';
+import 'package:fyp_project/screen/chat/widgets/chat_area.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:provider/provider.dart';
