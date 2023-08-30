@@ -6,7 +6,6 @@ import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
 
-import 'screen/home/home.dart';
 import 'services/auth_service.dart';
 
 class MainLayoutController extends StatefulWidget {

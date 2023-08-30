@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../../constant.dart';
-import 'textfield_decoration.dart';
-
 class ImagesUpload extends StatelessWidget {
   const ImagesUpload({
     required this.navigatePictureUpload,

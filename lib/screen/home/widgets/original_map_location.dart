@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:fyp_project/providers/maps_provider.dart';
-import 'package:fyp_project/responsive_layout_controller.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -239,7 +237,7 @@ class _OriginalMapLocationState extends State<OriginalMapLocation> {
                           return ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
-                              return Container(
+                              return SizedBox(
                                 height: size.height * 0.2,
                                 child: ListView.builder(
                                     itemCount: snapshot.data![index].length,

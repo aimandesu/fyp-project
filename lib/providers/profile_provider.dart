@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/models/user_model.dart';
 
@@ -14,7 +15,7 @@ class ProfileProvider with ChangeNotifier {
     final instance = await FirebaseFirestore.instance
         .collection("community")
         .where("authUID", isEqualTo: authUID)
-        .where("identificationNo", isNotEqualTo: "")
+        // .where("identificationNo", isNotEqualTo: "")
         // .where("identificationNo", isEqualTo: identificationNo)
         .get();
 
@@ -22,9 +23,69 @@ class ProfileProvider with ChangeNotifier {
     return data;
   }
 
-  // static Future<void> updateProfile(UserModel userModel){
+  static Future<void> updateProfile(
+    UserModel userModel,
+    BuildContext context,
+    String docPath,
+  ) async {
+    String pathFiles =
+        "profile/${userModel.communityAt['district']}/${userModel.identificationNo}";
 
-  // }
+    Map<String, String> identificationImage = {};
+
+    Reference reference = FirebaseStorage.instance.ref();
+
+    try {
+      // for (int i = 0; i < userModel.identificationImage!.length; i++) {
+      userModel.identificationImage!.forEach((key, value) async {
+        Reference referenceDirectory = reference.child("$pathFiles/$key");
+        await referenceDirectory.putFile(value);
+        String url = await referenceDirectory.getDownloadURL();
+
+        identificationImage.update(
+            key, (value) => url); //way to update map concept
+      });
+
+      // String imagePos = "";
+
+      // i == 0
+      //     ? imagePos = "back"
+      //     : imagePos = "front"; //here kena control logic dia
+
+      // Reference referenceDirectory = reference.child("$pathFiles/$imagePos");
+      // await referenceDirectory
+      //     .putFile(userModel.identificationImage![imagePos] as File);
+      // String url = await referenceDirectory.getDownloadURL();
+
+      // identificationImage.update(
+      //     imagePos, (value) => url); //way to update map concept
+      // }
+    } on FirebaseException catch (e) {
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          },
+        );
+      }
+    } finally {
+      final collection = FirebaseFirestore.instance.collection("community");
+
+      final data = userModel.toJson(identificationImage);
+
+      collection.doc(docPath).update(data);
+    }
+  }
+
+  // Future<Map<String, dynamic>> fetchUpdatedProfile(
+  //     // String identificationNo,
+  //     // String group, //comunity or organization
+  //     ) async {
+
+  //     }
 }
 
 

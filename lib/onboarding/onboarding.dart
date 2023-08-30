@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/onboarding/onboarding_page.dart';
-import 'package:fyp_project/screen/verification/verification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

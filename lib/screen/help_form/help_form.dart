@@ -10,7 +10,6 @@ import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/table_input.dart';
 import 'package:fyp_project/screen/help_form/widgets/textfield_decoration.dart';
-import 'package:provider/provider.dart';
 
 class HelpForm extends StatefulWidget {
   const HelpForm({super.key});
@@ -85,12 +84,9 @@ class _HelpFormState extends State<HelpForm> {
       familyMembers: data,
     );
 
-    print("sending");
-
     //provider stuff to send
     HelpFormProvider.sendHelpForm(helpForm, context);
 
-    print("got sent");
     // _clearTextFields();
   }
 

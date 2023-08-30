@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/models/user_model.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +8,7 @@ import 'widgets/bottom_bar.dart';
 import 'widgets/ic_image.dart';
 
 class Verification extends StatefulWidget {
+  static const routeName = "/verification";
   const Verification({super.key});
 
   @override
@@ -16,12 +18,21 @@ class Verification extends StatefulWidget {
 class _VerificationState extends State<Verification> {
   // bool showSignUp = true;
 
+  //communityAt
+  final districtController = TextEditingController();
+  final addressController = TextEditingController();
+  final postcodeController = TextEditingController();
+  final subDistrictController = TextEditingController();
+
+  //identificationImage
   File? frontIC;
   File? backIC;
-  final positionController = TextEditingController();
+
+  //the rest
+  final identificationNoController = TextEditingController();
   final nameController = TextEditingController();
 
-  final addressController = TextEditingController();
+  // final positionController = TextEditingController(); //?
 
   // void takePicture(bool isFront, bool isCamera) {
   //   _takePicture(isFront, isCamera);
@@ -67,6 +78,15 @@ class _VerificationState extends State<Verification> {
 
   void sendForm() {
     //fireabase sent stuff
+    //define shape of the usermodel and send
+
+    // final userModel = UserModel(
+    //   communityAt: communityAt,
+    //   identificationImage: identificationImage,
+    //   identificationNo: identificationNoController.text,
+    //   name: nameController.text,
+    //   authUID: authUID,
+    // );
   }
 
   // void negateShowSignUp() {
@@ -77,15 +97,21 @@ class _VerificationState extends State<Verification> {
 
   @override
   void dispose() {
-    positionController.dispose();
+    // positionController.dispose();
     nameController.dispose();
+    identificationNoController.dispose();
     addressController.dispose();
+    districtController.dispose();
+    postcodeController.dispose();
+    subDistrictController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+
+    //accept the context, of well the items
 
     var appBar2 = AppBar();
 
@@ -124,9 +150,13 @@ class _VerificationState extends State<Verification> {
               AllTextFields(
                 mediaQuery: mediaQuery,
                 paddingTop: paddingTop,
-                positionController: positionController,
+                // positionController: positionController,
                 nameController: nameController,
+                identificationNoController: identificationNoController,
+                districtController: districtController,
                 addressController: addressController,
+                postcodeController: postcodeController,
+                subDistrictController: subDistrictController,
               ),
               BottomBar(
                 mediaQuery: mediaQuery,
@@ -152,9 +182,13 @@ class _VerificationState extends State<Verification> {
                   AllTextFields(
                     mediaQuery: mediaQuery,
                     paddingTop: paddingTop,
-                    positionController: positionController,
+                    // positionController: positionController,
                     nameController: nameController,
+                    identificationNoController: identificationNoController,
+                    districtController: districtController,
                     addressController: addressController,
+                    postcodeController: postcodeController,
+                    subDistrictController: subDistrictController,
                   ),
                 ],
               ),

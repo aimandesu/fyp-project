@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/screen/profile/widgets/name_title.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
+import 'package:fyp_project/screen/verification/verification.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/profile_provider.dart';
@@ -34,82 +36,103 @@ class Profile extends StatelessWidget {
                 final image = snapshot.data!['identificationImage'];
                 final communityAt = snapshot.data!['communityAt'];
                 final name = snapshot.data!['name'];
+                final ic = snapshot.data!['identificationNo'];
 
-                //here buat update profile guna widget sama update profile
+                //here buat update profile guna widget sama update profile using concep yg push navigation?
+                //amik snapshot.data
 
-                return ResponsiveLayoutController(
-                  //ganti future builder
-                  mobile: Column(
+                if (ic == "") {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SizedBox(
-                        width: size.width * 1,
-                        height: size.height * 0.35,
-                        child: IcProfile(
-                          image: image,
-                        ), //here terima gmbr je
+                      Lottie.asset(
+                        "assets/map.json",
+                        repeat: false,
                       ),
-                      Container(
-                        width: size.width * 1,
-                        height: size.height * 0.08,
-                        margin: const EdgeInsets.all(15),
-                        child: NameAndTitle(
-                          name: name,
-                          communityAt: communityAt,
-                        ), //here terima name and title
-                      ),
-                      Container(
-                        width: size.width * 1,
-                        height: size.height * 0.2,
-                        margin: const EdgeInsets.all(15),
-                        child:
-                            const ProfileDetails(), //here terima profile details
-                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(Verification.routeName);
+                        }, //send snapshot.data
+                        child: const Text("Update Profile"),
+                      )
                     ],
-                  ),
-                  tablet: Column(
-                    children: [
-                      SizedBox(
-                        height: 250,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: size.width * 0.6,
-                              child: IcProfile(
-                                image: image,
-                              ),
-                            ),
-                            SizedBox(
-                              width: size.width * 0.4,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(
-                                    // width: size.width * 1,
-                                    height: 125,
-                                    // margin: EdgeInsets.all(15),
-                                    child: NameAndTitle(
-                                      name: name,
-                                      communityAt: communityAt,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    // width: size.width * 1,
-                                    height: 125,
-                                    // margin: EdgeInsets.all(15),
-                                    child: ProfileDetails(),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+                  );
+                } else {
+                  return ResponsiveLayoutController(
+                    //ganti future builder
+                    mobile: Column(
+                      children: [
+                        SizedBox(
+                          width: size.width * 1,
+                          height: size.height * 0.35,
+                          child: IcProfile(
+                            image: image,
+                          ), //here terima gmbr je
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                        Container(
+                          width: size.width * 1,
+                          height: size.height * 0.08,
+                          margin: const EdgeInsets.all(15),
+                          child: NameAndTitle(
+                            name: name,
+                            communityAt: communityAt,
+                          ), //here terima name and title
+                        ),
+                        Container(
+                          width: size.width * 1,
+                          height: size.height * 0.2,
+                          margin: const EdgeInsets.all(15),
+                          child:
+                              const ProfileDetails(), //here terima profile details
+                        ),
+                      ],
+                    ),
+                    tablet: Column(
+                      children: [
+                        SizedBox(
+                          height: 250,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: size.width * 0.6,
+                                child: IcProfile(
+                                  image: image,
+                                ),
+                              ),
+                              SizedBox(
+                                width: size.width * 0.4,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SizedBox(
+                                      // width: size.width * 1,
+                                      height: 125,
+                                      // margin: EdgeInsets.all(15),
+                                      child: NameAndTitle(
+                                        name: name,
+                                        communityAt: communityAt,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      // width: size.width * 1,
+                                      height: 125,
+                                      // margin: EdgeInsets.all(15),
+                                      child: ProfileDetails(),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               } else {
-                return const Text("no data"); //here buat tmpt nak isi data tu.
+                return const Text("Something is wrong");
               }
             }
           }),

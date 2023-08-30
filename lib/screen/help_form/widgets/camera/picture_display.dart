@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fyp_project/constant.dart';
 
 class PictureDisplay extends StatefulWidget {
   static const routeName = "/picture-display";

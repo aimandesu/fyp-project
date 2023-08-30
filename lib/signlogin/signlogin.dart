@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/constant.dart';
+
 import 'package:fyp_project/services/auth_service.dart';
 import 'package:fyp_project/signlogin/widgets/input_field.dart';
 import 'package:lottie/lottie.dart';
@@ -35,13 +35,9 @@ class _SignLoginState extends State<SignLogin> {
     });
   }
 
-  void loginUser() {
-    print("loginUser");
-  }
+  void loginUser() {}
 
-  void signUser() {
-    print("signUser");
-  }
+  void signUser() {}
 
   @override
   Widget build(BuildContext context) {

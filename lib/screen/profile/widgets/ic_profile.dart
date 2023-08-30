@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/providers/profile_provider.dart';
+
 import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:provider/provider.dart';
 
 class IcProfile extends StatelessWidget {
   const IcProfile({

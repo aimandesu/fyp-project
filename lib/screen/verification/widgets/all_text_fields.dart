@@ -8,16 +8,28 @@ class AllTextFields extends StatefulWidget {
     super.key,
     required this.mediaQuery,
     required this.paddingTop,
-    required this.positionController,
+    // required this.positionController,
     required this.nameController,
+    required this.identificationNoController,
+    required this.districtController,
     required this.addressController,
+    required this.postcodeController,
+    required this.subDistrictController,
   });
 
   final MediaQueryData mediaQuery;
   final double paddingTop;
-  final TextEditingController positionController;
+  // final TextEditingController positionController;
+
+  //the rest
   final TextEditingController nameController;
+  final TextEditingController identificationNoController;
+
+  //communityAt
+  final TextEditingController districtController;
   final TextEditingController addressController;
+  final TextEditingController postcodeController;
+  final TextEditingController subDistrictController;
 
   @override
   State<AllTextFields> createState() => _AllTextFieldsState();
@@ -38,13 +50,20 @@ class _AllTextFieldsState extends State<AllTextFields> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            fieldText(isTablet, widthTablet, paddingField, context,
-                widget.positionController, "Your Position"),
+            // fieldText(isTablet, widthTablet, paddingField, context,
+            //     widget.positionController, "Your Position"),
             fieldText(isTablet, widthTablet, paddingField, context,
                 widget.nameController, "Your Name"),
-
+            fieldText(isTablet, widthTablet, paddingField, context,
+                widget.identificationNoController, "Your Identification No"),
             fieldText(isTablet, widthTablet, paddingField, context,
                 widget.addressController, "Your Address"),
+            fieldText(isTablet, widthTablet, paddingField, context,
+                widget.districtController, "Your District"),
+            fieldText(isTablet, widthTablet, paddingField, context,
+                widget.postcodeController, "Your Postcode"),
+            fieldText(isTablet, widthTablet, paddingField, context,
+                widget.subDistrictController, "Your Sub District"),
 
             //   Container(
             //     width: isTablet ? widthTablet : null,
