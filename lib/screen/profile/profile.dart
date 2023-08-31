@@ -41,6 +41,8 @@ class Profile extends StatelessWidget {
                 //here buat update profile guna widget sama update profile using concep yg push navigation?
                 //amik snapshot.data
 
+                final data = snapshot.data;
+
                 if (ic == "") {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -51,8 +53,9 @@ class Profile extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(Verification.routeName);
+                          Navigator.of(context).pushNamed(
+                              Verification.routeName,
+                              arguments: data);
                         }, //send snapshot.data
                         child: const Text("Update Profile"),
                       )
@@ -63,6 +66,14 @@ class Profile extends StatelessWidget {
                     //ganti future builder
                     mobile: Column(
                       children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                                Verification.routeName,
+                                arguments: data);
+                          },
+                          icon: const Icon(Icons.abc),
+                        ),
                         SizedBox(
                           width: size.width * 1,
                           height: size.height * 0.35,

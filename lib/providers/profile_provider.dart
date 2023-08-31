@@ -23,7 +23,7 @@ class ProfileProvider with ChangeNotifier {
     return data;
   }
 
-  static Future<void> updateProfile(
+  Future<void> updateProfile(
     UserModel userModel,
     BuildContext context,
     String docPath,
@@ -31,11 +31,15 @@ class ProfileProvider with ChangeNotifier {
     String pathFiles =
         "profile/${userModel.communityAt['district']}/${userModel.identificationNo}";
 
-    Map<String, String> identificationImage = {};
+    Map<String, String> identificationImage = {
+      'back': '',
+      'front': '',
+    };
 
     Reference reference = FirebaseStorage.instance.ref();
 
     try {
+      final collection = FirebaseFirestore.instance.collection("community");
       // for (int i = 0; i < userModel.identificationImage!.length; i++) {
       userModel.identificationImage!.forEach((key, value) async {
         Reference referenceDirectory = reference.child("$pathFiles/$key");
@@ -44,6 +48,14 @@ class ProfileProvider with ChangeNotifier {
 
         identificationImage.update(
             key, (value) => url); //way to update map concept
+
+        if (identificationImage['front'] != '' &&
+            identificationImage['back'] != '') {
+          final data = userModel.toJson(identificationImage);
+
+          collection.doc(docPath).update(data);
+          notifyListeners();
+        }
       });
 
       // String imagePos = "";
@@ -71,21 +83,15 @@ class ProfileProvider with ChangeNotifier {
           },
         );
       }
-    } finally {
-      final collection = FirebaseFirestore.instance.collection("community");
-
-      final data = userModel.toJson(identificationImage);
-
-      collection.doc(docPath).update(data);
     }
+
+    // Future<Map<String, dynamic>> fetchUpdatedProfile(
+    //     // String identificationNo,
+    //     // String group, //comunity or organization
+    //     ) async {
+
+    //     }
   }
-
-  // Future<Map<String, dynamic>> fetchUpdatedProfile(
-  //     // String identificationNo,
-  //     // String group, //comunity or organization
-  //     ) async {
-
-  //     }
 }
 
 
