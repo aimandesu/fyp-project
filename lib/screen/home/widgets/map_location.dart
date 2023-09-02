@@ -28,6 +28,7 @@ class _MapLocationState extends State<MapLocation> {
   List<String> _subDistrict = [];
   String _currentDistrict = "";
   String _currentSubDistrict = "";
+  bool proceedToPlace = false;
 
   List<LatLng> polylineCoordinates = [];
 
@@ -59,6 +60,10 @@ class _MapLocationState extends State<MapLocation> {
         currentLocation = location;
       });
     });
+
+    updateLocation();
+
+    // location.enableBackgroundMode(enable: true);
 
     //somehow error
     // GoogleMapController googleMapController = await _controller.future;
@@ -189,6 +194,26 @@ class _MapLocationState extends State<MapLocation> {
     initialSubDistrict(_currentDistrict);
   }
 
+  void updateLocation() async {
+    //when user set go
+    Location location = Location();
+
+    GoogleMapController googleMapController = await _controller.future;
+
+    location.onLocationChanged.listen((LocationData newLoc) {
+      currentLocation = newLoc;
+      googleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            zoom: 20.5,
+            target: LatLng(newLoc.latitude!, newLoc.longitude!),
+          ),
+        ),
+      );
+      setState(() {});
+    });
+  }
+
   @override
   void initState() {
     getCurrentLocation();
@@ -196,6 +221,12 @@ class _MapLocationState extends State<MapLocation> {
     // listSubDistrict();
     super.initState();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   updateLocation();
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -271,6 +302,16 @@ class _MapLocationState extends State<MapLocation> {
                     },
                   );
                 },
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    proceedToPlace = true;
+                    print("touch or not");
+                    print(proceedToPlace);
+                  });
+                },
+                child: Text("Go to place"),
               ),
               const Spacer(),
               // IconButton(

@@ -40,7 +40,7 @@ dependencies:
   lottie: ^2.3.2
   google_maps_flutter: ^2.3.0
   flutter_polyline_points: ^1.0.0
-  location: ^5.0.1
+  location: ^5.0.3
   provider: ^6.0.5
   cloud_firestore: ^4.8.4
   camera: ^0.10.5+3

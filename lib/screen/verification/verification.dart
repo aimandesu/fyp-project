@@ -110,45 +110,11 @@ class _VerificationState extends State<Verification> {
     );
   }
 
-  // void negateShowSignUp() {
-  //   setState(() {
-  //     showSignUp = !showSignUp;
-  //   });
-  // }
-
-  Future<void> _deleteCacheDir() async {
-    final cacheDir = await getTemporaryDirectory();
-    final dir = Directory(cacheDir.path);
-    dir.deleteSync(recursive: true);
-
-    // if (cacheDir.existsSync()) {
-    // cacheDir.deleteSync(recursive: true);
-    // cacheDir.create();
-    //   print(" exist");
-    // } else {
-    //   print("deosnt exist");
-    // }
-  }
-
-  Future<void> _deleteAppDir() async {
-    final appDir = await getApplicationSupportDirectory();
-
-    if (appDir.existsSync()) {
-      appDir.deleteSync(recursive: true);
-      print("yes");
-    } else {
-      print(" not");
-    }
-  }
-
   void handlePicLoad(Map<String, dynamic> images) async {
     final tempDir = await getTemporaryDirectory();
 
     final backPic = images['back'];
     final frontPic = images['front'];
-
-    print(backPic);
-    print(frontPic);
 
     final backBytes = await http.get(Uri.parse(backPic));
     backIC = await File('${tempDir.path}/back.png').create();
@@ -160,8 +126,6 @@ class _VerificationState extends State<Verification> {
       backIC!.writeAsBytesSync(backBytes.bodyBytes);
       frontIC!.writeAsBytesSync(frontBytes.bodyBytes);
     });
-
-    print("is it called");
 
     // final String frontUrl = args['identificationImage']['front'];
     // final String backUrl = args['identificationImage']['back'];
@@ -199,7 +163,6 @@ class _VerificationState extends State<Verification> {
         //supposedly for picture buh in file
 
         handlePicLoad(args['identificationImage']);
-        print("called");
       }
     }
 

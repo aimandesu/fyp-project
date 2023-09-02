@@ -6,6 +6,7 @@ import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
 
+import 'screen/home/home.dart';
 import 'services/auth_service.dart';
 
 class MainLayoutController extends StatefulWidget {
@@ -37,14 +38,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void initState() {
     _pages = [
-      // {
-      //   'page': const Home(),
-      //   'title': 'Peta',
-      //   'icon': const Icon(
-      //     Icons.home,
-      //     size: 30,
-      //   ),
-      // },
+      {
+        'page': const Home(),
+        'title': 'Peta',
+        'icon': const Icon(
+          Icons.home,
+          size: 30,
+        ),
+      },
       {
         'page': const HelpForm(),
         'title': 'Bantuan',
