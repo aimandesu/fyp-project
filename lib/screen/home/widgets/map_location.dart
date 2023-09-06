@@ -8,6 +8,7 @@ import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapLocation extends StatefulWidget {
   const MapLocation({super.key});
@@ -28,20 +29,22 @@ class _MapLocationState extends State<MapLocation> {
   List<String> _subDistrict = [];
   String _currentDistrict = "";
   String _currentSubDistrict = "";
-  bool proceedToPlace = false;
+  LatLng? pointToLocation;
 
   List<LatLng> polylineCoordinates = [];
 
   void getPolyPoints(LatLng destinationLocation) async {
     // print(destinationLocation.latitude);
     // print(destinationLocation.longitude);
+    pointToLocation = destinationLocation;
+
     polylineCoordinates = [];
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleApiKey,
       PointLatLng(currentLocation!.latitude as double,
           currentLocation!.longitude as double),
-      PointLatLng(destinationLocation.latitude, destinationLocation.longitude),
+      PointLatLng(pointToLocation!.latitude, pointToLocation!.longitude),
     );
 
     if (result.points.isNotEmpty) {
@@ -61,7 +64,7 @@ class _MapLocationState extends State<MapLocation> {
       });
     });
 
-    updateLocation();
+    // updateLocation();
 
     // location.enableBackgroundMode(enable: true);
 
@@ -194,25 +197,29 @@ class _MapLocationState extends State<MapLocation> {
     initialSubDistrict(_currentDistrict);
   }
 
-  void updateLocation() async {
-    //when user set go
-    Location location = Location();
+  // void updateLocation() async {
+  //   //when user set go
+  //   Location location = Location();
+  //   location.changeSettings(
+  //     accuracy: LocationAccuracy.high,
+  //     distanceFilter: 5,
+  //   );
 
-    GoogleMapController googleMapController = await _controller.future;
+  //   GoogleMapController googleMapController = await _controller.future;
 
-    location.onLocationChanged.listen((LocationData newLoc) {
-      currentLocation = newLoc;
-      googleMapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            zoom: 20.5,
-            target: LatLng(newLoc.latitude!, newLoc.longitude!),
-          ),
-        ),
-      );
-      setState(() {});
-    });
-  }
+  //   location.onLocationChanged.listen((LocationData newLoc) {
+  //     currentLocation = newLoc;
+  //     googleMapController.animateCamera(
+  //       CameraUpdate.newCameraPosition(
+  //         CameraPosition(
+  //           zoom: 20.5,
+  //           target: LatLng(newLoc.latitude!, newLoc.longitude!),
+  //         ),
+  //       ),
+  //     );
+  //     // setState(() {});
+  //   });
+  // }
 
   @override
   void initState() {
@@ -304,14 +311,11 @@ class _MapLocationState extends State<MapLocation> {
                 },
               ),
               TextButton(
-                onPressed: () {
-                  setState(() {
-                    proceedToPlace = true;
-                    print("touch or not");
-                    print(proceedToPlace);
-                  });
+                onPressed: () async {
+                  await launchUrl(Uri.parse(
+                      'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
                 },
-                child: Text("Go to place"),
+                child: const Text("Go to place"),
               ),
               const Spacer(),
               // IconButton(
@@ -337,10 +341,11 @@ class _MapLocationState extends State<MapLocation> {
                   child: currentLocation == null
                       ? Container()
                       : GoogleMap(
-                          gestureRecognizers: {
-                            Factory<OneSequenceGestureRecognizer>(
-                                () => EagerGestureRecognizer()),
-                          },
+                          //wrap dalam consumer?
+                          // gestureRecognizers: {
+                          //   Factory<OneSequenceGestureRecognizer>(
+                          //       () => EagerGestureRecognizer()),
+                          // },
                           mapType: MapType.normal,
                           markers: _markers,
                           initialCameraPosition: _currentPlex as CameraPosition,
