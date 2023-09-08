@@ -20,13 +20,12 @@ class NameAndTitle extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius:
             isTablet ? BorderRadius.circular(0) : BorderRadius.circular(15),
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.primaryContainer,
       ),
       child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.add,
-            color: Theme.of(context).colorScheme.onSurface,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -34,15 +33,11 @@ class NameAndTitle extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                style: const TextStyle(),
               ),
               Text(
                 communityAt['place'],
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                style: const TextStyle(),
               ),
             ],
           ),

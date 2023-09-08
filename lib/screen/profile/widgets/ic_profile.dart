@@ -21,9 +21,9 @@ class IcProfile extends StatelessWidget {
     return SizedBox(
       child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Container(
+          child: SizedBox(
             width: isTablet ? size.width * 0.6 : size.width * 1,
-            padding: const EdgeInsets.all(8),
+            // padding: const EdgeInsets.all(8),
             child:
                 // FutureBuilder(
                 //     future: Provider.of<ProfileProvider>(context, listen: false)

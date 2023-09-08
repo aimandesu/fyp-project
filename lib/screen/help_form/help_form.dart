@@ -267,17 +267,22 @@ class _HelpFormState extends State<HelpForm> {
       child: Container(
         margin: marginDefined,
         padding: paddingDefined,
-        width: 100,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            width: 1,
+        // width: 100,
+        // decoration: BoxDecoration(
+        //   // color: Theme.of(context).colorScheme.primary,
+        //   borderRadius: BorderRadius.circular(30),
+        //   border: Border.all(
+        //     width: 1,
+        //   ),
+        // ),
+        child: FilledButton.tonal(
+          style: const ButtonStyle(
+            padding: MaterialStatePropertyAll(
+              EdgeInsets.all(20),
+            ),
           ),
-        ),
-        child: IconButton(
           onPressed: _collectdataAndSend,
-          icon: const Icon(Icons.send),
+          child: const Icon(Icons.send),
         ),
       ),
     );
@@ -292,8 +297,10 @@ class _HelpFormState extends State<HelpForm> {
           child: Container(
             margin: marginDefined,
             child: ElevatedButton(
-                onPressed: _addFamilyMember,
-                child: const Text("Tambah Ahli Keluarga")),
+              onPressed: _addFamilyMember,
+              child: const Text(
+                  textAlign: TextAlign.center, "Tambah Ahli Keluarga"),
+            ),
           ),
         ),
         Expanded(

@@ -11,7 +11,7 @@ class ShelterMap extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.primaryContainer,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,19 +24,17 @@ class ShelterMap extends StatelessWidget {
                 const Icon(Icons.warning),
                 SizedBox(
                   width: size.width * 0.7,
-                  child: ListTile(
+                  child: const ListTile(
                     title: Text(
                       "Shelter",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     subtitle: Text(
                       "Please come for shelter",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -50,7 +48,7 @@ class ShelterMap extends StatelessWidget {
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-                color: Colors.red,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
               child: const Text("data"),
             ),

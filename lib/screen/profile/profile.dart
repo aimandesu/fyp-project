@@ -66,14 +66,14 @@ class Profile extends StatelessWidget {
                     //ganti future builder
                     mobile: Column(
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(
-                                Verification.routeName,
-                                arguments: data);
-                          },
-                          icon: const Icon(Icons.abc),
-                        ),
+                        // IconButton(
+                        //   onPressed: () {
+                        //     Navigator.of(context).pushNamed(
+                        //         Verification.routeName,
+                        //         arguments: data);
+                        //   },
+                        //   icon: const Icon(Icons.abc),
+                        // ),
                         SizedBox(
                           width: size.width * 1,
                           height: size.height * 0.35,

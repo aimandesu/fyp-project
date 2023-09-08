@@ -336,11 +336,20 @@ class _MapLocationState extends State<MapLocation> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                   ),
                   child: currentLocation == null
                       ? Container()
-                      : GoogleMap(
+                      // const SizedBox(
+                      //     child: Center(
+                      //       child:
+                      //           Text("Please enable location, tap to enable."),
+                      //     ),
+                      //   )
+                      :
+                      // null
+
+                      GoogleMap(
                           //wrap dalam consumer?
                           // gestureRecognizers: {
                           //   Factory<OneSequenceGestureRecognizer>(
@@ -375,7 +384,7 @@ class _MapLocationState extends State<MapLocation> {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return SizedBox(
-                                height: size.height * 0.2,
+                                height: size.height * 0.5,
                                 child: ListView.builder(
                                     itemCount: snapshot.data![index].length,
                                     itemBuilder: (context, i) {

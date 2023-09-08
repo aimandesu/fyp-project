@@ -29,16 +29,15 @@ class _DisasterGuideState extends State<DisasterGuide> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.primaryContainer,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     disasterGuidelines[index].mainTopic,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
-                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   IconButton(
@@ -63,17 +62,24 @@ class _DisasterGuideState extends State<DisasterGuide> {
             ),
             disasterGuidelines[index].showSubTopic == false
                 ? Container()
-                : Column(
-                    children: disasterGuidelines[index]
-                        .whatTodo
-                        .map(
-                          (oneStep) => ToDo(
-                            subTopic: oneStep["subTopic"].toString(),
-                            subTopicDescription:
-                                oneStep["subTopicDescription"].join("\n"),
-                          ),
-                        )
-                        .toList(),
+                : Container(
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                    child: Column(
+                      children: disasterGuidelines[index]
+                          .whatTodo
+                          .map(
+                            (oneStep) => ToDo(
+                              subTopic: oneStep["subTopic"].toString(),
+                              subTopicDescription:
+                                  oneStep["subTopicDescription"].join("\n"),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   )
           ],
         );

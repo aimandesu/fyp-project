@@ -55,7 +55,7 @@ class _PictureDisplayState extends State<PictureDisplay> {
                   width: size.width * 1,
                   height: size.height * 1,
                   child: Center(
-                    child: ListView.builder(
+                    child: PageView.builder(
                       itemCount: pictures!.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {

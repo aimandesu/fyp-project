@@ -15,7 +15,7 @@ class ProfileDetails extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius:
             isTablet ? BorderRadius.circular(0) : BorderRadius.circular(15),
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.primaryContainer,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: const Column(

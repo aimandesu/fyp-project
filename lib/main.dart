@@ -59,24 +59,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: const ColorScheme(
-            brightness: Brightness.light,
-            primary: Color.fromRGBO(51, 66, 200, 1), //controls appbar
-            onPrimary: Colors
-                .white, //why is this text color in appbar? Color.fromRGBO(0, 98, 200, 1)
-            secondary: Color.fromARGB(255, 190, 36, 87),
-            onSecondary: Colors.orange,
-            error: Colors.red,
-            onError: Colors.green,
-            background: Colors.yellow,
-            onBackground: Colors.teal,
-            surface: Color.fromRGBO(51, 66, 200, 1), //controls appbar
-            onSurface: Colors.white, //controls appbar
-          ),
+          useMaterial3: true,
+          brightness: Brightness.light,
+          colorSchemeSeed: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
         home: onboardingComplete
-            ? StreamBuilder(
+            ? StreamBuilder<User?>(
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {

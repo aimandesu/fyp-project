@@ -174,11 +174,6 @@ class _ICimageState extends State<ICimage> {
     bool isFront,
   ) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      ),
       width: isTablet ? halfwidthIc : fullwidthIc,
       padding: const EdgeInsets.all(8),
       child: Column(

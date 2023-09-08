@@ -75,7 +75,7 @@ class _PDFUploadState extends State<PDFUpload> {
             SizedBox(
               height: size.height * 0.1,
               width: size.width * 1,
-              child: OutlinedButton(
+              child: ElevatedButton(
                 onPressed: _pickPdf,
                 child: const Text("Pilih PDF"),
               ),

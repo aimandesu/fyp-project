@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/providers/profile_provider.dart';
 import 'package:fyp_project/screen/chat/chat.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
+import 'package:provider/provider.dart';
 
 import 'screen/home/home.dart';
+import 'screen/verification/verification.dart';
 import 'services/auth_service.dart';
 
 class MainLayoutController extends StatefulWidget {
@@ -115,13 +118,40 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     }
   }
 
+  profileUpdate(Map<String, dynamic> data) {
+    Navigator.of(context).pushNamed(Verification.routeName, arguments: data);
+  }
+
+  Drawer? _buildDrawer() {
+    if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
+      return Drawer(
+        child: Column(
+          children: [
+            ListTile(
+              onTap: () async {
+                Map<String, dynamic> data =
+                    await Provider.of<ProfileProvider>(context, listen: false)
+                        .fetchOwnProfile();
+                profileUpdate(data);
+              },
+              title: const Text("Update Profile"),
+            )
+          ],
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),
-        actions: _buildAppBarWidget(),
+        // actions: _buildAppBarWidget(),
       ),
+      endDrawer: _buildDrawer(),
       body: _pages[_selectedPageIndex]['page'] as Widget,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

@@ -18,7 +18,7 @@ class ImagesUpload extends StatelessWidget {
       onPressed: () => navigatePictureUpload(context),
       child: Row(
         children: [
-          const Text("Upload Gambar"),
+          const Text("Muat Naik Gambar"),
           pictures!.isEmpty ? const Icon(Icons.close) : const Icon(Icons.done),
         ],
       ),

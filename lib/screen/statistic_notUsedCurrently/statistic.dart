@@ -38,28 +38,26 @@ class Statistic extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.primaryContainer,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
+          const Padding(
+            padding: EdgeInsets.only(
               left: 5,
             ),
             child: Text(
               "Statistic",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              style: TextStyle(),
             ),
           ),
           Container(
             height: size.height * 0.05,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              color: Colors.blue,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -29,15 +29,12 @@ class BottomBar extends StatelessWidget {
             margin: marginDefined,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
             child: TextButton(
               onPressed: sendForm,
-              child: Text(
+              child: const Text(
                 "Hantar Informasi",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
               ),
             ),
           ),
