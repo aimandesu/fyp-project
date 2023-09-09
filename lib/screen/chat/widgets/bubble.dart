@@ -20,8 +20,8 @@ class Bubble extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: isUser
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.surface,
+                    ? Theme.of(context).colorScheme.primaryContainer
+                    : Theme.of(context).colorScheme.inversePrimary,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(12),
                   topRight: const Radius.circular(12),
@@ -33,7 +33,7 @@ class Bubble extends StatelessWidget {
                       : const Radius.circular(12),
                 ),
               ),
-              width: size.width * 0.45,
+              width: message.length > 48 ? size.width * 0.7 : null,
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
@@ -44,11 +44,6 @@ class Bubble extends StatelessWidget {
               ),
               child: Text(
                 message,
-                style: TextStyle(
-                  color: isUser
-                      ? Theme.of(context).colorScheme.onPrimary
-                      : Colors.white,
-                ),
                 textAlign: TextAlign.start,
               ),
             ),

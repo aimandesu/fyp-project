@@ -204,7 +204,7 @@ class _VerificationState extends State<Verification> {
             // showSignUp
             //     ?
             AppBar(
-          title: const Text("Sign Up"),
+          title: const Text("Update Profile"),
         ),
         // : AppBar(
         //     title: const Text("Login"),
