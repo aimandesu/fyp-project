@@ -26,20 +26,61 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final prefs = await SharedPreferences.getInstance();
+  SharedPreferences prefs;
+  prefs = await SharedPreferences.getInstance();
   final onboardingComplete = prefs.getBool('onboardingComplete') ?? false;
+  final switchTheme = prefs.getBool('switchTheme') ?? false;
 
   runApp(
     MyApp(
       onboardingComplete: onboardingComplete,
+      switchTheme: switchTheme,
+      // prefs: prefs,
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.onboardingComplete});
+//ignore: must_be_immutable
+class MyApp extends StatefulWidget {
+   MyApp({
+    required this.onboardingComplete,
+    required this.switchTheme,
+    // required this.prefs,
+    super.key,
+  });
 
   final bool onboardingComplete;
+   bool switchTheme;
+  // final SharedPreferences prefs;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+
+
+  void toggleTheme() async {
+
+    setState(() {
+      widget.switchTheme =  !widget.switchTheme;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("switchTheme", widget.switchTheme);
+    // print("here");
+    // print(prefs.getBool("switchTheme"));
+    // setState(() {
+    // themeDefault = prefs.getBool("switchTheme");
+
+    // });
+  }
+
+  // Future<void> triggerSharedPreference() async {
+  //   // SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   // bool currentTheme = prefs.getBool('switchTheme') ?? false;
+  //   // themeDefault = currentTheme;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,21 +101,22 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           useMaterial3: true,
-          brightness: Brightness.light,
+          brightness: widget.switchTheme? Brightness.dark : Brightness.light,
           colorSchemeSeed: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        home: onboardingComplete
+        home: widget.onboardingComplete
             ? StreamBuilder<User?>(
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return const MainLayoutController();
+                    return  MainLayoutController(themeDefault: widget.switchTheme, toggleTheme: toggleTheme,); //pass toggle here, switch dark mode and vice versa
                   } else {
                     return const SignLogin();
                   }
                 }) //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
-            : const Onboarding(), //Onboarding(),
+            : const Onboarding(),
+        //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),
           PDFUpload.routeName: (context) => const PDFUpload(),

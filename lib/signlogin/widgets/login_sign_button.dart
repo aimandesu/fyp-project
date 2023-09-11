@@ -26,16 +26,16 @@ class LoginSignButton extends StatelessWidget {
       children: [
         Container(
           width: size.width * 0.6,
-          margin: marginDefined,
+          // margin: marginDefined,
           padding: paddingDefined,
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.purple,
+              color: Theme.of(context).colorScheme.primary,
             ),
             borderRadius: const BorderRadius.all(
               Radius.circular(25),
             ),
-            color: Colors.deepPurple,
+            color:Theme.of(context).colorScheme.primary,
           ),
           child: TextButton(
             onPressed: loginOrSign,
@@ -46,7 +46,7 @@ class LoginSignButton extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 50,
+          height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

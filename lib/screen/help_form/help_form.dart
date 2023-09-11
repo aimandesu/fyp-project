@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/models/helpform_model.dart';
 import 'package:fyp_project/providers/helpform_provider.dart';
@@ -72,8 +73,10 @@ class _HelpFormState extends State<HelpForm> {
     final helpForm = HelpFormModel(
       name: nameController.text,
       address: addressController.text,
-      postcode: "31650", //postcodeController.text
-      district: "ipoh", //districtController.text
+      postcode: "31650",
+      //postcodeController.text
+      district: "ipoh",
+      //districtController.text
       phone: phoneController.text,
       noIC: noICController.text,
       gender: gender,
@@ -232,7 +235,7 @@ class _HelpFormState extends State<HelpForm> {
             height: 30,
           ),
           submitButton(context),
-        ],
+        ].animate(interval: 40.ms).fade(duration: 300.ms).slideY(),
       ),
     );
   }

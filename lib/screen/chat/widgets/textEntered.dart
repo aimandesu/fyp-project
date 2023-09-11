@@ -12,19 +12,25 @@ class TextEntered extends StatelessWidget {
     Color color = Theme.of(context).colorScheme.primaryContainer;
     double circular = 25;
 
-    return Container(
-      margin: marginDefined,
-      padding: paddingDefined,
-      decoration: decorationDefined(color, circular),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minHeight: 45,
-          maxHeight: 100.0,
-        ),
-        child: TextField(
-          decoration: const InputDecoration.collapsed(hintText: 'Message'),
-          controller: chatText,
-          maxLines: null,
+    Size size = MediaQuery.of(context).size;
+
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        width: size.width * 0.82,
+        margin: marginDefined,
+        padding: paddingDefined,
+        decoration: decorationDefined(color, circular),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minHeight: 3,
+            maxHeight: 100.0,
+          ),
+          child: TextField(
+            decoration: const InputDecoration.collapsed(hintText: 'Mesej'),
+            controller: chatText,
+            maxLines: null,
+          ),
         ),
       ),
     );

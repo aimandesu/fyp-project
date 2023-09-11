@@ -43,7 +43,7 @@ class IcProfile extends StatelessWidget {
               itemBuilder: (context, index) {
                 // print(snapshot.data!['identificationImage'][0]);
                 // return Text("data");
-                return identifactionCard(
+                return identificationCard(
                     isTablet, size, keys[index], values[index]);
               },
             ),
@@ -69,7 +69,7 @@ class IcProfile extends StatelessWidget {
     );
   }
 
-  Container identifactionCard(
+  Container identificationCard(
     bool isTablet,
     Size size,
     String position,

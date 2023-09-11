@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/data/disaster_guide_data.dart';
 import 'package:fyp_project/screen/disaster_guide/to_do.dart';
 
@@ -80,8 +81,8 @@ class _DisasterGuideState extends State<DisasterGuide> {
                           )
                           .toList(),
                     ),
-                  )
-          ],
+                  ).animate().fade().slideX(curve: Curves.easeIn),
+          ].animate(interval: 400.ms).fade(duration: 300.ms).slideY(),
         );
       },
     );

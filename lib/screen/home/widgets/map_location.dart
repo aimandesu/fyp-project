@@ -56,13 +56,16 @@ class _MapLocationState extends State<MapLocation> {
   }
 
   void getCurrentLocation() async {
-    Location location = Location();
+    if (mounted){
+      Location location = Location();
 
-    location.getLocation().then((location) {
-      setState(() {
-        currentLocation = location;
+      location.getLocation().then((location) {
+        setState(() {
+          currentLocation = location;
+        });
       });
-    });
+    }
+
 
     // updateLocation();
 
@@ -135,7 +138,7 @@ class _MapLocationState extends State<MapLocation> {
     // destinationLocation = ;
     // print(point.latitude);
     // print(point.longitude);
-    getPolyPoints(LatLng(point.latitude, point.longitude));
+    getPolyPoints(LatLng(point.latitude, point.longitude));  //->disable or enable getPolyPoints
   }
 
   void setCurrentPlex(LatLng point) {
@@ -310,13 +313,13 @@ class _MapLocationState extends State<MapLocation> {
                   );
                 },
               ),
-              TextButton(
-                onPressed: () async {
-                  await launchUrl(Uri.parse(
-                      'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
-                },
-                child: const Text("Go to place"),
-              ),
+              // TextButton(
+              //   onPressed: () async {
+              //     await launchUrl(Uri.parse(
+              //         'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+              //   },
+              //   child: const Text("Go to place"),
+              // ),
               const Spacer(),
               // IconButton(
               //   onPressed: () {
@@ -349,27 +352,44 @@ class _MapLocationState extends State<MapLocation> {
                       :
                       // null
 
-                      GoogleMap(
-                          //wrap dalam consumer?
-                          // gestureRecognizers: {
-                          //   Factory<OneSequenceGestureRecognizer>(
-                          //       () => EagerGestureRecognizer()),
-                          // },
-                          mapType: MapType.normal,
-                          markers: _markers,
-                          initialCameraPosition: _currentPlex as CameraPosition,
-                          onMapCreated: (GoogleMapController controller) {
-                            _controller.complete(controller);
-                          },
-                          polylines: {
-                            Polyline(
-                              polylineId: const PolylineId("route"),
-                              points: polylineCoordinates,
-                              color: Colors.blue,
-                              width: 6,
-                            )
-                          },
-                        ),
+                      Stack(
+                        children: [
+                          AbsorbPointer(
+                            absorbing: true,
+                            child: GoogleMap(
+                                //wrap dalam consumer?
+                                // gestureRecognizers: {
+                                //   Factory<OneSequenceGestureRecognizer>(
+                                //       () => EagerGestureRecognizer()),
+                                // },
+                                mapType: MapType.normal,
+                                markers: _markers,
+                                initialCameraPosition: _currentPlex as CameraPosition,
+                                onMapCreated: (GoogleMapController controller) {
+                                  _controller.complete(controller);
+                                },
+                                polylines: {
+                                  Polyline(
+                                    polylineId: const PolylineId("route"),
+                                    points: polylineCoordinates,
+                                    color: Colors.blue,
+                                    width: 6,
+                                  )
+                                },
+                              ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child:  FilledButton.tonal(
+                            onPressed: () async {
+                              await launchUrl(Uri.parse(
+                                  'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+                            },
+                            child: const Text("Go to place"),
+                          ),)
+                        ],
+                      ),
                 ),
                 Expanded(
                   child: StreamBuilder<dynamic>(

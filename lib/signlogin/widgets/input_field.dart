@@ -60,7 +60,7 @@ class _InputFieldState extends State<InputField> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.purple,
+          color: Theme.of(context).colorScheme.primary,
         ),
         borderRadius: const BorderRadius.all(
           Radius.circular(25),
@@ -102,7 +102,7 @@ class InputSetup extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.purple,
+          color: Theme.of(context).colorScheme.primary,
         ),
         borderRadius: const BorderRadius.all(
           Radius.circular(25),

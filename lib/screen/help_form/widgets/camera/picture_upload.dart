@@ -129,7 +129,7 @@ class _PictureUploadState extends State<PictureUpload> {
                     const Center(
                       child: Text(
                         textAlign: TextAlign.center,
-                        "Please enable auto rotation and go into landscape mode",
+                        "Sila benarkan mod putaran dan pusing kepada mod landskap",
                         style: TextStyle(
                           fontSize: 23,
                         ),
@@ -149,7 +149,7 @@ class _PictureUploadState extends State<PictureUpload> {
                               },
                             );
                           },
-                          child: const Text("Go to photos captured")),
+                          child: const Text("Pergi ke gambar diambil")),
                     ),
                   ],
                 ),

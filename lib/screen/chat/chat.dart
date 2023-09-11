@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/screen/chat/widgets/chat_area.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
@@ -19,6 +20,8 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   final TextEditingController chatText = TextEditingController();
 
+  late Stream<bool> theStream;
+
   Stream<bool> hasPicked() async* {
     final userUID = FirebaseAuth.instance.currentUser!.uid;
 
@@ -31,7 +34,9 @@ class _ChatState extends State<Chat> {
             doc.docs.first.data()['isPicked'] != false);
   }
 
-  late Stream<bool> theStream;
+  void sendMessage() {
+    print(chatText.text);
+  }
 
   @override
   void initState() {
@@ -53,40 +58,59 @@ class _ChatState extends State<Chat> {
 
     var appBar2 = AppBar(
       automaticallyImplyLeading: false,
-      title: const Text("Assistance"),
+      title: const Text("Pertanyaan").animate().fade().slide(),
     );
 
     // final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
 
-    return Scaffold(
-      //if keluar, fire some function that delete that request
-      appBar: appBar2,
-      body: Column(
-        children: [
-          Expanded(
-            child: StreamBuilder<bool>(
-              stream: theStream,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container();
-                }
+    return WillPopScope(
+      onWillPop: () async {
+        Provider.of<ChatProvider>(context, listen: false)
+            .deleteAssistanceRequest();
+        return true;
+      },
+      child: Scaffold(
+        //if keluar, fire some function that delete that request
+        appBar: appBar2,
+        body: Column(
+          children: [
+            Expanded(
+              child: StreamBuilder<bool>(
+                stream: theStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  }
 
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                bool hasPicked = snapshot.data ?? false;
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  bool hasPicked = snapshot.data ?? false;
 
-                if (hasPicked) {
-                  return const ChatArea(); //here just shows the text yg will occur
-                } else {
-                  return const Text('Awaiting for your calls to be picked');
-                }
-              },
+                  if (hasPicked) {
+                    return const ChatArea(); //here just shows the text yg will occur
+                  } else {
+                    return const Text('Awaiting for your calls to be picked')
+                        .animate()
+                        .fade()
+                        .slide();
+                  }
+                },
+              ),
             ),
-          ),
-          //here textfield
-          TextEntered(chatText: chatText)
-        ],
+            //here textfield
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextEntered(chatText: chatText),
+                IconButton.filledTonal(
+                  onPressed: sendMessage,
+                  icon: const Icon(Icons.send),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

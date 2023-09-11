@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
 import 'package:fyp_project/screen/chat/chat.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
@@ -7,16 +8,23 @@ import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screen/home/home.dart';
 import 'screen/verification/verification.dart';
 import 'services/auth_service.dart';
 
 class MainLayoutController extends StatefulWidget {
-  const MainLayoutController({super.key});
+  const MainLayoutController({
+    required this.themeDefault,
+    required this.toggleTheme,
+    super.key,
+  });
 
   @override
   State<MainLayoutController> createState() => _MainLayoutControllerState();
+  final bool themeDefault;
+  final VoidCallback toggleTheme;
 }
 
 class _MainLayoutControllerState extends State<MainLayoutController> {
@@ -25,6 +33,16 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   late List<Map<String, Object>> _pages;
 
   int _selectedPageIndex = 0;
+
+  // bool? themeDefault;
+
+  // late SharedPreferences prefs;
+
+  // Future<void> triggerSharedPreference() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool currentTheme = prefs.getBool('switchTheme') ?? false;
+  //   themeDefault = currentTheme;
+  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -35,6 +53,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void didChangeDependencies() {
     AuthService().signUserInfo();
+    // triggerSharedPreference(); //or in initstate ?
     super.didChangeDependencies();
   }
 
@@ -103,20 +122,20 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     }
   }
 
-  List<Widget>? _buildAppBarWidget() {
-    if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
-      return [
-        IconButton(
-          onPressed: () {
-            FirebaseAuth.instance.signOut();
-          },
-          icon: const Icon(Icons.menu),
-        ),
-      ];
-    } else {
-      return null;
-    }
-  }
+  // List<Widget>? _buildAppBarWidget() {
+  //   if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
+  //     return [
+  //       IconButton(
+  //         onPressed: () {
+  //           FirebaseAuth.instance.signOut();
+  //         },
+  //         icon: const Icon(Icons.menu),
+  //       ),
+  //     ];
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   profileUpdate(Map<String, dynamic> data) {
     Navigator.of(context).pushNamed(Verification.routeName, arguments: data);
@@ -127,6 +146,16 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
       return Drawer(
         child: Column(
           children: [
+            const SizedBox(
+              height: 50,
+            ),
+            SwitchListTile(
+              title: const Text("Togol Tema"),
+              value: widget.themeDefault,
+              onChanged: (bool value) {
+                widget.toggleTheme();
+              },
+            ),
             ListTile(
               onTap: () async {
                 Map<String, dynamic> data =
@@ -134,11 +163,18 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
                         .fetchOwnProfile();
                 profileUpdate(data);
               },
-              title: const Text("Update Profile"),
+              title: const Text("Kemaskini Profil"),
+            ),
+            ListTile(
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
+              title: const Text("Log Keluar"),
             )
           ],
         ),
       );
+      // .animate().shakeX(duration: 200.ms);
     } else {
       return null;
     }
@@ -149,6 +185,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),
+
         // actions: _buildAppBarWidget(),
       ),
       endDrawer: _buildDrawer(),

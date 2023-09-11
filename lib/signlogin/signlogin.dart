@@ -52,7 +52,7 @@ class _SignLoginState extends State<SignLogin> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              topTitle(mediaQuery, paddingTop),
+              topTitle(mediaQuery, paddingTop), //0.4
               SizedBox(
                 height: mediaQuery.size.height * 0.3,
                 child: Column(
@@ -67,7 +67,7 @@ class _SignLoginState extends State<SignLogin> {
                 ),
               ),
               SizedBox(
-                height: mediaQuery.size.height * 0.3,
+                height: mediaQuery.size.height * 0.2,
                 child: isDisplayLogin
                     ? LoginSignButton(
                         changeIsDisplayLogin: changeIsDisplayLogin,
@@ -88,7 +88,7 @@ class _SignLoginState extends State<SignLogin> {
                 onPressed: () => AuthService().signInWithGoogle(),
 
                 //here buat signUserInfo funtion gak supposedly
-                icon: const Icon(Icons.add_circle_outline_sharp),
+                icon: const Icon(Icons.login),
               ),
             ],
           ),
@@ -103,11 +103,11 @@ class _SignLoginState extends State<SignLogin> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Center(
+           Center(
             child: Text(
               "Natural Hazard Hub",
               style: TextStyle(
-                color: Colors.blue,
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic,
                 fontSize: 30,

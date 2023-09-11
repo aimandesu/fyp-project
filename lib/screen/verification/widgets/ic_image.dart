@@ -17,6 +17,7 @@ class ICimage extends StatefulWidget {
   final double paddingTop;
   final File? frontIC;
   final File? backIC;
+
   // final Function(bool isFront, bool isCamera) takePicture;
   // final Function(bool isFront) removePicture;
   final Function takePicture;
@@ -27,6 +28,19 @@ class ICimage extends StatefulWidget {
 }
 
 class _ICimageState extends State<ICimage> {
+  late Future<dynamic> theFutureLoad;
+
+  Future<dynamic> runFutureLoad() {
+    return Future.delayed(const Duration(seconds: 7));
+  }
+
+  @override
+  void initState() {
+    theFutureLoad = runFutureLoad();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isTablet = ResponsiveLayoutController.isTablet(context);
@@ -200,16 +214,23 @@ class _ICimageState extends State<ICimage> {
             child: SizedBox(
               // width: size.width * 1,
               child: Center(
-                child: icPositionFile == null
-                    ? IconButton(
-                        onPressed: () => widget.takePicture(isFront),
-                        icon: const Icon(Icons.front_hand),
-                      )
-                    : Image(
-                        fit: BoxFit.contain,
-                        width: widget.mediaQuery.size.width * 1,
-                        image: FileImage(icPositionFile),
-                      ),
+                child: FutureBuilder(
+                  //wait until futurebuilder object is received
+                  future: theFutureLoad,
+                  builder: (c, s) =>
+                      s.connectionState == ConnectionState.waiting
+                          ? const CircularProgressIndicator()
+                          : icPositionFile == null
+                              ? FilledButton.tonal(
+                                  onPressed: () => widget.takePicture(isFront),
+                                  child: const Text("Pilih Gambar Baharu"),
+                                )
+                              : Image(
+                                  fit: BoxFit.contain,
+                                  width: widget.mediaQuery.size.width * 1,
+                                  image: FileImage(icPositionFile),
+                                ),
+                ),
               ),
             ),
           )
