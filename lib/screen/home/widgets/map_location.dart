@@ -51,8 +51,12 @@ class _MapLocationState extends State<MapLocation> {
       for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       }
-      setState(() {});
+      // setState(() {});
     }
+
+     MapsProvider().getDirections(currentLocation!.latitude as double,
+        currentLocation!.longitude as double, pointToLocation!.latitude, pointToLocation!.longitude);
+
   }
 
   void getCurrentLocation() async {
@@ -247,10 +251,10 @@ class _MapLocationState extends State<MapLocation> {
         currentLocation!.latitude!,
         currentLocation!.longitude!,
       ));
-      setYourPosMarker(LatLng(
-        currentLocation!.latitude!,
-        currentLocation!.longitude!,
-      ));
+      // setYourPosMarker(LatLng(
+      //   currentLocation!.latitude!,
+      //   currentLocation!.longitude!,
+      // ));
     }
 
     return SizedBox(
@@ -368,14 +372,14 @@ class _MapLocationState extends State<MapLocation> {
                                 onMapCreated: (GoogleMapController controller) {
                                   _controller.complete(controller);
                                 },
-                                polylines: {
-                                  Polyline(
-                                    polylineId: const PolylineId("route"),
-                                    points: polylineCoordinates,
-                                    color: Colors.blue,
-                                    width: 6,
-                                  )
-                                },
+                                // polylines: {
+                                //   Polyline(
+                                //     polylineId: const PolylineId("route"),
+                                //     points: polylineCoordinates,
+                                //     color: Colors.blue,
+                                //     width: 6,
+                                //   )
+                                // },
                               ),
                           ),
                           Positioned(

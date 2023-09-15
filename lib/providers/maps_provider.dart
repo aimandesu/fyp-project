@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../constant.dart';
+import 'dart:convert' as convert;
 
 class MapsProvider with ChangeNotifier {
   Stream<dynamic> listPlaces(
@@ -81,5 +84,22 @@ class MapsProvider with ChangeNotifier {
     });
     // print("list sub district: $listSubDistrict");
     return listSubDistrict;
+  }
+
+  Future<void> getDirections(
+    double originLat,
+    double originLong,
+    double destinationLat,
+    double destinationLong,
+  ) async {
+    final String url = "https://maps.googleapis.com/maps/api/directions/json?destination=$destinationLat,$destinationLong&origin=$originLat,$originLong&key=$googleApiKey";
+
+    var response = await http.get(Uri.parse(url));
+    var json = convert.jsonDecode(response.body);
+
+    print(json['routes'][0]['legs'][0]['distance']);
+    print(json['routes'][0]['legs'][0]['duration']);
+    print(json['routes'][0]['legs'][0]['end_address']);
+    // print(json['routes'][0]['legs'][0]);
   }
 }
