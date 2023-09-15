@@ -7,6 +7,10 @@ import 'package:fyp_project/models/helpform_model.dart';
 import 'package:fyp_project/providers/helpform_provider.dart';
 import 'package:fyp_project/screen/help_form/widgets/files_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/images_upload.dart';
+import 'package:fyp_project/screen/help_form/widgets/inputField/list_household.dart';
+import 'package:fyp_project/screen/help_form/widgets/inputField/proof_verification.dart';
+import 'package:fyp_project/screen/help_form/widgets/inputField/victim_category.dart';
+import 'package:fyp_project/screen/help_form/widgets/inputField/your_information.dart';
 import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/table_input.dart';
@@ -29,13 +33,25 @@ class _HelpFormState extends State<HelpForm> {
   String gender = "male";
   final ageController = TextEditingController();
   String category = "Berpindah ke PPS";
-  final List<Map<String, TextEditingController>> _listFamilies = [];
+  final List<Map<String, TextEditingController>> listFamilies = [];
 
-  File? _selectedPDF;
-  List<File>? _pictures = [];
+  File? selectedPDF;
+  List<File>? pictures = [];
 
-  void _addFamilyMember() {
-    int index = _listFamilies.length;
+  void changeGender(String value) {
+    setState(() {
+      gender = value;
+    });
+  }
+
+  void changeCategory(String value) {
+    setState(() {
+      category = value;
+    });
+  }
+
+  void addFamilyMember() {
+    int index = listFamilies.length;
     Map<String, TextEditingController> controllers = {
       'name$index': TextEditingController(),
       'age$index': TextEditingController(),
@@ -44,21 +60,21 @@ class _HelpFormState extends State<HelpForm> {
     };
 
     setState(() {
-      _listFamilies.add(controllers);
+      listFamilies.add(controllers);
     });
   }
 
-  void _removeLast() {
-    if (_listFamilies.isEmpty) return;
+  void removeLast() {
+    if (listFamilies.isEmpty) return;
     setState(() {
-      _listFamilies.removeLast();
+      listFamilies.removeLast();
     });
   }
 
   void _collectdataAndSend() {
     List<Map<String, String>> data = [];
 
-    for (var controllers in _listFamilies) {
+    for (var controllers in listFamilies) {
       Map<String, String> newDataEntry = {};
 
       controllers.forEach((key, value) {
@@ -82,8 +98,8 @@ class _HelpFormState extends State<HelpForm> {
       gender: gender,
       age: int.parse(ageController.text),
       category: category,
-      selectedPDF: _selectedPDF as File,
-      pictures: _pictures as List<File>,
+      selectedPDF: selectedPDF as File,
+      pictures: pictures as List<File>,
       familyMembers: data,
     );
 
@@ -98,8 +114,10 @@ class _HelpFormState extends State<HelpForm> {
     addressController.clear();
     phoneController.clear();
     noICController.clear();
+    postcodeController.clear();
+    districtController.clear();
     ageController.clear();
-    for (var controllers in _listFamilies) {
+    for (var controllers in listFamilies) {
       // deleteField(_listFamilies.indexOf(controllers));
       for (var controller in controllers.values) {
         controller.clear();
@@ -107,30 +125,30 @@ class _HelpFormState extends State<HelpForm> {
     }
   }
 
-  Future<void> _navigatePictureUpload(BuildContext context) async {
+  Future<void> navigatePictureUpload(BuildContext context) async {
     var result = await Navigator.pushNamed(
       context,
       PictureUpload.routeName,
-      arguments: {"pictures": _pictures},
+      arguments: {"pictures": pictures},
     );
     if (!mounted) return;
     setState(() {
-      _pictures = result as List<File>?;
+      pictures = result as List<File>?;
     });
   }
 
-  Future<void> _navigatePDFUpload(BuildContext context) async {
+  Future<void> navigatePDFUpload(BuildContext context) async {
     var result = await Navigator.pushNamed(
       context,
       PDFUpload.routeName,
-      arguments: {"pdf": _selectedPDF},
+      arguments: {"pdf": selectedPDF},
     );
     if (!mounted) return;
 
     Map<String, dynamic> resultMap = result as Map<String, dynamic>;
 
     setState(() {
-      _selectedPDF = resultMap["pdf"] as File?;
+      selectedPDF = resultMap["pdf"] as File?;
     });
     if (resultMap["showUpload"]) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -154,8 +172,10 @@ class _HelpFormState extends State<HelpForm> {
     addressController.dispose();
     phoneController.dispose();
     noICController.dispose();
+    postcodeController.dispose();
+    districtController.dispose();
     ageController.dispose();
-    for (var controllers in _listFamilies) {
+    for (var controllers in listFamilies) {
       for (var controller in controllers.values) {
         controller.dispose();
       }
@@ -181,85 +201,32 @@ class _HelpFormState extends State<HelpForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 10,
+          YourInformation(
+            nameController: nameController,
+            noICController: noICController,
+            addressController: addressController,
+            phoneController: phoneController,
+            ageController: ageController,
+            gender: gender,
+            changeGender: changeGender,
           ),
-          const Padding(
-            padding: paddingDefined,
-            child: Text(
-              "Maklumat Anda",
-              style: textStyling,
-            ),
+          VictimCategory(
+            category: category,
+            changeCategory: changeCategory,
           ),
-          definedInput(context, "Name", nameController),
-          definedInput(context, "No Kad Pengenalan", noICController),
-          genderAndAgeInput(size, context),
-          definedInput(context, "Alamat", addressController),
-          const SizedBox(
-            height: 30,
+          ListHousehold(
+            listFamilies: listFamilies,
+            addFamilyMember: addFamilyMember,
+            removeLast: removeLast,
           ),
-          const Padding(
-            padding: paddingDefined,
-            child: Text(
-              "Kategori Mangsa",
-              style: textStyling,
-            ),
-          ),
-          kategoriMangsa(size, context),
-          const SizedBox(
-            height: 30,
-          ),
-          const Padding(
-            padding: paddingDefined,
-            child: Text(
-              "Senarai isi rumah",
-              style: textStyling,
-            ),
-          ),
-          TableInput(
-            listFamilies: _listFamilies,
-          ),
-          tableDecision(),
-          const SizedBox(
-            height: 30,
-          ),
-          const Padding(
-            padding: paddingDefined,
-            child: Text(
-              "Pengesahan dan Bukti",
-              style: textStyling,
-            ),
-          ),
-          proofAndVerification(),
-          const SizedBox(
-            height: 30,
+          ProofVerification(
+            pictures: pictures,
+            navigatePictureUpload: navigatePictureUpload,
+            navigatePDFUpload: navigatePDFUpload,
+            selectedPDF: selectedPDF,
           ),
           submitButton(context),
         ].animate(interval: 40.ms).fade(duration: 300.ms).slideY(),
-      ),
-    );
-  }
-
-  SingleChildScrollView proofAndVerification() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        margin: marginDefined,
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ImagesUpload(
-              navigatePictureUpload: _navigatePictureUpload,
-              pictures: _pictures,
-            ),
-            const Padding(padding: paddingDefined),
-            FilesUpload(
-              fileName: "Pengesahan Ketua Kampung",
-              navigatePDFUpload: _navigatePDFUpload,
-              selectedPDF: _selectedPDF,
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -291,138 +258,5 @@ class _HelpFormState extends State<HelpForm> {
     );
   }
 
-  //method taken out
-  Row tableDecision() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Container(
-            margin: marginDefined,
-            child: ElevatedButton(
-              onPressed: _addFamilyMember,
-              child: const Text(
-                  textAlign: TextAlign.center, "Tambah Ahli Keluarga"),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            margin: marginDefined,
-            child: ElevatedButton(
-                onPressed: _removeLast, child: const Text("Padam ")),
-          ),
-        )
-      ],
-    );
-  }
-
-  Container definedInput(
-    BuildContext context,
-    String hintText,
-    TextEditingController textEditingController,
-  ) {
-    return Container(
-      margin: marginDefined,
-      padding: paddingDefined,
-      height: 60,
-      decoration: inputDecorationDefined(context),
-      child: TextFieldDecoration(
-        hintText: hintText,
-        textInputType: TextInputType.name,
-        textEditingController: textEditingController,
-      ),
-    );
-  }
-
-  Row genderAndAgeInput(Size size, BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            margin: marginDefined,
-            padding: paddingDefined,
-            height: 60,
-            // width: size.width * 0.3,
-            decoration: inputDecorationDefined(context),
-            child: TextFieldDecoration(
-              hintText: "No Telefon",
-              textInputType: TextInputType.phone,
-              textEditingController: phoneController,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            // margin: marginDefined,
-            padding: paddingDefined,
-            height: 60,
-            // width: size.width * 0.3,
-            decoration: inputDecorationDefined(context),
-            child: DropdownButton(
-              value: gender,
-              isExpanded: true,
-              // hint: Text("gender"),
-              onChanged: (String? value) {
-                setState(() {
-                  gender = value!;
-                });
-              },
-              items: ["male", "female"].map((value) {
-                return DropdownMenuItem(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-        Container(
-          margin: marginDefined,
-          padding: paddingDefined,
-          height: 60,
-          width: size.width * 0.2,
-          decoration: inputDecorationDefined(context),
-          child: TextFieldDecoration(
-            hintText: "Umur",
-            textInputType: TextInputType.number,
-            textEditingController: ageController,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Container kategoriMangsa(Size size, BuildContext context) {
-    return Container(
-      margin: marginDefined,
-      padding: paddingDefined,
-      height: 60,
-      width: size.width * 1,
-      decoration: inputDecorationDefined(context),
-      child: DropdownButton(
-        isExpanded: true,
-        value: category,
-        // hint: Text("gender"),
-        onChanged: (String? value) {
-          setState(() {
-            category = value!;
-          });
-        },
-        items: [
-          "Berpindah ke PPS",
-          "Berpindah Ke Selain PPS",
-          "Tidak Berpindah",
-          "Pemilik Gerai / Rumah Kedai",
-          "Pemilik Rumah",
-          "Penyewa Rumah",
-        ].map((value) {
-          return DropdownMenuItem(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      ),
-    );
-  }
+//method taken out
 }
