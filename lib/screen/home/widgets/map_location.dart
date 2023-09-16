@@ -30,8 +30,13 @@ class _MapLocationState extends State<MapLocation> {
   String _currentDistrict = "";
   String _currentSubDistrict = "";
   LatLng? pointToLocation;
+  late Stream listPlacesStream;
 
   List<LatLng> polylineCoordinates = [];
+  Map<String, dynamic> locationDetails = {
+    'duration': '',
+    'distance': '',
+  };
 
   void getPolyPoints(LatLng destinationLocation) async {
     // print(destinationLocation.latitude);
@@ -54,13 +59,22 @@ class _MapLocationState extends State<MapLocation> {
       // setState(() {});
     }
 
-     MapsProvider().getDirections(currentLocation!.latitude as double,
-        currentLocation!.longitude as double, pointToLocation!.latitude, pointToLocation!.longitude);
-
+    MapsProvider()
+        .getDirections(
+      currentLocation!.latitude as double,
+      currentLocation!.longitude as double,
+      pointToLocation!.latitude,
+      pointToLocation!.longitude,
+    )
+        .then((value) {
+      setState(() {
+        locationDetails = value;
+      });
+    });
   }
 
   void getCurrentLocation() async {
-    if (mounted){
+    if (mounted) {
       Location location = Location();
 
       location.getLocation().then((location) {
@@ -69,7 +83,6 @@ class _MapLocationState extends State<MapLocation> {
         });
       });
     }
-
 
     // updateLocation();
 
@@ -142,7 +155,8 @@ class _MapLocationState extends State<MapLocation> {
     // destinationLocation = ;
     // print(point.latitude);
     // print(point.longitude);
-    getPolyPoints(LatLng(point.latitude, point.longitude));  //->disable or enable getPolyPoints
+    getPolyPoints(LatLng(
+        point.latitude, point.longitude)); //->disable or enable getPolyPoints
   }
 
   void setCurrentPlex(LatLng point) {
@@ -184,6 +198,8 @@ class _MapLocationState extends State<MapLocation> {
     );
     setMarker(points);
     goToPlace(LatLng(points.first['latitude'], points.first['longitude']));
+    listPlacesStream =
+        MapsProvider().listPlaces(_currentDistrict, _currentSubDistrict);
     // setCurrentPlex(LatLng(
     //     points.first['latitude'],
     //     points.first[
@@ -195,6 +211,8 @@ class _MapLocationState extends State<MapLocation> {
         .listSubDistrict(currentDistrict);
     _currentSubDistrict = _subDistrict.first;
     initializeSubDistrict(_currentSubDistrict);
+    listPlacesStream =
+        MapsProvider().listPlaces(_currentDistrict, _currentSubDistrict);
   }
 
   void listDistrict() async {
@@ -233,6 +251,8 @@ class _MapLocationState extends State<MapLocation> {
     getCurrentLocation();
     listDistrict();
     // listSubDistrict();
+    listPlacesStream = Provider.of<MapsProvider>(context, listen: false)
+        .listPlaces(_currentDistrict, _currentSubDistrict);
     super.initState();
   }
 
@@ -309,7 +329,7 @@ class _MapLocationState extends State<MapLocation> {
                         _currentSubDistrict = value.toString();
                       });
                       // print("curk:$_currentSubDistrict");
-                      setState(() {
+                      change(() {
                         // goToLocation(_currentSubDistrict);
                         initializeSubDistrict(_currentSubDistrict);
                       });
@@ -357,10 +377,10 @@ class _MapLocationState extends State<MapLocation> {
                       // null
 
                       Stack(
-                        children: [
-                          AbsorbPointer(
-                            absorbing: true,
-                            child: GoogleMap(
+                          children: [
+                            AbsorbPointer(
+                              absorbing: true,
+                              child: GoogleMap(
                                 //wrap dalam consumer?
                                 // gestureRecognizers: {
                                 //   Factory<OneSequenceGestureRecognizer>(
@@ -368,7 +388,8 @@ class _MapLocationState extends State<MapLocation> {
                                 // },
                                 mapType: MapType.normal,
                                 markers: _markers,
-                                initialCameraPosition: _currentPlex as CameraPosition,
+                                initialCameraPosition:
+                                    _currentPlex as CameraPosition,
                                 onMapCreated: (GoogleMapController controller) {
                                   _controller.complete(controller);
                                 },
@@ -381,24 +402,37 @@ class _MapLocationState extends State<MapLocation> {
                                 //   )
                                 // },
                               ),
-                          ),
-                          Positioned(
-                            bottom: 10,
-                            left: 10,
-                            child:  FilledButton.tonal(
-                            onPressed: () async {
-                              await launchUrl(Uri.parse(
-                                  'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
-                            },
-                            child: const Text("Go to place"),
-                          ),)
-                        ],
-                      ),
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              left: 10,
+                              child: Container(
+                                decoration: decorationDefined(
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    25),
+                                child: Column(
+                                  children: [
+                                    Text(locationDetails['distance']),
+                                    Text(locationDetails['duration']),
+                                    FilledButton.tonal(
+                                      onPressed: () async {
+                                        await launchUrl(Uri.parse(
+                                            'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+                                      },
+                                      child: const Text("Go to place"),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                 ),
                 Expanded(
                   child: StreamBuilder<dynamic>(
-                    stream: Provider.of<MapsProvider>(context)
-                        .listPlaces(_currentDistrict, _currentSubDistrict),
+                    stream: listPlacesStream,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Container();

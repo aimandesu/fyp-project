@@ -33,7 +33,10 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        tablet: const Text("tablet"),
+        tablet: Container(
+          margin: const EdgeInsets.all(10),
+          child: const MapLocation(),
+        ),
       ),
     );
   }

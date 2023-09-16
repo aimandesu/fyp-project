@@ -86,20 +86,29 @@ class MapsProvider with ChangeNotifier {
     return listSubDistrict;
   }
 
-  Future<void> getDirections(
+  Future<Map<String, dynamic>> getDirections(
     double originLat,
     double originLong,
     double destinationLat,
     double destinationLong,
   ) async {
-    final String url = "https://maps.googleapis.com/maps/api/directions/json?destination=$destinationLat,$destinationLong&origin=$originLat,$originLong&key=$googleApiKey";
+    final String url =
+        "https://maps.googleapis.com/maps/api/directions/json?destination=$destinationLat,$destinationLong&origin=$originLat,$originLong&key=$googleApiKey";
 
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
 
-    print(json['routes'][0]['legs'][0]['distance']);
-    print(json['routes'][0]['legs'][0]['duration']);
-    print(json['routes'][0]['legs'][0]['end_address']);
+    // print(json['routes'][0]['legs'][0]['distance']);
+    // print(json['routes'][0]['legs'][0]['duration']);
+    // print(json['routes'][0]['legs'][0]['end_address']);
     // print(json['routes'][0]['legs'][0]);
+    final details = {
+      'duration': json['routes'][0]['legs'][0]['duration']['text'],
+      'distance': json['routes'][0]['legs'][0]['distance']['text'],
+    };
+
+    return details;
+
+
   }
 }
