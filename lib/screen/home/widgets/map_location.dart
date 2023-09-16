@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fyp_project/constant.dart';
 import 'dart:async';
@@ -31,6 +32,7 @@ class _MapLocationState extends State<MapLocation> {
   String _currentSubDistrict = "";
   LatLng? pointToLocation;
   late Stream listPlacesStream;
+  String placeName = "";
 
   List<LatLng> polylineCoordinates = [];
   Map<String, dynamic> locationDetails = {
@@ -82,27 +84,27 @@ class _MapLocationState extends State<MapLocation> {
           currentLocation = location;
         });
       });
+
+      // updateLocation();
+
+      // location.enableBackgroundMode(enable: true);
+
+      //somehow error
+      // GoogleMapController googleMapController = await _controller.future;
+      //
+      // location.onLocationChanged.listen((newLoc) {
+      //   currentLocation = newLoc;
+      //   googleMapController.animateCamera(
+      //     CameraUpdate.newCameraPosition(
+      //       CameraPosition(
+      //         zoom: 20.5,
+      //         target: LatLng(newLoc.latitude!, newLoc.longitude!),
+      //       ),
+      //     ),
+      //   );
+      //   setState(() {});
+      // });
     }
-
-    // updateLocation();
-
-    // location.enableBackgroundMode(enable: true);
-
-    //somehow error
-    // GoogleMapController googleMapController = await _controller.future;
-
-    // location.onLocationChanged.listen((newLoc) {
-    //   currentLocation = newLoc;
-    //   googleMapController.animateCamera(
-    //     CameraUpdate.newCameraPosition(
-    //       CameraPosition(
-    //         zoom: 13.5,
-    //         target: LatLng(newLoc.latitude!, newLoc.longitude!),
-    //       ),
-    //     ),
-    //   );
-    //   setState(() {});
-    // });
   }
 
   void setMarker(List<Map<String, dynamic>> point) {
@@ -140,6 +142,12 @@ class _MapLocationState extends State<MapLocation> {
         ),
       );
       // }
+    });
+  }
+
+  void setPlaceName(String locationName) {
+    setState(() {
+      placeName = locationName;
     });
   }
 
@@ -198,6 +206,7 @@ class _MapLocationState extends State<MapLocation> {
     );
     setMarker(points);
     goToPlace(LatLng(points.first['latitude'], points.first['longitude']));
+    setPlaceName(points.first['locationName']);
     listPlacesStream =
         MapsProvider().listPlaces(_currentDistrict, _currentSubDistrict);
     // setCurrentPlex(LatLng(
@@ -406,25 +415,12 @@ class _MapLocationState extends State<MapLocation> {
                             Positioned(
                               bottom: 10,
                               left: 10,
-                              child: Container(
-                                decoration: decorationDefined(
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
-                                    25),
-                                child: Column(
-                                  children: [
-                                    Text(locationDetails['distance']),
-                                    Text(locationDetails['duration']),
-                                    FilledButton.tonal(
-                                      onPressed: () async {
-                                        await launchUrl(Uri.parse(
-                                            'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
-                                      },
-                                      child: const Text("Go to place"),
-                                    ),
-                                  ],
-                                ),
+                              child: FilledButton.tonal(
+                                onPressed: () async {
+                                  await launchUrl(Uri.parse(
+                                      'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+                                },
+                                child: const Text("Go to place"),
                               ),
                             )
                           ],
@@ -447,20 +443,39 @@ class _MapLocationState extends State<MapLocation> {
                                     itemCount: snapshot.data![index].length,
                                     itemBuilder: (context, i) {
                                       return ListTile(
-                                        title: Text(
-                                          snapshot.data![index][i]['name'],
-                                        ),
-                                        onTap: () => goToPlace(
-                                          LatLng(
-                                            snapshot.data![index][i]
-                                                ['latitude'],
-                                            snapshot.data![index][i]
-                                                ['longitude'],
+                                          title: Text(
+                                            snapshot.data![index][i]['name'],
                                           ),
-                                        ),
-                                      );
+                                          subtitle: placeName ==
+                                                  snapshot.data![index][i]
+                                                      ['name']
+                                              ? Wrap(
+                                                  alignment: WrapAlignment
+                                                      .spaceBetween,
+                                                  children: [
+                                                    // Text(placeName),
+                                                    Text(locationDetails[
+                                                        'distance']),
+                                                    Text(locationDetails[
+                                                        'duration']),
+                                                  ],
+                                                ).animate().fade().slide()
+                                              : Container(),
+                                          onTap: () {
+                                            goToPlace(
+                                              LatLng(
+                                                snapshot.data![index][i]
+                                                    ['latitude'],
+                                                snapshot.data![index][i]
+                                                    ['longitude'],
+                                              ),
+                                            );
+                                            setPlaceName(snapshot.data![index]
+                                                    [i]['name']
+                                                .toString());
+                                          });
                                     }),
-                              );
+                              ).animate().fadeIn(curve: Curves.easeIn);
                             },
                           );
                         } else {

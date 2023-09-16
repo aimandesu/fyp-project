@@ -76,6 +76,7 @@ class MapsProvider with ChangeNotifier {
               listSubDistrict.add({
                 "latitude": locate['latitude'],
                 "longitude": locate['longitude'],
+                "locationName": locate['name'],
               });
             }
           }
