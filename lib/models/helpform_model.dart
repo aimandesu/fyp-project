@@ -13,6 +13,7 @@ class HelpFormModel {
   final File selectedPDF;
   final List<File> pictures;
   final List<Map<String, String>> familyMembers;
+  final bool reviewed;
 
   //kena tmbh district, ni for pisahkn reference tu
 
@@ -29,6 +30,7 @@ class HelpFormModel {
     required this.selectedPDF,
     required this.pictures,
     required this.familyMembers,
+    this.reviewed = false,
   });
 
   //for firebase toJson type
@@ -49,5 +51,6 @@ class HelpFormModel {
         'selectedPDF': selectedPDF,
         'pictures': pictures,
         'familyMembers': familyMembers,
+        'reviewed': reviewed,
       }; //things that from reference download
 }

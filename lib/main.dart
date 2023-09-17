@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/onboarding/onboarding.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
+import 'package:fyp_project/providers/support_result_provider.dart';
 
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_display.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
@@ -9,6 +10,7 @@ import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
+import 'package:fyp_project/screen/support_result/dart/support_result.dart';
 import 'package:fyp_project/screen/verification/verification.dart';
 import 'package:fyp_project/signlogin/signlogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,7 +44,7 @@ Future main() async {
 
 //ignore: must_be_immutable
 class MyApp extends StatefulWidget {
-   MyApp({
+  MyApp({
     required this.onboardingComplete,
     required this.switchTheme,
     // required this.prefs,
@@ -50,7 +52,8 @@ class MyApp extends StatefulWidget {
   });
 
   final bool onboardingComplete;
-   bool switchTheme;
+  bool switchTheme;
+
   // final SharedPreferences prefs;
 
   @override
@@ -58,13 +61,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
-
   void toggleTheme() async {
-
     setState(() {
-      widget.switchTheme =  !widget.switchTheme;
+      widget.switchTheme = !widget.switchTheme;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("switchTheme", widget.switchTheme);
@@ -96,12 +95,15 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => ChatProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => SupportResultProvider(),
+        )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           useMaterial3: true,
-          brightness: widget.switchTheme? Brightness.dark : Brightness.light,
+          brightness: widget.switchTheme ? Brightness.dark : Brightness.light,
           colorSchemeSeed: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
@@ -110,7 +112,10 @@ class _MyAppState extends State<MyApp> {
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return  MainLayoutController(themeDefault: widget.switchTheme, toggleTheme: toggleTheme,); //pass toggle here, switch dark mode and vice versa
+                    return MainLayoutController(
+                      themeDefault: widget.switchTheme,
+                      toggleTheme: toggleTheme,
+                    ); //pass toggle here, switch dark mode and vice versa
                   } else {
                     return const SignLogin();
                   }
@@ -123,6 +128,7 @@ class _MyAppState extends State<MyApp> {
           PictureDisplay.routeName: (context) => const PictureDisplay(),
           Chat.routeName: (context) => const Chat(),
           Verification.routeName: (context) => const Verification(),
+          SupportResult.routeName: (context) => const SupportResult(),
         },
       ),
     );

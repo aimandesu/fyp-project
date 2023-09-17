@@ -223,7 +223,7 @@ class _ICimageState extends State<ICimage> {
                           : icPositionFile == null
                               ? FilledButton.tonal(
                                   onPressed: () => widget.takePicture(isFront),
-                                  child: const Text("Pilih Gambar Baharu"),
+                                  child: const Text("Pilih Gambar"),
                                 )
                               : Image(
                                   fit: BoxFit.contain,

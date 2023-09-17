@@ -7,6 +7,7 @@ import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
+import 'package:fyp_project/screen/support_result/dart/support_result.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -76,14 +77,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           size: 30,
         ),
       },
-      {
-        'page': const DisasterGuide(),
-        'title': 'Panduan',
-        'icon': const Icon(
-          Icons.menu_book_rounded,
-          size: 30,
-        ),
-      },
+      // {
+      //   'page': const DisasterGuide(),
+      //   'title': 'Panduan',
+      //   'icon': const Icon(
+      //     Icons.menu_book_rounded,
+      //     size: 30,
+      //   ),
+      // },
       // {
       //   'page': const Places(),
       //   'title': 'Tempat',
@@ -106,36 +107,36 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     super.initState();
   }
 
-  Widget? _buildFloatingActionButton() {
-    if (_pages[_selectedPageIndex]['title'].toString() == "Panduan") {
-      return FloatingActionButton(
-        onPressed: () {
-          ChatProvider.askAssistance();
-          Navigator.pushNamed(context, Chat.routeName);
-        },
-        child: const Icon(
-          Icons.support_agent,
-        ),
-      );
-    } else {
-      return null;
-    }
-  }
-
-  // List<Widget>? _buildAppBarWidget() {
-  //   if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
-  //     return [
-  //       IconButton(
-  //         onPressed: () {
-  //           FirebaseAuth.instance.signOut();
-  //         },
-  //         icon: const Icon(Icons.menu),
+  // Widget? _buildFloatingActionButton() {
+  //   if (_pages[_selectedPageIndex]['title'].toString() == "Panduan") {
+  //     return FloatingActionButton(
+  //       onPressed: () {
+  //         ChatProvider.askAssistance();
+  //         Navigator.pushNamed(context, Chat.routeName);
+  //       },
+  //       child: const Icon(
+  //         Icons.support_agent,
   //       ),
-  //     ];
+  //     );
   //   } else {
   //     return null;
   //   }
   // }
+
+  List<Widget>? _buildAppBarWidget() {
+    if (_pages[_selectedPageIndex]['title'].toString() == "Bantuan") {
+      return [
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, SupportResult.routeName);
+          },
+          icon: const Icon(Icons.notification_add),
+        ),
+      ];
+    } else {
+      return null;
+    }
+  }
 
   profileUpdate(Map<String, dynamic> data) {
     Navigator.of(context).pushNamed(Verification.routeName, arguments: data);
@@ -159,8 +160,8 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
             ListTile(
               onTap: () async {
                 Map<String, dynamic> data =
-                    await Provider.of<ProfileProvider>(context, listen: false)
-                        .fetchOwnProfile();
+                await Provider.of<ProfileProvider>(context, listen: false)
+                    .fetchOwnProfile();
                 profileUpdate(data);
               },
               title: const Text("Kemaskini Profil"),
@@ -185,8 +186,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),
-
-        // actions: _buildAppBarWidget(),
+        actions: _buildAppBarWidget(),
       ),
       endDrawer: _buildDrawer(),
       body: _pages[_selectedPageIndex]['page'] as Widget,
@@ -211,7 +211,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           selectedItemColor: Theme.of(context).colorScheme.primary,
           items: List.generate(
             _pages.length,
-            (index) {
+                (index) {
               return BottomNavigationBarItem(
                 icon: _pages[index]['icon'] as Widget,
                 label: _pages[index]['title'] as String,
@@ -225,7 +225,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           ),
         ),
       ),
-      floatingActionButton: _buildFloatingActionButton(),
+      // floatingActionButton: _buildFloatingActionButton(),
     );
   }
 }

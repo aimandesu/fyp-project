@@ -15,6 +15,7 @@ class AllTextFields extends StatefulWidget {
     required this.addressController,
     required this.postcodeController,
     required this.subDistrictController,
+    required this.isHide,
   });
 
   final MediaQueryData mediaQuery;
@@ -30,6 +31,9 @@ class AllTextFields extends StatefulWidget {
   final TextEditingController addressController;
   final TextEditingController postcodeController;
   final TextEditingController subDistrictController;
+
+  //bool determine
+final bool isHide;
 
   @override
   State<AllTextFields> createState() => _AllTextFieldsState();
@@ -52,10 +56,10 @@ class _AllTextFieldsState extends State<AllTextFields> {
           children: [
             // fieldText(isTablet, widthTablet, paddingField, context,
             //     widget.positionController, "Your Position"),
-            fieldText(isTablet, widthTablet, paddingField, context,
-                widget.nameController, "Your Name"),
-            fieldText(isTablet, widthTablet, paddingField, context,
-                widget.identificationNoController, "Your Identification No"),
+            widget.isHide == true ? fieldText(isTablet, widthTablet, paddingField, context,
+                widget.nameController, "Your Name") : Container(),
+            widget.isHide == true ? fieldText(isTablet, widthTablet, paddingField, context,
+                widget.identificationNoController, "Your Identification No") : Container(),
             fieldText(isTablet, widthTablet, paddingField, context,
                 widget.addressController, "Your Address"),
             fieldText(isTablet, widthTablet, paddingField, context,

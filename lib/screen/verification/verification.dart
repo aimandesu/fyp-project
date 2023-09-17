@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 class Verification extends StatefulWidget {
   static const routeName = "/verification";
+
   const Verification({super.key});
 
   @override
@@ -88,7 +89,7 @@ class _VerificationState extends State<Verification> {
 
     final userModel = UserModel(
       communityAt: {
-        'district': districtController.text,
+        'district': districtController.text.toLowerCase(),
         'place': addressController.text,
         'postcode': postcodeController.text,
         'subDistrict': subDistrictController.text,
@@ -204,7 +205,7 @@ class _VerificationState extends State<Verification> {
             // showSignUp
             //     ?
             AppBar(
-          title: const Text("Update Profile"),
+          title: const Text("Kemaskini Profil"),
         ),
         // : AppBar(
         //     title: const Text("Login"),
@@ -239,6 +240,7 @@ class _VerificationState extends State<Verification> {
                   addressController: addressController,
                   postcodeController: postcodeController,
                   subDistrictController: subDistrictController,
+                  isHide: args['identificationNo'] == "",
                 ),
                 BottomBar(
                   mediaQuery: mediaQuery,
@@ -272,6 +274,7 @@ class _VerificationState extends State<Verification> {
                       addressController: addressController,
                       postcodeController: postcodeController,
                       subDistrictController: subDistrictController,
+                      isHide: args['identificationNo'] == "",
                     ),
                   ],
                 ),

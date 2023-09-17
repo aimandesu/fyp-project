@@ -85,27 +85,34 @@ class _HelpFormState extends State<HelpForm> {
       data.add(newDataEntry);
     }
     // print(data); [{}, {}]
-
-    final helpForm = HelpFormModel(
-      name: nameController.text,
-      address: addressController.text,
-      postcode: "31650",
-      //postcodeController.text
-      district: "ipoh",
-      //districtController.text
-      phone: phoneController.text,
-      noIC: noICController.text,
-      gender: gender,
-      age: int.parse(ageController.text),
-      category: category,
-      selectedPDF: selectedPDF as File,
-      pictures: pictures as List<File>,
-      familyMembers: data,
-    );
-
+    try {
+      final helpForm  = HelpFormModel(
+        name: nameController.text,
+        address: addressController.text,
+        postcode: "31650",
+        //postcodeController.text
+        district: "ipoh",
+        //districtController.text
+        phone: phoneController.text,
+        noIC: noICController.text,
+        gender: gender,
+        age: int.parse(ageController.text),
+        category: category,
+        selectedPDF: selectedPDF as File,
+        pictures: pictures as List<File>,
+        familyMembers: data,
+      );
+      HelpFormProvider.sendHelpForm(helpForm, context);
+    } on Exception catch (_){
+      ScaffoldMessenger.of(context).showSnackBar(
+         const SnackBar(
+          content: Text("There is input field that is not completed"),
+          duration:
+          Duration(seconds: 2), // You can adjust the duration as needed
+        ),
+      );
+    }
     //provider stuff to send
-    HelpFormProvider.sendHelpForm(helpForm, context);
-
     // _clearTextFields();
   }
 
