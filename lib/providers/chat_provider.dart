@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 class ChatProvider with ChangeNotifier {
   static void askAssistance() async {
     //do checking first
-    final userUID = FirebaseAuth.instance.currentUser!.uid;
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
     final askAssistance =
         FirebaseFirestore.instance.collection("requestAssistance");
 
     final bool checkSession = await askAssistance
         .where("isPicked", isEqualTo: true)
-        .where("userUID", isEqualTo: userUID)
+        .where("authUID", isEqualTo: authUID)
         .get()
         .then((value) => value.docs.isEmpty);
 
@@ -19,7 +19,7 @@ class ChatProvider with ChangeNotifier {
       askAssistance.add({
         "isPicked": false,
         "assistanceID": "",
-        "userUID": userUID,
+        "authUID": authUID,
         "date": DateTime.now(),
         "requestID": "",
       }).then((value) {
@@ -31,11 +31,11 @@ class ChatProvider with ChangeNotifier {
   }
 
   void deleteAssistanceRequest() async {
-    final userUID = FirebaseAuth.instance.currentUser!.uid;
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
 
     final collection = FirebaseFirestore.instance
         .collection("requestAssistance")
-        .where("userUID", isEqualTo: userUID)
+        .where("authUID", isEqualTo: authUID)
         .get();
 
     collection.then((value) async {
@@ -50,10 +50,10 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<String> getRequestID() async {
-    final userUID = FirebaseAuth.instance.currentUser!.uid;
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
     final doc = await FirebaseFirestore.instance
         .collection("requestAssistance")
-        .where("userUID", isEqualTo: userUID)
+        .where("authUID", isEqualTo: authUID)
         .where("isPicked", isEqualTo: true)
         .get();
     return doc.docs.first.data()['requestID'];

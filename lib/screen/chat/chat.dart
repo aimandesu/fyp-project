@@ -23,11 +23,11 @@ class _ChatState extends State<Chat> {
   late Stream<bool> theStream;
 
   Stream<bool> hasPicked() async* {
-    final userUID = FirebaseAuth.instance.currentUser!.uid;
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
 
     yield* FirebaseFirestore.instance
         .collection("requestAssistance")
-        .where("userUID", isEqualTo: userUID)
+        .where("authUID", isEqualTo: authUID)
         .snapshots()
         .map((doc) =>
             doc.docs.first.data()['assistanceID'] != "" &&

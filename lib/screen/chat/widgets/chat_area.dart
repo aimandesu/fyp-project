@@ -59,7 +59,7 @@ class _ChatAreaState extends State<ChatArea> {
             }
 
             if (snapshot.hasData) {
-              final userUID = FirebaseAuth.instance.currentUser!.uid;
+              final authUID = FirebaseAuth.instance.currentUser!.uid;
 
               return ListView.builder(
                   itemCount: snapshot.data!.length,
@@ -70,7 +70,7 @@ class _ChatAreaState extends State<ChatArea> {
 
                       Bubble(
                       message: text,
-                      isUser: uid == userUID,
+                      isUser: uid == authUID,
                     );
 
                     // Container(

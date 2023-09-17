@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/constant.dart';
@@ -86,6 +87,8 @@ class _HelpFormState extends State<HelpForm> {
     }
     // print(data); [{}, {}]
     try {
+      final authUID = FirebaseAuth.instance.currentUser!.uid;
+
       final helpForm  = HelpFormModel(
         name: nameController.text,
         address: addressController.text,
@@ -101,6 +104,7 @@ class _HelpFormState extends State<HelpForm> {
         selectedPDF: selectedPDF as File,
         pictures: pictures as List<File>,
         familyMembers: data,
+        authUID: authUID,
       );
       HelpFormProvider.sendHelpForm(helpForm, context);
     } on Exception catch (_){
