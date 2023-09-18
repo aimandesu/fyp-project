@@ -18,3 +18,18 @@ Decoration decorationDefined(Color color, double circular) {
     ),
   );
 }
+
+Decoration decorationDefinedShadow(Color color, double circular) {
+  return BoxDecoration(
+    color: color,
+    borderRadius: BorderRadius.circular(circular),
+    boxShadow: const [
+      BoxShadow(
+        color: Colors.black45,
+        spreadRadius: 2,
+        blurRadius: 7,
+        offset: Offset(0, 3),
+      ),
+    ],
+  );
+}

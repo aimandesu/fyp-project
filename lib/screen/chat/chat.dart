@@ -83,7 +83,7 @@ class _ChatState extends State<Chat> {
                   }
 
                   if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Container();
                   }
                   bool hasPicked = snapshot.data ?? false;
 

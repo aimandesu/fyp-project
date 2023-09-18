@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/screen/help_centre/help_centre.dart';
+import '../../help_centre/widgets/map_location.dart';
 
 class ShelterMap extends StatelessWidget {
   const ShelterMap({super.key});
@@ -16,25 +18,25 @@ class ShelterMap extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Icon(Icons.warning),
-                SizedBox(
-                  width: size.width * 0.7,
-                  child: const ListTile(
+                SizedBox(width: 10),
+                Icon(Icons.heart_broken_rounded),
+                SizedBox(width: 10),
+                Flexible(
+                  child: ListTile(
                     title: Text(
-                      "Shelter",
+                      "Bantuan",
                       style: TextStyle(
                         fontSize: 20,
                       ),
                     ),
                     subtitle: Text(
-                      "Please come for shelter",
+                      "Marilah kita bersama-sama memberi bantuan kepada yang memerlukan",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                     ),
                   ),
@@ -43,14 +45,19 @@ class ShelterMap extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Container(
-              width: size.width * 1,
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Theme.of(context).colorScheme.onPrimary,
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed(HelpCentre.routeName),
+              child: Container(
+                width: size.width * 1,
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                child: const Center(
+                  child: Text("Semak Pusat Bantuan"),
+                ),
               ),
-              child: const Text("data"),
             ),
           )
         ],

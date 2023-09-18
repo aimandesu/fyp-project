@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/screen/home/widgets/map_location.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/statistic_notUsedCurrently/statistic.dart';
 
@@ -26,16 +25,16 @@ class _HomeState extends State<Home> {
               height: size.height * 0.25,
               child: const ShelterMap(),
             ),
-            const Statistic(),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: const MapLocation(),
-            ),
+            // const Statistic(),
+            // Container(
+            //   margin: const EdgeInsets.all(10),
+            //   child: const MapLocation(),
+            // ),
           ],
         ),
         tablet: Container(
           margin: const EdgeInsets.all(10),
-          child: const MapLocation(),
+          child: const ShelterMap(),
         ),
       ),
     );

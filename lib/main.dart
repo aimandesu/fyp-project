@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/onboarding/onboarding.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/providers/support_result_provider.dart';
+import 'package:fyp_project/screen/help_centre/help_centre.dart';
+import 'package:fyp_project/screen/help_centre/widgets/map_location.dart';
 
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_display.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
@@ -11,6 +13,7 @@ import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
 import 'package:fyp_project/screen/support_result/dart/support_result.dart';
+import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';
 import 'package:fyp_project/screen/verification/verification.dart';
 import 'package:fyp_project/signlogin/signlogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,7 +100,7 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => SupportResultProvider(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -129,6 +132,8 @@ class _MyAppState extends State<MyApp> {
           Chat.routeName: (context) => const Chat(),
           Verification.routeName: (context) => const Verification(),
           SupportResult.routeName: (context) => const SupportResult(),
+          Result.routeName: (context) => const Result(),
+          HelpCentre.routeName: (context) => const HelpCentre()
         },
       ),
     );

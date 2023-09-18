@@ -397,6 +397,7 @@ class _MapLocationState extends State<MapLocation> {
                                 // },
                                 mapType: MapType.normal,
                                 markers: _markers,
+                                zoomControlsEnabled: false,
                                 initialCameraPosition:
                                     _currentPlex as CameraPosition,
                                 onMapCreated: (GoogleMapController controller) {

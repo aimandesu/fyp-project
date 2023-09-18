@@ -15,6 +15,7 @@ class HelpFormModel {
   final List<Map<String, String>> familyMembers;
   final bool reviewed;
   final String authUID;
+  final bool approved;
 
   //kena tmbh district, ni for pisahkn reference tu
 
@@ -33,6 +34,7 @@ class HelpFormModel {
     required this.familyMembers,
     this.reviewed = false,
     required this.authUID,
+    this.approved = false,
   });
 
   //for firebase toJson type
@@ -54,6 +56,7 @@ class HelpFormModel {
         'pictures': pictures,
         'familyMembers': familyMembers,
         'reviewed': reviewed,
-        'authUID': authUID
+        'authUID': authUID,
+        'approved': approved,
       }; //things that from reference download
 }
