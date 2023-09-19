@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/screen/help_centre/widgets/map_location.dart';
+import 'package:fyp_project/screen/help_centre/widgets/map_location_new.dart';
 
 class HelpCentre extends StatefulWidget {
   static const routeName = "/help-centre";

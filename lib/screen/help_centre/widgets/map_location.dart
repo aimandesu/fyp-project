@@ -290,78 +290,7 @@ class _MapLocationState extends State<MapLocation> {
       height: size.height * 0.6,
       child: Column(
         children: [
-          Row(
-            children: [
-              StatefulBuilder(
-                builder: (context, change) {
-                  return DropdownButton(
-                    value: _currentDistrict,
-                    items: _district.map((value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      change(() {
-                        _currentDistrict = value.toString();
-                        listSubDistrict(_currentDistrict);
-
-                        // _subDistrict = ["Karai"];
-                        // _currentSubDistrict = "Karai";
-                      });
-                      // setState(() {
-
-                      // });
-                      // setState(() {});
-                      // setState(() {
-                      //   // _subDistrict = [];
-                      //   // _subDistrict = ["Karai"];
-                      //   _currentSubDistrict = "Karai";
-                      // });
-                    },
-                  );
-                },
-              ),
-              StatefulBuilder(
-                builder: (context, change) {
-                  return DropdownButton(
-                    value: _currentSubDistrict,
-                    items: _subDistrict.map((value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      change(() {
-                        _currentSubDistrict = value.toString();
-                      });
-                      // print("curk:$_currentSubDistrict");
-                      change(() {
-                        // goToLocation(_currentSubDistrict);
-                        initializeSubDistrict(_currentSubDistrict);
-                      });
-                    },
-                  );
-                },
-              ),
-              // TextButton(
-              //   onPressed: () async {
-              //     await launchUrl(Uri.parse(
-              //         'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
-              //   },
-              //   child: const Text("Go to place"),
-              // ),
-              const Spacer(),
-              // IconButton(
-              //   onPressed: () {
-              //     setState(() {});
-              //   },
-              //   icon: const Icon(Icons.search),
-              // ),
-            ],
-          ),
+          districtBuilder(),
           SizedBox(
             height: size.height * 0.5,
             child: Row(
@@ -428,63 +357,7 @@ class _MapLocationState extends State<MapLocation> {
                         ),
                 ),
                 Expanded(
-                  child: StreamBuilder<dynamic>(
-                    stream: listPlacesStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container();
-                      } else {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              return SizedBox(
-                                height: size.height * 0.5,
-                                child: ListView.builder(
-                                    itemCount: snapshot.data![index].length,
-                                    itemBuilder: (context, i) {
-                                      return ListTile(
-                                          title: Text(
-                                            snapshot.data![index][i]['name'],
-                                          ),
-                                          subtitle: placeName ==
-                                                  snapshot.data![index][i]
-                                                      ['name']
-                                              ? Wrap(
-                                                  alignment: WrapAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    // Text(placeName),
-                                                    Text(locationDetails[
-                                                        'distance']),
-                                                    Text(locationDetails[
-                                                        'duration']),
-                                                  ],
-                                                ).animate().fade().slide()
-                                              : Container(),
-                                          onTap: () {
-                                            goToPlace(
-                                              LatLng(
-                                                snapshot.data![index][i]
-                                                    ['latitude'],
-                                                snapshot.data![index][i]
-                                                    ['longitude'],
-                                              ),
-                                            );
-                                            setPlaceName(snapshot.data![index]
-                                                    [i]['name']
-                                                .toString());
-                                          });
-                                    }),
-                              ).animate().fadeIn(curve: Curves.easeIn);
-                            },
-                          );
-                        } else {
-                          return const Text("no data");
-                        }
-                      }
-                    },
-                  ),
+                  child: listPlaces(size),
                 ),
               ],
             ),
@@ -492,5 +365,137 @@ class _MapLocationState extends State<MapLocation> {
         ],
       ),
     );
+  }
+
+  Row districtBuilder() {
+    return Row(
+          children: [
+            StatefulBuilder(
+              builder: (context, change) {
+                return DropdownButton(
+                  value: _currentDistrict,
+                  items: _district.map((value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    change(() {
+                      _currentDistrict = value.toString();
+                      listSubDistrict(_currentDistrict);
+
+                      // _subDistrict = ["Karai"];
+                      // _currentSubDistrict = "Karai";
+                    });
+                    // setState(() {
+
+                    // });
+                    // setState(() {});
+                    // setState(() {
+                    //   // _subDistrict = [];
+                    //   // _subDistrict = ["Karai"];
+                    //   _currentSubDistrict = "Karai";
+                    // });
+                  },
+                );
+              },
+            ),
+            StatefulBuilder(
+              builder: (context, change) {
+                return DropdownButton(
+                  value: _currentSubDistrict,
+                  items: _subDistrict.map((value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    change(() {
+                      _currentSubDistrict = value.toString();
+                      initializeSubDistrict(_currentSubDistrict);
+                    });
+                    // print("curk:$_currentSubDistrict");
+                  },
+                );
+              },
+            ),
+            // TextButton(
+            //   onPressed: () async {
+            //     await launchUrl(Uri.parse(
+            //         'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+            //   },
+            //   child: const Text("Go to place"),
+            // ),
+            const Spacer(),
+            // IconButton(
+            //   onPressed: () {
+            //     setState(() {});
+            //   },
+            //   icon: const Icon(Icons.search),
+            // ),
+          ],
+        );
+  }
+
+  StreamBuilder<dynamic> listPlaces(Size size) {
+    return StreamBuilder<dynamic>(
+                  stream: listPlacesStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container();
+                    } else {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              height: size.height * 0.5,
+                              child: ListView.builder(
+                                  itemCount: snapshot.data![index].length,
+                                  itemBuilder: (context, i) {
+                                    return ListTile(
+                                        title: Text(
+                                          snapshot.data![index][i]['name'],
+                                        ),
+                                        subtitle: placeName ==
+                                                snapshot.data![index][i]
+                                                    ['name']
+                                            ? Wrap(
+                                                alignment: WrapAlignment
+                                                    .spaceBetween,
+                                                children: [
+                                                  // Text(placeName),
+                                                  Text(locationDetails[
+                                                      'distance']),
+                                                  Text(locationDetails[
+                                                      'duration']),
+                                                ],
+                                              ).animate().fade().slide()
+                                            : Container(),
+                                        onTap: () {
+                                          goToPlace(
+                                            LatLng(
+                                              snapshot.data![index][i]
+                                                  ['latitude'],
+                                              snapshot.data![index][i]
+                                                  ['longitude'],
+                                            ),
+                                          );
+                                          setPlaceName(snapshot.data![index]
+                                                  [i]['name']
+                                              .toString());
+                                        });
+                                  }),
+                            ).animate().fadeIn(curve: Curves.easeIn);
+                          },
+                        );
+                      } else {
+                        return const Text("no data");
+                      }
+                    }
+                  },
+                );
   }
 }
