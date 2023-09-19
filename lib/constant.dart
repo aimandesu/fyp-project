@@ -13,9 +13,9 @@ Decoration decorationDefined(Color color, double circular) {
   return BoxDecoration(
     color: color,
     borderRadius: BorderRadius.circular(circular),
-    border: Border.all(
-      width: 1,
-    ),
+    // border: Border.all(
+    //   width: 1,
+    // ),
   );
 }
 

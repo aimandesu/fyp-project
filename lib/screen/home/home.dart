@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/statistic_notUsedCurrently/statistic.dart';
 
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: size.width * 1,
               height: size.height * 0.25,
-              child: const ShelterMap(),
+              child: const ShelterMap().animate().fadeIn(),
             ),
             // const Statistic(),
             // Container(
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
         ),
         tablet: Container(
           margin: const EdgeInsets.all(10),
-          child: const ShelterMap(),
+          child: const ShelterMap().animate().fadeIn(),
         ),
       ),
     );
