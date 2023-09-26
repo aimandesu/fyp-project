@@ -14,6 +14,8 @@ class YourInformation extends StatelessWidget {
     required this.ageController,
     required this.gender,
     required this.changeGender,
+    required this.districtController,
+    required this.postcodeController,
   });
 
   final TextEditingController nameController;
@@ -21,6 +23,8 @@ class YourInformation extends StatelessWidget {
   final TextEditingController addressController;
   final TextEditingController phoneController;
   final TextEditingController ageController;
+  final TextEditingController districtController;
+  final TextEditingController postcodeController;
   String gender;
   final Function(String value) changeGender;
 
@@ -45,6 +49,7 @@ class YourInformation extends StatelessWidget {
             context, "No Kad Pengenalan", noICController, TextInputType.number),
         genderAgePhoneInput(size, context),
         definedInput(context, "Alamat", addressController, TextInputType.text),
+        postcodeAndDistrict(size, context),
         const SizedBox(
           height: 30,
         ),
@@ -126,4 +131,38 @@ class YourInformation extends StatelessWidget {
       ],
     );
   }
+
+  Row postcodeAndDistrict(Size size, BuildContext context){
+    return Row(
+      children: [
+        Container(
+          margin: marginDefined,
+          padding: paddingDefined,
+          height: 60,
+          width: size.width * 0.4,
+          decoration: inputDecorationDefined(context),
+          child: TextFieldDecoration(
+            hintText: "Poskod",
+            textInputType: TextInputType.number,
+            textEditingController: postcodeController,
+          ),
+        ),
+        Expanded(
+          child: Container(
+            margin: marginDefined,
+            padding: paddingDefined,
+            height: 60,
+            // width: size.width * 0.5,
+            decoration: inputDecorationDefined(context),
+            child: TextFieldDecoration(
+              hintText: "Daerah",
+              textInputType: TextInputType.text,
+              textEditingController: districtController,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
 }

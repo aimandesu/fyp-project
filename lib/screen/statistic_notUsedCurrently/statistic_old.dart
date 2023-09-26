@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-class Statistic extends StatelessWidget {
-  const Statistic({super.key});
+class StatisticOld extends StatelessWidget {
+  const StatisticOld({super.key});
 
   @override
   Widget build(BuildContext context) {

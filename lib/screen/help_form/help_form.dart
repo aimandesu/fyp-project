@@ -89,13 +89,11 @@ class _HelpFormState extends State<HelpForm> {
     try {
       final authUID = FirebaseAuth.instance.currentUser!.uid;
 
-      final helpForm  = HelpFormModel(
+      final helpForm = HelpFormModel(
         name: nameController.text,
         address: addressController.text,
-        postcode: "31650",
-        //postcodeController.text
-        district: "ipoh",
-        //districtController.text
+        postcode: postcodeController.text,
+        district: districtController.text,
         phone: phoneController.text,
         noIC: noICController.text,
         gender: gender,
@@ -107,17 +105,17 @@ class _HelpFormState extends State<HelpForm> {
         authUID: authUID,
       );
       HelpFormProvider.sendHelpForm(helpForm, context);
-    } on Exception catch (_){
+      _clearTextFields();
+    } on Exception catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
-         const SnackBar(
+        const SnackBar(
           content: Text("There is input field that is not completed"),
           duration:
-          Duration(seconds: 2), // You can adjust the duration as needed
+              Duration(seconds: 2), // You can adjust the duration as needed
         ),
       );
     }
     //provider stuff to send
-    // _clearTextFields();
   }
 
   void _clearTextFields() {
@@ -209,6 +207,7 @@ class _HelpFormState extends State<HelpForm> {
      */
 
     return SingleChildScrollView(
+      //make future to ask user to sign in and wait for confirmation of their profile, or something like that
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -220,6 +219,8 @@ class _HelpFormState extends State<HelpForm> {
             ageController: ageController,
             gender: gender,
             changeGender: changeGender,
+            districtController: districtController,
+            postcodeController: postcodeController,
           ),
           VictimCategory(
             category: category,

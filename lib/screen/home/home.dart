@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/screen/statistic_notUsedCurrently/statistic.dart';
+import 'package:fyp_project/screen/home/widgets/statistic/statistic.dart';
 
 import 'widgets/shelter_map.dart';
 
@@ -20,12 +20,14 @@ class _HomeState extends State<Home> {
     return SingleChildScrollView(
       child: ResponsiveLayoutController(
         mobile: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(
               width: size.width * 1,
-              height: size.height * 0.25,
+              height: 200,
               child: const ShelterMap().animate().fadeIn(),
             ),
+            const Statistic(),
             // const Statistic(),
             // Container(
             //   margin: const EdgeInsets.all(10),
