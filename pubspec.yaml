@@ -55,6 +55,7 @@ dependencies:
   flutter_animate: ^4.2.0+1
   http: ^0.13.6
   syncfusion_flutter_charts: ^23.1.36
+  fl_chart: ^0.63.0
 
 dev_dependencies:
   flutter_test:

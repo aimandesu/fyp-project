@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/screen/home/widgets/statistic/statistic.dart';
+import 'package:fyp_project/screen/home/widgets/statistic.dart';
 
 import 'widgets/shelter_map.dart';
 

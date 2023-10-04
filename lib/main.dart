@@ -12,6 +12,7 @@ import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
+import 'package:fyp_project/screen/home/widgets/statistic/graph.dart';
 import 'package:fyp_project/screen/support_result/dart/support_result.dart';
 import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';
 import 'package:fyp_project/screen/verification/verification.dart';
@@ -22,6 +23,9 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screen/chat/chat.dart';
 import 'firebase_options.dart';
+
+//use ctrl alt k for reformat
+//use alt enter to wrap widget
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -133,7 +137,8 @@ class _MyAppState extends State<MyApp> {
           Verification.routeName: (context) => const Verification(),
           SupportResult.routeName: (context) => const SupportResult(),
           Result.routeName: (context) => const Result(),
-          HelpCentre.routeName: (context) => const HelpCentre()
+          HelpCentre.routeName: (context) => const HelpCentre(),
+          Graph.routeName: (context) => const Graph()
         },
       ),
     );
