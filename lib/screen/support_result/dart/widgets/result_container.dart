@@ -30,7 +30,7 @@ class ResultContainer extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: Container(
         margin: const EdgeInsets.only(top: 10),
-        height: mediaQuery.size.height * 0.7,
+        height: mediaQuery.size.height * 0.8,
         width: mediaQuery.size.width * 0.9,
         decoration: decorationDefinedShadow(
             Theme.of(context).colorScheme.primaryContainer, 25),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/screen/home/widgets/statistic/graph.dart';
+import 'package:fyp_project/screen/statistic/graph.dart';
 
 class Statistic extends StatelessWidget {
   const Statistic({super.key});
@@ -17,10 +17,13 @@ class Statistic extends StatelessWidget {
       width: size.width * 1,
       height: 50,
       child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(Graph.routeName);
-          },
-          child: const Text("data")),
+        onTap: () {
+          Navigator.of(context).pushNamed(Graph.routeName);
+        },
+        child: const Center(
+          child: Text("Lihat Kemaskini Data"),
+        ),
+      ),
     );
   }
 }

@@ -53,15 +53,6 @@ class Result extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ChatProvider.askAssistance();
-          Navigator.pushNamed(context, Chat.routeName);
-        },
-        child: const Icon(
-          Icons.support_agent,
-        ),
-      ),
     );
   }
 }

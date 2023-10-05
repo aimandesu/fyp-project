@@ -63,7 +63,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     _pages = [
       {
         'page': const Home(),
-        'title': 'Peta',
+        'title': 'Rumah',
         'icon': const Icon(
           Icons.home,
           size: 30,
@@ -77,14 +77,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           size: 30,
         ),
       },
-      // {
-      //   'page': const DisasterGuide(),
-      //   'title': 'Panduan',
-      //   'icon': const Icon(
-      //     Icons.menu_book_rounded,
-      //     size: 30,
-      //   ),
-      // },
+      {
+        'page': const DisasterGuide(),
+        'title': 'Panduan',
+        'icon': const Icon(
+          Icons.menu_book_rounded,
+          size: 30,
+        ),
+      },
       // {
       //   'page': const Places(),
       //   'title': 'Tempat',

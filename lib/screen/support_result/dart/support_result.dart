@@ -15,7 +15,9 @@ class SupportResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Senarai Kes Dipohon"),),
+      appBar: AppBar(
+        title: Text("Senarai Kes Dipohon"),
+      ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: Provider.of<SupportResultProvider>(context, listen: false)
             .getAppliedForm(),
@@ -41,6 +43,15 @@ class SupportResult extends StatelessWidget {
             return Container();
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ChatProvider.askAssistance();
+          Navigator.pushNamed(context, Chat.routeName);
+        },
+        child: const Icon(
+          Icons.support_agent,
+        ),
       ),
     );
   }
