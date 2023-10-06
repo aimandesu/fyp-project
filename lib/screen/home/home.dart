@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/home/widgets/statistic.dart';
+import 'package:fyp_project/screen/home/widgets/tab_views.dart';
 
 import 'widgets/shelter_map.dart';
 
@@ -27,7 +28,8 @@ class _HomeState extends State<Home> {
               height: 200,
               child: const ShelterMap().animate().fadeIn(),
             ),
-            const Statistic(),
+            // const Statistic(),
+            const TabViews(),
             // const Statistic(),
             // Container(
             //   margin: const EdgeInsets.all(10),
