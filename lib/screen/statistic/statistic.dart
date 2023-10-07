@@ -5,7 +5,7 @@ import 'package:fyp_project/screen/statistic/widgets/funnel_chart.dart';
 import 'package:fyp_project/screen/statistic/widgets/spline_chart.dart';
 
 class Graph extends StatelessWidget {
-  static const routeName = 'graph';
+  // static const routeName = 'graph';
 
   const Graph({super.key});
 

@@ -138,7 +138,7 @@ class _MyAppState extends State<MyApp> {
           SupportResult.routeName: (context) => const SupportResult(),
           Result.routeName: (context) => const Result(),
           HelpCentre.routeName: (context) => const HelpCentre(),
-          Graph.routeName: (context) => const Graph()
+          // Graph.routeName: (context) => const Graph()
         },
       ),
     );

@@ -18,7 +18,7 @@ class Statistic extends StatelessWidget {
       height: 50,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(Graph.routeName);
+          // Navigator.of(context).pushNamed(Graph.routeName);
         },
         child: const Center(
           child: Text("Lihat Kemaskini Data"),

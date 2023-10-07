@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/screen/news/news.dart';
 import 'package:fyp_project/screen/statistic/statistic.dart';
 
 class TabViews extends StatefulWidget {
@@ -17,9 +18,6 @@ class _TabViewsState extends State<TabViews>
     Tab(
       child: Text("Data Harian"),
     ),
-    Tab(
-      child: Text("Stuff"),
-    )
   ];
   late TabController _tabController;
 
@@ -40,32 +38,36 @@ class _TabViewsState extends State<TabViews>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Column(
-      children: [
-        DefaultTabController(
-          length: myTabs.length,
-          child: TabBar(
-            onTap: (selectedTabIndex) {
-              setState(() {
-                _tabController.index = selectedTabIndex;
-              });
-            },
-            isScrollable: true,
-            //this one if sets to true, it's gonna center it somehow
-            controller: _tabController,
-            tabs: myTabs,
+    return Container(
+      margin: EdgeInsets.only(top: 10, right: 10, left: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        // color: Theme.of(context).colorScheme.primaryContainer,
+      ),
+      child: Column(
+        children: [
+          DefaultTabController(
+            length: myTabs.length,
+            child: TabBar(
+              onTap: (selectedTabIndex) {
+                setState(() {
+                  _tabController.index = selectedTabIndex;
+                });
+              },
+              isScrollable: true,
+              //this one if sets to true, it's gonna center it somehow
+              controller: _tabController,
+              tabs: myTabs,
+            ),
           ),
-        ),
-        SizedBox(
-          width: size.width * 1,
-          height: size.height * 0.5,
-          child: TabBarView(controller: _tabController, children: const [
-            Text("Berita"),
-            Graph(),
-            Text("Stuff"),
-          ]),
-        )
-      ],
+          Expanded(
+            child: TabBarView(controller: _tabController, children: const [
+              News(),
+              Graph(),
+            ]),
+          )
+        ],
+      ),
     );
   }
 }

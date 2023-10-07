@@ -160,8 +160,8 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
             ListTile(
               onTap: () async {
                 Map<String, dynamic> data =
-                await Provider.of<ProfileProvider>(context, listen: false)
-                    .fetchOwnProfile();
+                    await Provider.of<ProfileProvider>(context, listen: false)
+                        .fetchOwnProfile();
                 profileUpdate(data);
               },
               title: const Text("Kemaskini Profil"),
@@ -211,15 +211,16 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           selectedItemColor: Theme.of(context).colorScheme.primary,
           items: List.generate(
             _pages.length,
-                (index) {
+            (index) {
               return BottomNavigationBarItem(
                 icon: _pages[index]['icon'] as Widget,
                 label: _pages[index]['title'] as String,
                 activeIcon: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: _pages[index]['icon'] as Widget),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: _pages[index]['icon'] as Widget,
+                ),
               );
             },
           ),

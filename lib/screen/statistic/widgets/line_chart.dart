@@ -7,6 +7,7 @@ class LineChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
+      title: ChartTitle(text: "test"),
       primaryXAxis: CategoryAxis(),
       series: <LineSeries<SalesData, String>>[
         LineSeries<SalesData, String>(
