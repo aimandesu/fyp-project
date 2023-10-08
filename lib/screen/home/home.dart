@@ -18,8 +18,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    print(ResponsiveLayoutController.isMobile(context));
-    print(ResponsiveLayoutController.isTablet(context));
+    // print(ResponsiveLayoutController.isMobile(context));
+    // print(ResponsiveLayoutController.isTablet(context));
 
     return ResponsiveLayoutController(
       mobile: Column(
@@ -41,7 +41,18 @@ class _HomeState extends State<Home> {
           // ),
         ],
       ),
-      tablet: Text("tablet")
+      tablet: Row(
+        children: [
+          SizedBox(
+            width: size.width * 0.4,
+            height: 200,
+            child: const ShelterMap().animate().fadeIn(),
+          ),
+          const Expanded(
+            child: TabViews(),
+          ),
+        ],
+      )
     );
   }
 }

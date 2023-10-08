@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
+import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/chat/chat.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
@@ -32,6 +33,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   //check if user has data or not, then give according to their page i think
 
   late List<Map<String, Object>> _pages;
+  late List<NavigationRailDestination> _railPages;
 
   int _selectedPageIndex = 0;
 
@@ -102,6 +104,29 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
         ),
       },
     ].toList();
+
+    _railPages = const <NavigationRailDestination>[
+      NavigationRailDestination(
+        icon: Icon(Icons.home_outlined),
+        selectedIcon: Icon(Icons.home_rounded),
+        label: Text(''),
+      ),
+      NavigationRailDestination(
+        icon: Icon(Icons.camera_alt_outlined),
+        selectedIcon: Icon(Icons.camera_alt_rounded),
+        label: Text(''),
+      ),
+      NavigationRailDestination(
+        icon: Icon(Icons.menu_book_outlined),
+        selectedIcon: Icon(Icons.menu_book_rounded),
+        label: Text(''),
+      ),
+      NavigationRailDestination(
+        icon: Icon(Icons.people_outlined),
+        selectedIcon: Icon(Icons.people_rounded),
+        label: Text(''),
+      ),
+    ];
 
     //signUserInfo check if dia dh sign info or not
     super.initState();
@@ -183,49 +208,68 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),
         actions: _buildAppBarWidget(),
       ),
       endDrawer: _buildDrawer(),
-      body: _pages[_selectedPageIndex]['page'] as Widget,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
+      body: ResponsiveLayoutController(
+        mobile: _pages[_selectedPageIndex]['page'] as Widget,
+        tablet: Row(
+          children: [
+            NavigationRail(
+              destinations: _railPages,
+              selectedIndex: _selectedPageIndex,
+              onDestinationSelected: _selectPage,
+            ),
+            Container(
+              width: size.width * 0.9,
+              child: _pages[_selectedPageIndex]['page'] as Widget,
             ),
           ],
         ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedPageIndex,
-          // elevation: 10,
-          // backgroundColor: Theme.of(context).colorScheme.primary,
-          onTap: _selectPage,
-          unselectedItemColor: Theme.of(context).colorScheme.secondary,
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          items: List.generate(
-            _pages.length,
-            (index) {
-              return BottomNavigationBarItem(
-                icon: _pages[index]['icon'] as Widget,
-                label: _pages[index]['title'] as String,
-                activeIcon: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: _pages[index]['icon'] as Widget,
-                ),
-              );
-            },
-          ),
-        ),
       ),
+      bottomNavigationBar: ResponsiveLayoutController.isMobile(context)
+          ? Container(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                currentIndex: _selectedPageIndex,
+                // elevation: 10,
+                // backgroundColor: Theme.of(context).colorScheme.primary,
+                onTap: _selectPage,
+                unselectedItemColor: Theme.of(context).colorScheme.secondary,
+                selectedItemColor: Theme.of(context).colorScheme.primary,
+                items: List.generate(
+                  _pages.length,
+                  (index) {
+                    return BottomNavigationBarItem(
+                      icon: _pages[index]['icon'] as Widget,
+                      label: _pages[index]['title'] as String,
+                      activeIcon: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: _pages[index]['icon'] as Widget,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )
+          : null,
       // floatingActionButton: _buildFloatingActionButton(),
     );
   }

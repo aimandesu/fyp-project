@@ -6,6 +6,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fyp_project/constant.dart';
 import 'dart:async';
 import 'package:fyp_project/providers/maps_provider.dart';
+import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -280,78 +281,79 @@ class _MapLocationState extends State<MapLocation> {
       // ));
     }
 
-    return  Column(
-        children: [
-          districtBuilder(),
-          Flexible(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: size.width * 0.6,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                  ),
-                  child: currentLocation == null
-                      ? Container()
-                      // const SizedBox(
-                      //     child: Center(
-                      //       child:
-                      //           Text("Please enable location, tap to enable."),
-                      //     ),
-                      //   )
-                      : Stack(
-                          children: [
-                            AbsorbPointer(
-                              absorbing: true,
-                              child: GoogleMap(
-                                // gestureRecognizers: {
-                                //   Factory<OneSequenceGestureRecognizer>(
-                                //       () => EagerGestureRecognizer()),
-                                // },
-                                mapType: MapType.normal,
-                                markers: _markers,
-                                zoomControlsEnabled: false,
-                                initialCameraPosition:
-                                    _currentPlex as CameraPosition,
-                                onMapCreated: (GoogleMapController controller) {
-                                  _controller.complete(controller);
-                                },
-                                // polylines: {
-                                //   Polyline(
-                                //     polylineId: const PolylineId("route"),
-                                //     points: polylineCoordinates,
-                                //     color: Colors.blue,
-                                //     width: 6,
-                                //   )
-                                // },
-                              ),
+    return Column(
+      children: [
+        districtBuilder(),
+        Flexible(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: ResponsiveLayoutController.isMobile(context)
+                    ? size.width * 0.6
+                    : size.width * 0.5,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                ),
+                child: currentLocation == null
+                    ? Container()
+                    // const SizedBox(
+                    //     child: Center(
+                    //       child:
+                    //           Text("Please enable location, tap to enable."),
+                    //     ),
+                    //   )
+                    : Stack(
+                        children: [
+                          AbsorbPointer(
+                            absorbing: true,
+                            child: GoogleMap(
+                              // gestureRecognizers: {
+                              //   Factory<OneSequenceGestureRecognizer>(
+                              //       () => EagerGestureRecognizer()),
+                              // },
+                              mapType: MapType.normal,
+                              markers: _markers,
+                              zoomControlsEnabled: false,
+                              initialCameraPosition:
+                                  _currentPlex as CameraPosition,
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller.complete(controller);
+                              },
+                              // polylines: {
+                              //   Polyline(
+                              //     polylineId: const PolylineId("route"),
+                              //     points: polylineCoordinates,
+                              //     color: Colors.blue,
+                              //     width: 6,
+                              //   )
+                              // },
                             ),
-                            Positioned(
-                              bottom: 10,
-                              left: 10,
-                              child: FilledButton.tonal(
-                                onPressed: () async {
-                                  await launchUrl(Uri.parse(
-                                      'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
-                                },
-                                child: const Text("Go to place"),
-                              ),
-                            )
-                          ],
-                        ),
-                ),
-                Expanded(
-                  child: listPlaces(size),
-                ),
-              ],
-            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: FilledButton.tonal(
+                              onPressed: () async {
+                                await launchUrl(Uri.parse(
+                                    'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+                              },
+                              child: const Text("Go to place"),
+                            ),
+                          )
+                        ],
+                      ),
+              ),
+              Expanded(
+                child: listPlaces(size),
+              ),
+            ],
           ),
-        ],
-      );
-
+        ),
+      ],
+    );
   }
 
   Row districtBuilder() {

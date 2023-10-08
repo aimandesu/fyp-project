@@ -14,17 +14,18 @@ class IcProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final isTablet = ResponsiveLayoutController.isTablet(context);
+    // final isTablet = ResponsiveLayoutController.isTablet(context);
     List<dynamic> keys = image.keys.toList();
     List<dynamic> values = image.values.toList();
 
-    return SizedBox(
-      child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SizedBox(
-            width: isTablet ? size.width * 0.6 : size.width * 1,
-            // padding: const EdgeInsets.all(8),
-            child:
+    return
+      // SizedBox(
+      // child: SingleChildScrollView(
+      //     scrollDirection: Axis.horizontal,
+      //     child: SizedBox(
+      //       // width: isTablet ? size.width * 0.6 : size.width * 1,
+      //       // padding: const EdgeInsets.all(8),
+      //       child:
                 // FutureBuilder(
                 //     future: Provider.of<ProfileProvider>(context, listen: false)
                 //         .fetchOwnProfile(),
@@ -44,40 +45,42 @@ class IcProfile extends StatelessWidget {
                 // print(snapshot.data!['identificationImage'][0]);
                 // return Text("data");
                 return identificationCard(
-                    isTablet, size, keys[index], values[index]);
+                    // isTablet,
+                    // size,
+                    keys[index], values[index]);
               },
-            ),
-
-            //     } else {
-            //       return const Text("no data");
-            //     }
-            //   }
-            // }),
-          )
-
-          // Row(
-          //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     identifactionCard(isTablet, size, "Front IC",
-          //         "https://images.mein-mmo.de/medien/2021/07/ayakatitel.jpg"),
-          //     identifactionCard(isTablet, size, "Back IC",
-          //         "https://moewalls.com/wp-content/uploads/2022/08/ayaka-genshin-impact-thumb.jpg"),
-
-          //   ],
+          //   ),
+          //
+          //   //     } else {
+          //   //       return const Text("no data");
+          //   //     }
+          //   //   }
+          //   // }),
+          // )
+          //
+          // // Row(
+          // //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // //   children: [
+          // //     identifactionCard(isTablet, size, "Front IC",
+          // //         "https://images.mein-mmo.de/medien/2021/07/ayakatitel.jpg"),
+          // //     identifactionCard(isTablet, size, "Back IC",
+          // //         "https://moewalls.com/wp-content/uploads/2022/08/ayaka-genshin-impact-thumb.jpg"),
+          //
+          // //   ],
+          // // ),
           // ),
-          ),
     );
   }
 
   Container identificationCard(
-    bool isTablet,
-    Size size,
+    // bool isTablet,
+    // Size size,
     String position,
     String imageUrl,
   ) {
     return Container(
       // color: Colors.red,
-      width: isTablet ? size.width * 0.6 : size.width * 1,
+      // width: isTablet ? size.width * 0.6 : size.width * 1,
       padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

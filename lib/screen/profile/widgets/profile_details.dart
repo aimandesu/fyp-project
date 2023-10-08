@@ -5,8 +5,11 @@ import '../../../responsive_layout_controller.dart';
 
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails({
+    required this.communityAt,
     super.key,
   });
+
+  final Map<String, dynamic> communityAt;
 
   @override
   Widget build(BuildContext context) {
@@ -19,32 +22,34 @@ class ProfileDetails extends StatelessWidget {
         color: Theme.of(context).colorScheme.primaryContainer,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("first"),
-              Text("second"),
+              const Text("Alamat"),
+              Text(
+                communityAt['place'],
+              ),
             ],
           ),
-          Row(
+           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("first"),
-              Text("second"),
+              const Text("Mukim"),
+              Text(communityAt['subDistrict']),
             ],
           ),
-          Row(
+           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("first"),
-              Text("second"),
+              const Text("Poskod"),
+              Text(communityAt['postcode']),
             ],
           )
         ],
       ),
-    ).animate().fade(curve: Curves.easeIn);;
+    ).animate().fade(curve: Curves.easeIn);
   }
 }

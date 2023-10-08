@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/help_centre/widgets/donation_list.dart';
 import 'package:fyp_project/screen/help_centre/widgets/map_location.dart';
 import 'package:fyp_project/screen/help_centre/widgets/map_location_new.dart';
@@ -37,28 +38,55 @@ class _HelpCentreState extends State<HelpCentre> {
       },
       child: Scaffold(
         appBar: appBar2,
-        body: Container(
-          margin: marginDefined,
-          height: (mediaQuery.size.height - paddingTop) * 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              !backTo
-                  ? SizedBox(
-                      height: (mediaQuery.size.height - paddingTop) * 0.6,
-                      child: const MapLocation(),
-                    )
-                  : Container(),
-              Container(
-                height: (mediaQuery.size.height - paddingTop) * 0.3,
-                width: size.width * 1,
-                decoration: decorationDefined(
-                  Theme.of(context).colorScheme.primaryContainer,
-                  25,
-                ),
-                child: const DonationList(),
-              )
-            ],
+        body: ResponsiveLayoutController(
+          mobile: Container(
+            margin: marginDefined,
+            height: (mediaQuery.size.height - paddingTop) * 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                !backTo
+                    ? SizedBox(
+                        height: (mediaQuery.size.height - paddingTop) * 0.6,
+                        child: const MapLocation(),
+                      )
+                    : Container(),
+                Container(
+                  height: (mediaQuery.size.height - paddingTop) * 0.3,
+                  width: size.width * 1,
+                  decoration: decorationDefined(
+                    Theme.of(context).colorScheme.primaryContainer,
+                    25,
+                  ),
+                  child: const DonationList(),
+                )
+              ],
+            ),
+          ),
+          tablet: Container(
+            margin: marginDefined,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                !backTo
+                    ? SizedBox(
+                        height: (mediaQuery.size.height - paddingTop) * 1,
+                        width: size.width * 0.7,
+                        child: const MapLocation(),
+                      )
+                    : Container(),
+                Expanded(
+                  child: Container(
+                    height: (mediaQuery.size.height - paddingTop) * 1,
+                    decoration: decorationDefined(
+                      Theme.of(context).colorScheme.primaryContainer,
+                      25,
+                    ),
+                    child: const DonationList(),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
