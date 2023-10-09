@@ -194,6 +194,8 @@ class _VerificationState extends State<Verification> {
 
     final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
 
+    Size size = MediaQuery.of(context).size;
+
     return WillPopScope(
       onWillPop: () async {
         // _deleteCacheDir();
@@ -222,17 +224,17 @@ class _VerificationState extends State<Verification> {
               ResponsiveLayoutController(
             mobile: Column(
               children: [
-                ICimage(
-                  mediaQuery: mediaQuery,
-                  paddingTop: paddingTop,
-                  frontIC: frontIC,
-                  backIC: backIC,
-                  takePicture: takePicture,
-                  removePicture: removePicture,
+                SizedBox(
+                  width: size.width * 1,
+                  height: size.height * 0.35,
+                  child: ICimage(
+                    frontIC: frontIC,
+                    backIC: backIC,
+                    takePicture: takePicture,
+                    removePicture: removePicture,
+                  ),
                 ),
                 AllTextFields(
-                  mediaQuery: mediaQuery,
-                  paddingTop: paddingTop,
                   // positionController: positionController,
                   nameController: nameController,
                   identificationNoController: identificationNoController,
@@ -243,8 +245,6 @@ class _VerificationState extends State<Verification> {
                   isHide: args['identificationNo'] == "",
                 ),
                 BottomBar(
-                  mediaQuery: mediaQuery,
-                  paddingTop: paddingTop,
                   sendForm: sendForm,
                 ),
               ],
@@ -256,31 +256,31 @@ class _VerificationState extends State<Verification> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //here just check jr if image tu ada if yes view je and buat utton yg leh change image
-                    ICimage(
-                      mediaQuery: mediaQuery,
-                      paddingTop: paddingTop,
-                      frontIC: frontIC,
-                      backIC: backIC,
-                      takePicture: takePicture,
-                      removePicture: removePicture,
+                    SizedBox(
+                      width: size.width * 0.5,
+                      height: 250,
+                      child: ICimage(
+                        frontIC: frontIC,
+                        backIC: backIC,
+                        takePicture: takePicture,
+                        removePicture: removePicture,
+                      ),
                     ),
-                    AllTextFields(
-                      mediaQuery: mediaQuery,
-                      paddingTop: paddingTop,
-                      // positionController: positionController,
-                      nameController: nameController,
-                      identificationNoController: identificationNoController,
-                      districtController: districtController,
-                      addressController: addressController,
-                      postcodeController: postcodeController,
-                      subDistrictController: subDistrictController,
-                      isHide: args['identificationNo'] == "",
+                    Expanded(
+                      child: AllTextFields(
+                        // positionController: positionController,
+                        nameController: nameController,
+                        identificationNoController: identificationNoController,
+                        districtController: districtController,
+                        addressController: addressController,
+                        postcodeController: postcodeController,
+                        subDistrictController: subDistrictController,
+                        isHide: args['identificationNo'] == "",
+                      ),
                     ),
                   ],
                 ),
                 BottomBar(
-                  mediaQuery: mediaQuery,
-                  paddingTop: paddingTop,
                   sendForm: sendForm,
                 ),
               ],

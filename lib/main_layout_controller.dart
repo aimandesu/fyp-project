@@ -225,8 +225,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
               selectedIndex: _selectedPageIndex,
               onDestinationSelected: _selectPage,
             ),
-            Container(
-              width: size.width * 0.9,
+            Expanded(
               child: _pages[_selectedPageIndex]['page'] as Widget,
             ),
           ],

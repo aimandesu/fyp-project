@@ -6,8 +6,6 @@ import '../../../responsive_layout_controller.dart';
 class AllTextFields extends StatefulWidget {
   const AllTextFields({
     super.key,
-    required this.mediaQuery,
-    required this.paddingTop,
     // required this.positionController,
     required this.nameController,
     required this.identificationNoController,
@@ -18,8 +16,6 @@ class AllTextFields extends StatefulWidget {
     required this.isHide,
   });
 
-  final MediaQueryData mediaQuery;
-  final double paddingTop;
   // final TextEditingController positionController;
 
   //the rest
@@ -33,7 +29,7 @@ class AllTextFields extends StatefulWidget {
   final TextEditingController subDistrictController;
 
   //bool determine
-final bool isHide;
+  final bool isHide;
 
   @override
   State<AllTextFields> createState() => _AllTextFieldsState();
@@ -42,32 +38,30 @@ final bool isHide;
 class _AllTextFieldsState extends State<AllTextFields> {
   @override
   Widget build(BuildContext context) {
-    final isTablet = ResponsiveLayoutController.isTablet(context);
-    final widthTablet = widget.mediaQuery.size.width * 0.4;
     const paddingField = EdgeInsets.symmetric(horizontal: 10, vertical: 23);
 
     return SizedBox(
-      height: isTablet
-          ? widget.mediaQuery.size.height - widget.paddingTop
-          : (widget.mediaQuery.size.height - widget.paddingTop) * 0.5,
-      width: isTablet ? widthTablet : null,
       child: SingleChildScrollView(
         child: Column(
           children: [
             // fieldText(isTablet, widthTablet, paddingField, context,
             //     widget.positionController, "Your Position"),
-            widget.isHide == true ? fieldText(isTablet, widthTablet, paddingField, context,
-                widget.nameController, "Your Name") : Container(),
-            widget.isHide == true ? fieldText(isTablet, widthTablet, paddingField, context,
-                widget.identificationNoController, "Your Identification No") : Container(),
-            fieldText(isTablet, widthTablet, paddingField, context,
-                widget.addressController, "Your Address"),
-            fieldText(isTablet, widthTablet, paddingField, context,
-                widget.districtController, "Your District"),
-            fieldText(isTablet, widthTablet, paddingField, context,
-                widget.postcodeController, "Your Postcode"),
-            fieldText(isTablet, widthTablet, paddingField, context,
-                widget.subDistrictController, "Your Sub District"),
+            widget.isHide == true
+                ? fieldText(
+                    paddingField, context, widget.nameController, "Your Name")
+                : Container(),
+            widget.isHide == true
+                ? fieldText(paddingField, context,
+                    widget.identificationNoController, "Your Identification No")
+                : Container(),
+            fieldText(paddingField, context, widget.addressController,
+                "Your Address"),
+            fieldText(paddingField, context, widget.districtController,
+                "Your District"),
+            fieldText(paddingField, context, widget.postcodeController,
+                "Your Postcode"),
+            fieldText(paddingField, context, widget.subDistrictController,
+                "Your Sub District"),
 
             //   Container(
             //     width: isTablet ? widthTablet : null,
@@ -154,15 +148,12 @@ class _AllTextFieldsState extends State<AllTextFields> {
   }
 
   Container fieldText(
-    bool isTablet,
-    double widthTablet,
     EdgeInsets paddingField,
     BuildContext context,
     TextEditingController controller,
     String hintText,
   ) {
     return Container(
-      width: isTablet ? widthTablet : null,
       margin: marginDefined,
       padding: paddingField,
       decoration: BoxDecoration(
