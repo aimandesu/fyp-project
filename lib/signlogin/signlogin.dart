@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/responsive_layout_controller.dart';
 
 import 'package:fyp_project/services/auth_service.dart';
 import 'package:fyp_project/signlogin/widgets/input_field.dart';
@@ -17,13 +18,11 @@ class _SignLoginState extends State<SignLogin> {
   bool isDisplayLogin = true;
   bool passwordVisibility = true;
 
-  // final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   void dispose() {
-    // usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -35,77 +34,115 @@ class _SignLoginState extends State<SignLogin> {
     });
   }
 
-  void loginUser() {}
+  void loginUser() {
+    print("login user");
+  }
 
-  void signUser() {}
+  void signUser() {
+    print("sign user");
+  }
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    var appBar2 = AppBar();
 
-    final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              topTitle(mediaQuery, paddingTop), //0.4
-              SizedBox(
-                height: mediaQuery.size.height * 0.3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InputField(
-                      emailController: emailController,
-                      passwordController: passwordController,
-                      // usernameController: usernameController,
+          child: SizedBox(
+            height: size.height * 1,
+            width: size.width * 1,
+            child: ResponsiveLayoutController(
+              mobile: Column(
+                children: [
+                  topTitle(size, size.height * 0.35), //0.4
+                  buildEmailPassword(size, size.height * 0.3),
+                  buildLoginSign(size, size.height * 0.2),
+                  buildIconButton(),
+                ],
+              ),
+              tablet: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  topTitle(size, size.height * 0.4),
+                  SizedBox(
+                    width: size.width * 0.5,
+                    height: size.height * 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: buildEmailPassword(size, size.height * 0.5),
+                        ),
+                        buildLoginSign(size, size.height * 0.3),
+                        buildIconButton(),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: mediaQuery.size.height * 0.2,
-                child: isDisplayLogin
-                    ? LoginSignButton(
-                        changeIsDisplayLogin: changeIsDisplayLogin,
-                        title: "Dont't have an account?",
-                        option: "Login",
-                        reversedOption: "Sign Up",
-                        loginOrSign: loginUser,
-                      )
-                    : LoginSignButton(
-                        changeIsDisplayLogin: changeIsDisplayLogin,
-                        title: "Have an account?",
-                        option: "Sign Up",
-                        reversedOption: "Login",
-                        loginOrSign: signUser,
-                      ),
-              ),
-              IconButton(
-                onPressed: () => AuthService().signInWithGoogle(),
-
-                //here buat signUserInfo funtion gak supposedly
-                icon: const Icon(Icons.login),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  SizedBox topTitle(MediaQueryData mediaQuery, double paddingTop) {
+  IconButton buildIconButton() {
+    return IconButton(
+      onPressed: () => AuthService().signInWithGoogle(),
+      icon: const Icon(Icons.login),
+    );
+  }
+
+  SizedBox buildLoginSign(Size size, double height) {
     return SizedBox(
-      height: (mediaQuery.size.height - paddingTop) * 0.4,
+      height: height,
+      child: isDisplayLogin
+          ? LoginSignButton(
+              changeIsDisplayLogin: changeIsDisplayLogin,
+              title: "Dont't have an account?",
+              option: "Login",
+              reversedOption: "Sign Up",
+              loginOrSign: loginUser,
+            )
+          : LoginSignButton(
+              changeIsDisplayLogin: changeIsDisplayLogin,
+              title: "Have an account?",
+              option: "Sign Up",
+              reversedOption: "Login",
+              loginOrSign: signUser,
+            ),
+    );
+  }
+
+  SizedBox buildEmailPassword(Size size, double height) {
+    return SizedBox(
+      height: height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InputField(
+            emailController: emailController,
+            passwordController: passwordController,
+            // usernameController: usernameController,
+          ),
+        ],
+      ),
+    );
+  }
+
+  SizedBox topTitle(Size size, double height) {
+    return SizedBox(
+      height: height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-           Center(
+          Center(
             child: Text(
-              "Natural Hazard Hub",
+              "Natural Hazard ub",
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
@@ -114,8 +151,10 @@ class _SignLoginState extends State<SignLogin> {
               ),
             ),
           ),
-          SizedBox(
-            child: Lottie.asset("assets/disaster.json"),
+          Flexible(
+            child: Lottie.asset(
+              "assets/disaster.json",
+            ),
           ),
         ],
       ),

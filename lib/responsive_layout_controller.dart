@@ -20,13 +20,16 @@ class ResponsiveLayoutController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth >= 600 ) { //&& constraints.maxHeight >= 600
-          return tablet;
-        } else {
-          return mobile;
-        }
-      },
+          builder: (context, constraints) {
+            // print(constraints.maxHeight);
+            if (constraints.maxWidth >= 600 && constraints.maxHeight <= 900 ) {
+              //&& constraints.maxHeight >= 600
+              return tablet;
+            } else {
+              return mobile;
+            }
+          },
+
     );
   }
 }

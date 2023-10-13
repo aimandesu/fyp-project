@@ -13,12 +13,12 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  final pageviewController = PageController();
+  final pageViewController = PageController();
   bool isLastPage = false;
 
   @override
   void dispose() {
-    pageviewController.dispose();
+    pageViewController.dispose();
     super.dispose();
   }
 
@@ -32,7 +32,6 @@ class _OnboardingState extends State<Onboarding> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
-        // backgroundColor: Colors.white,
         title: const Text(
           "Natural Disaster",
         ),
@@ -40,7 +39,7 @@ class _OnboardingState extends State<Onboarding> {
       body: Container(
         padding: const EdgeInsets.only(bottom: 80),
         child: PageView(
-          controller: pageviewController,
+          controller: pageViewController,
           onPageChanged: (index) {
             setState(
               () => isLastPage = index == 2,
@@ -59,39 +58,24 @@ class _OnboardingState extends State<Onboarding> {
               lottieDir: 'assets/disaster.json',
               text: "Together help",
             ),
-            // Container(
-            //   color: Colors.red,
-            //   child: const Center(
-            //     child: Text("page 1"),
-            //   ),
-            // ),
-            // Container(
-            //   color: Colors.blue,
-            //   child: const Center(
-            //     child: Text("page 2"),
-            //   ),
-            // ),
-            // Container(
-            //   color: Colors.pink,
-            //   child: const Center(
-            //     child: Text("page 3"),
-            //   ),
-            // )
           ],
         ),
       ),
       bottomSheet: isLastPage
-          ? TextButton(
-              onPressed: () {
-                saveOnboardingComplete();
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const SignLogin();
-                }));
-              },
-              child: const Row(children: [
-                Spacer(),
-                Text("Get Started"),
-              ]),
+          ? Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              height: 80,
+              child: Center(
+                child: TextButton(
+                    onPressed: () {
+                      saveOnboardingComplete();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const SignLogin();
+                      }));
+                    },
+                    child: const Text("Get Started")),
+              ),
             )
           : Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -100,19 +84,19 @@ class _OnboardingState extends State<Onboarding> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () => pageviewController.jumpToPage(2),
+                    onPressed: () => pageViewController.jumpToPage(2),
                     child: const Text("SKIP"),
                   ),
                   Center(
                     child: SmoothPageIndicator(
-                      controller: pageviewController,
+                      controller: pageViewController,
                       count: 3,
                       effect: WormEffect(
                           spacing: 16,
                           dotColor: Colors.black,
                           activeDotColor:
                               Theme.of(context).colorScheme.primary),
-                      onDotClicked: (index) => pageviewController.animateToPage(
+                      onDotClicked: (index) => pageViewController.animateToPage(
                         index,
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeIn,
@@ -120,7 +104,7 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => pageviewController.nextPage(
+                    onPressed: () => pageViewController.nextPage(
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut,
                     ),

@@ -25,28 +25,19 @@ class LoginSignButton extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: size.width * 0.6,
-          // margin: marginDefined,
+          width: 300,
           padding: paddingDefined,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            border: Border.all(color: Theme.of(context).colorScheme.primary),
             borderRadius: const BorderRadius.all(
               Radius.circular(25),
             ),
-            color:Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.primary,
           ),
           child: TextButton(
             onPressed: loginOrSign,
-            child: Text(
-              option,
-              style: const TextStyle(color: Colors.white),
-            ),
+            child: Text(option, style: const TextStyle(color: Colors.white)),
           ),
-        ),
-        const SizedBox(
-          height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
