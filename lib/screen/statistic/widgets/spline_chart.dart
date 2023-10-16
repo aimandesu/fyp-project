@@ -6,10 +6,10 @@ class SplineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SfCartesianChart(
+    return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: 'Average high/low temperature of London'),
-      legend: Legend(isVisible: true),
+      legend: const Legend(isVisible: true),
       primaryXAxis: CategoryAxis(
           majorGridLines: const MajorGridLines(width: 0),
           labelPlacement: LabelPlacement.onTicks),
@@ -60,8 +60,7 @@ class SplineChart extends StatelessWidget {
           name: 'Low',
           markerSettings: const MarkerSettings(isVisible: true),
           xValueMapper: (ChartSampleData sales, _) => sales.x,
-          yValueMapper: (ChartSampleData sales, _) =>
-          sales.thirdSeriesYValue,
+          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
         )
       ],
     );
@@ -75,9 +74,9 @@ class ChartSampleData {
   final int thirdSeriesYValue;
 
   ChartSampleData(
-      this.x,
-      this.y,
-      this.secondSeriesYValue,
-      this.thirdSeriesYValue,
-      );
+    this.x,
+    this.y,
+    this.secondSeriesYValue,
+    this.thirdSeriesYValue,
+  );
 }

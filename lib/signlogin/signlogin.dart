@@ -35,16 +35,21 @@ class _SignLoginState extends State<SignLogin> {
   }
 
   void loginUser() {
-    print("login user");
+    AuthService().signInWithEmail(
+      emailController.text,
+      passwordController.text,
+    );
   }
 
   void signUser() {
-    print("sign user");
+    AuthService().signUpEmail(
+      emailController.text,
+      passwordController.text,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(

@@ -36,10 +36,8 @@ class _TabViewsState extends State<TabViews>
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Container(
-      margin: EdgeInsets.only(top: 10, right: 10, left: 10),
+      margin: const EdgeInsets.only(top: 10, right: 10, left: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         // color: Theme.of(context).colorScheme.primaryContainer,

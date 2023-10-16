@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../../../constant.dart';
 import '../../../responsive_layout_controller.dart';
 
 class ProfileDetails extends StatelessWidget {
@@ -13,14 +14,9 @@ class ProfileDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isTablet = ResponsiveLayoutController.isTablet(context);
-
     return Container(
-      decoration: BoxDecoration(
-        borderRadius:
-            isTablet ? BorderRadius.circular(0) : BorderRadius.circular(15),
-        color: Theme.of(context).colorScheme.primaryContainer,
-      ),
+      decoration:
+          decorationDefined(Theme.of(context).colorScheme.primaryContainer, 25),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -34,14 +30,14 @@ class ProfileDetails extends StatelessWidget {
               ),
             ],
           ),
-           Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("Mukim"),
               Text(communityAt['subDistrict']),
             ],
           ),
-           Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("Poskod"),

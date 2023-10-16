@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/screen/help_centre/help_centre.dart';
-import '../../help_centre/widgets/map_location.dart';
 
 class ShelterMap extends StatelessWidget {
   const ShelterMap({super.key});
@@ -46,7 +45,8 @@ class ShelterMap extends StatelessWidget {
           ),
           Expanded(
             child: GestureDetector(
-              onTap: () => Navigator.of(context).pushNamed(HelpCentre.routeName),
+              onTap: () =>
+                  Navigator.of(context).pushNamed(HelpCentre.routeName),
               child: Container(
                 width: size.width * 1,
                 margin: const EdgeInsets.all(10),

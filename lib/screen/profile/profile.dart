@@ -25,10 +25,7 @@ class Profile extends StatelessWidget {
 
     Size size = MediaQuery.of(context).size;
 
-    return
-        // SingleChildScrollView(
-        // child:
-        FutureBuilder(
+    return FutureBuilder(
       future: Provider.of<ProfileProvider>(context, listen: false)
           .fetchOwnProfile(),
       builder: (context, snapshot) {
@@ -50,10 +47,13 @@ class Profile extends StatelessWidget {
             if (identificationNo == "") {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Lottie.asset(
-                    "assets/map.json",
-                    repeat: false,
+                  Expanded(
+                    child: Lottie.asset(
+                      "assets/map.json",
+                      repeat: false,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
@@ -63,7 +63,10 @@ class Profile extends StatelessWidget {
                       );
                     }, //send snapshot.data
                     child: const Text("Update Profile"),
-                  )
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
                 ],
               );
             } else {
@@ -105,14 +108,7 @@ class Profile extends StatelessWidget {
                     ),
                   ],
                 ),
-                tablet:
-                    // Column(
-                    //   children: [
-                    //     SizedBox(
-                    //       height: 250,
-                    //       child:
-
-                    Row(
+                tablet: Row(
                   children: [
                     SizedBox(
                       width: size.width * 0.5,
@@ -126,8 +122,8 @@ class Profile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           SizedBox(
-                            // width: size.width * 1,
-                            height: 125,
+                            width: size.width * 1,
+                            height: size.height * 0.4,
                             // margin: EdgeInsets.all(15),
                             child: NameIdentification(
                               name: name,
@@ -135,8 +131,8 @@ class Profile extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            // width: size.width * 1,
-                            height: 125,
+                            width: size.width * 1,
+                            height: size.height * 0.4,
                             // margin: EdgeInsets.all(15),
                             child: ProfileDetails(
                               communityAt: communityAt,
@@ -147,9 +143,6 @@ class Profile extends StatelessWidget {
                     )
                   ],
                 ),
-                //   ),
-                // ],
-                // ),
               );
             }
           } else {

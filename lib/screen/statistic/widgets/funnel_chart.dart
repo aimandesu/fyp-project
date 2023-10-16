@@ -17,7 +17,7 @@ class FunnelChart extends StatelessWidget {
         ],
         xValueMapper: (dynamic data, _) => data['stage'],
         yValueMapper: (dynamic data, _) => data['value'],
-        dataLabelSettings: DataLabelSettings(isVisible: true),
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
       ),
     );
   }

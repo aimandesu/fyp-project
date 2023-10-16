@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/screen/chat/widgets/bubble.dart';
 import 'package:provider/provider.dart';
 
@@ -43,8 +42,6 @@ class _ChatAreaState extends State<ChatArea> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Theme.of(context).colorScheme.primaryContainer;
-    double circular = 25;
     if (requestID != "") {
       return StreamBuilder(
           stream: Provider.of<ChatProvider>(context, listen: false)
@@ -66,9 +63,7 @@ class _ChatAreaState extends State<ChatArea> {
                   itemBuilder: (_, index) {
                     String text = snapshot.data![index]['text'];
                     String uid = snapshot.data![index]['uid'];
-                    return
-
-                      Bubble(
+                    return Bubble(
                       message: text,
                       isUser: uid == authUID,
                     );

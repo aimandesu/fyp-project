@@ -1,16 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/screen/chat/chat.dart';
-import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
 import 'package:fyp_project/screen/support_result/dart/support_result.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screen/home/home.dart';
 import 'screen/verification/verification.dart';
@@ -56,7 +52,6 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
   @override
   void didChangeDependencies() {
     AuthService().signUserInfo();
-    // triggerSharedPreference(); //or in initstate ?
     super.didChangeDependencies();
   }
 
@@ -208,8 +203,6 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),

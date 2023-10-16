@@ -3,7 +3,6 @@ import 'package:fyp_project/providers/support_result_provider.dart';
 import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constant.dart';
 import '../../../providers/chat_provider.dart';
 import '../../chat/chat.dart';
 
@@ -16,7 +15,7 @@ class SupportResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Senarai Kes Dipohon"),
+        title: const Text("Senarai Kes Dipohon"),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: Provider.of<SupportResultProvider>(context, listen: false)

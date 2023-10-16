@@ -19,6 +19,20 @@ class AuthService {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  signInWithEmail(String email, String password) async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  signUpEmail(String email, String password) async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
   //dptkn firebase id here when I sign in, this one only do when we load into the display
 
   //do some void to check first if userinfo is available or not, if available skip
@@ -37,7 +51,7 @@ class AuthService {
   }
 
   void signUserInfo() async {
-    final result = await AuthService().checkUserHasSignedBefore();
+    final result = await checkUserHasSignedBefore();
 
     if (!result) {
       final authUID = FirebaseAuth.instance.currentUser!.uid;

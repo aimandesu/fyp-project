@@ -3,9 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/screen/chat/widgets/chat_area.dart';
-import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
-import 'package:fyp_project/screen/chat/widgets/textEntered.dart';
+import 'package:fyp_project/screen/chat/widgets/text_entered.dart';
 import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
@@ -34,9 +33,7 @@ class _ChatState extends State<Chat> {
             doc.docs.first.data()['isPicked'] != false);
   }
 
-  void sendMessage() {
-    print(chatText.text);
-  }
+  void sendMessage() {}
 
   @override
   void initState() {

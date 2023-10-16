@@ -24,8 +24,6 @@ class ResultContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    print(approval);
-
     return Align(
       alignment: Alignment.topCenter,
       child: Container(

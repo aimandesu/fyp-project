@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../constant.dart';
-import '../../../../providers/chat_provider.dart';
 import '../../../../providers/support_result_provider.dart';
-import '../../../chat/chat.dart';
+
 import 'result_container.dart';
 
 class Result extends StatelessWidget {
@@ -14,8 +12,6 @@ class Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     final String caseID = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(

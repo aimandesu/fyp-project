@@ -9,7 +9,7 @@ class CircularChart extends StatelessWidget {
     return Center(
       child: SfCircularChart(
         title: ChartTitle(text: 'Sales by sales person'),
-        legend: Legend(isVisible: true),
+        legend: const Legend(isVisible: true),
         series: <PieSeries<_PieData, String>>[
           PieSeries<_PieData, String>(
               explode: true,
@@ -22,7 +22,7 @@ class CircularChart extends StatelessWidget {
               xValueMapper: (_PieData data, _) => data.xData,
               yValueMapper: (_PieData data, _) => data.yData,
               dataLabelMapper: (_PieData data, _) => data.text,
-              dataLabelSettings: DataLabelSettings(isVisible: true)),
+              dataLabelSettings: const DataLabelSettings(isVisible: true)),
         ],
       ),
     );

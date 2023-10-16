@@ -6,16 +6,12 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/models/helpform_model.dart';
 import 'package:fyp_project/providers/helpform_provider.dart';
-import 'package:fyp_project/screen/help_form/widgets/files_upload.dart';
-import 'package:fyp_project/screen/help_form/widgets/images_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/inputField/list_household.dart';
 import 'package:fyp_project/screen/help_form/widgets/inputField/proof_verification.dart';
 import 'package:fyp_project/screen/help_form/widgets/inputField/victim_category.dart';
 import 'package:fyp_project/screen/help_form/widgets/inputField/your_information.dart';
 import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
-import 'package:fyp_project/screen/help_form/widgets/table_input.dart';
-import 'package:fyp_project/screen/help_form/widgets/textfield_decoration.dart';
 
 class HelpForm extends StatefulWidget {
   const HelpForm({super.key});
@@ -194,8 +190,6 @@ class _HelpFormState extends State<HelpForm> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     //we will have name, address, phone no, and salinan pengesahan from ketua kampung
     //create function from here to take files, then pass it to filesUpload, if files is
     //fullfill then put checkbox

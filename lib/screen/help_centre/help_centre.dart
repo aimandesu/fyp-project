@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/help_centre/widgets/donation_list.dart';
 import 'package:fyp_project/screen/help_centre/widgets/map_location.dart';
-import 'package:fyp_project/screen/help_centre/widgets/map_location_new.dart';
 
 import '../../constant.dart';
 

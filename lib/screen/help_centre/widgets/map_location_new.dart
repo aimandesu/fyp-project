@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -20,7 +18,7 @@ class MapLocationNew extends StatefulWidget {
 
 class _MapLocationNewState extends State<MapLocationNew> {
   final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
+      Completer<GoogleMapController>();
 
   LocationData? currentLocation;
   CameraPosition? _currentPlex;
@@ -199,8 +197,8 @@ class _MapLocationNewState extends State<MapLocationNew> {
 
   void initializeSubDistrict(String currentSubDistrict) async {
     List<Map<String, dynamic>> points =
-    await Provider.of<MapsProvider>(context, listen: false)
-        .listMarkersSubDistrict(
+        await Provider.of<MapsProvider>(context, listen: false)
+            .listMarkersSubDistrict(
       _currentDistrict,
       currentSubDistrict,
     );
@@ -226,7 +224,7 @@ class _MapLocationNewState extends State<MapLocationNew> {
 
   void listDistrict() async {
     _district =
-    await Provider.of<MapsProvider>(context, listen: false).listDistrict();
+        await Provider.of<MapsProvider>(context, listen: false).listDistrict();
     _currentDistrict = _district.first;
     initialSubDistrict(_currentDistrict);
   }
@@ -291,91 +289,91 @@ class _MapLocationNewState extends State<MapLocationNew> {
       height: size.height * 0.84,
       child: currentLocation == null
           ? Container()
-      // const SizedBox(
-      //     child: Center(
-      //       child:
-      //           Text("Please enable location, tap to enable."),
-      //     ),
-      //   )
+          // const SizedBox(
+          //     child: Center(
+          //       child:
+          //           Text("Please enable location, tap to enable."),
+          //     ),
+          //   )
           :
-      // null
+          // null
 
-      Stack(
-        children: [
-          AbsorbPointer(
-            absorbing: true,
-            child: GoogleMap(
-              //wrap dalam consumer?
-              // gestureRecognizers: {
-              //   Factory<OneSequenceGestureRecognizer>(
-              //       () => EagerGestureRecognizer()),
-              // },
-              mapType: MapType.normal,
-              markers: _markers,
-              zoomControlsEnabled: false,
-              initialCameraPosition: _currentPlex as CameraPosition,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              // polylines: {
-              //   Polyline(
-              //     polylineId: const PolylineId("route"),
-              //     points: polylineCoordinates,
-              //     color: Colors.blue,
-              //     width: 6,
-              //   )
-              // },
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: SizedBox(
-              height: size.height * 0.3,
-              width: size.width * 1,
-
-              // decoration: BoxDecoration(
-              //   color: Theme.of(context).colorScheme.primaryContainer,
-              //   borderRadius: const BorderRadius.only(
-              //     topRight: Radius.circular(25),
-              //     topLeft: Radius.circular(25),
-              //   ),
-              // ),
-              // decoration: decorationDefinedShadow(
-              //   Theme.of(context).colorScheme.primaryContainer,
-              //   30,
-              // ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: decorationDefined(
-                        Theme.of(context).colorScheme.primaryContainer,
-                        25),
-                    child: districtBuilder(),
+          Stack(
+              children: [
+                AbsorbPointer(
+                  absorbing: true,
+                  child: GoogleMap(
+                    //wrap dalam consumer?
+                    // gestureRecognizers: {
+                    //   Factory<OneSequenceGestureRecognizer>(
+                    //       () => EagerGestureRecognizer()),
+                    // },
+                    mapType: MapType.normal,
+                    markers: _markers,
+                    zoomControlsEnabled: false,
+                    initialCameraPosition: _currentPlex as CameraPosition,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    // polylines: {
+                    //   Polyline(
+                    //     polylineId: const PolylineId("route"),
+                    //     points: polylineCoordinates,
+                    //     color: Colors.blue,
+                    //     width: 6,
+                    //   )
+                    // },
                   ),
-                  Flexible(
-                    // height: 50,
-                    // width: size.width * 1,
-                      child: listPlaces(size)),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: FilledButton.tonal(
-                      onPressed: () async {
-                        await launchUrl(Uri.parse(
-                            'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
-                      },
-                      child: const Text("Go to place"),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: SizedBox(
+                    height: size.height * 0.3,
+                    width: size.width * 1,
+
+                    // decoration: BoxDecoration(
+                    //   color: Theme.of(context).colorScheme.primaryContainer,
+                    //   borderRadius: const BorderRadius.only(
+                    //     topRight: Radius.circular(25),
+                    //     topLeft: Radius.circular(25),
+                    //   ),
+                    // ),
+                    // decoration: decorationDefinedShadow(
+                    //   Theme.of(context).colorScheme.primaryContainer,
+                    //   30,
+                    // ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: decorationDefined(
+                              Theme.of(context).colorScheme.primaryContainer,
+                              25),
+                          child: districtBuilder(),
+                        ),
+                        Flexible(
+                            // height: 50,
+                            // width: size.width * 1,
+                            child: listPlaces(size)),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: FilledButton.tonal(
+                            onPressed: () async {
+                              await launchUrl(Uri.parse(
+                                  'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+                            },
+                            child: const Text("Go to place"),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
     );
   }
 
@@ -387,7 +385,6 @@ class _MapLocationNewState extends State<MapLocationNew> {
           return Container();
         } else {
           if (snapshot.hasData) {
-
             if (snapshot.hasError) {
               return Container();
             }
@@ -408,13 +405,13 @@ class _MapLocationNewState extends State<MapLocationNew> {
                       ),
                       subtitle: placeName == snapshot.data!.first[i]['name']
                           ? Wrap(
-                        alignment: WrapAlignment.spaceBetween,
-                        children: [
-                          // Text(placeName),
-                          Text(locationDetails['distance']),
-                          Text(locationDetails['duration']),
-                        ],
-                      ).animate().fade().slide()
+                              alignment: WrapAlignment.spaceBetween,
+                              children: [
+                                // Text(placeName),
+                                Text(locationDetails['distance']),
+                                Text(locationDetails['duration']),
+                              ],
+                            ).animate().fade().slide()
                           : Container(),
                       onTap: () {
                         goToPlace(

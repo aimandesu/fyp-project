@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
-import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'camera_module.dart';

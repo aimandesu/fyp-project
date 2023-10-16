@@ -20,8 +20,6 @@ class LoginSignButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Column(
       children: [
         Container(

@@ -186,13 +186,7 @@ class _VerificationState extends State<Verification> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-
-    //accept the context, of well the items
-
-    var appBar2 = AppBar();
-
-    final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
+    // final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
 
     Size size = MediaQuery.of(context).size;
 

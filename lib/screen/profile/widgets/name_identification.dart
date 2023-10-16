@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:fyp_project/constant.dart';
 
 import '../../../responsive_layout_controller.dart';
 
@@ -13,31 +14,23 @@ class NameIdentification extends StatelessWidget {
 
   final String name;
   final String identificationNo;
+
   // final Map<String, dynamic> communityAt;
 
   @override
   Widget build(BuildContext context) {
-    final isTablet = ResponsiveLayoutController.isTablet(context);
-
     return Container(
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius:
-            isTablet ? BorderRadius.circular(0) : BorderRadius.circular(15),
-        color: Theme.of(context).colorScheme.primaryContainer,
+      decoration: decorationDefined(
+        Theme.of(context).colorScheme.primaryContainer,
+        25,
       ),
-      child:
-          // Row(
-          //   children: [
-          //     const Icon(
-          //       Icons.add,
-          //     ),
-          Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-           "Nama: $name",
+            "Nama: $name",
             style: const TextStyle(),
           ),
           Text(
@@ -47,8 +40,6 @@ class NameIdentification extends StatelessWidget {
           ),
         ],
       ),
-      //   ],
-      // ),
     ).animate().fade(curve: Curves.easeIn);
   }
 }

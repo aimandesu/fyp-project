@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
 
-import '../../../responsive_layout_controller.dart';
-
 class BottomBar extends StatelessWidget {
   const BottomBar({
     super.key,
-
     required this.sendForm,
   });
-
 
   final VoidCallback sendForm;
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       child: Flex(
         direction: Axis.horizontal,

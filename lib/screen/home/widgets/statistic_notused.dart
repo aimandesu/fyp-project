@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/screen/statistic/statistic.dart';
 
 class Statistic extends StatelessWidget {
   const Statistic({super.key});
