@@ -215,69 +215,72 @@ class _VerificationState extends State<Verification> {
           child:
               //  showSignUp
               //     ?
-              ResponsiveLayoutController(
-            mobile: Column(
-              children: [
-                SizedBox(
-                  width: size.width * 1,
-                  height: size.height * 0.35,
-                  child: ICimage(
-                    frontIC: frontIC,
-                    backIC: backIC,
-                    takePicture: takePicture,
-                    removePicture: removePicture,
+              SizedBox(
+            height: size.height * 1,
+            width: size.width * 1,
+            child: ResponsiveLayoutController(
+              mobile: Column(
+                children: [
+                  SizedBox(
+                    width: size.width * 1,
+                    height: size.height * 0.35,
+                    child: ICimage(
+                      frontIC: frontIC,
+                      backIC: backIC,
+                      takePicture: takePicture,
+                      removePicture: removePicture,
+                    ),
                   ),
-                ),
-                AllTextFields(
-                  // positionController: positionController,
-                  nameController: nameController,
-                  identificationNoController: identificationNoController,
-                  districtController: districtController,
-                  addressController: addressController,
-                  postcodeController: postcodeController,
-                  subDistrictController: subDistrictController,
-                  isHide: args['identificationNo'] == "",
-                ),
-                BottomBar(
-                  sendForm: sendForm,
-                ),
-              ],
-            ),
-            tablet: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //here just check jr if image tu ada if yes view je and buat utton yg leh change image
-                    SizedBox(
-                      width: size.width * 0.5,
-                      height: 250,
-                      child: ICimage(
-                        frontIC: frontIC,
-                        backIC: backIC,
-                        takePicture: takePicture,
-                        removePicture: removePicture,
-                      ),
+                  AllTextFields(
+                    // positionController: positionController,
+                    nameController: nameController,
+                    identificationNoController: identificationNoController,
+                    districtController: districtController,
+                    addressController: addressController,
+                    postcodeController: postcodeController,
+                    subDistrictController: subDistrictController,
+                    isHide: args['identificationNo'] == "",
+                  ),
+                  BottomBar(
+                    sendForm: sendForm,
+                  ),
+                ],
+              ),
+              tablet: Row(
+                children: [
+                  //here just check jr if image tu ada if yes view je and buat utton yg leh change image
+                  SizedBox(
+                    width: size.width * 0.5,
+                    child: ICimage(
+                      frontIC: frontIC,
+                      backIC: backIC,
+                      takePicture: takePicture,
+                      removePicture: removePicture,
                     ),
-                    Expanded(
-                      child: AllTextFields(
-                        // positionController: positionController,
-                        nameController: nameController,
-                        identificationNoController: identificationNoController,
-                        districtController: districtController,
-                        addressController: addressController,
-                        postcodeController: postcodeController,
-                        subDistrictController: subDistrictController,
-                        isHide: args['identificationNo'] == "",
-                      ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AllTextFields(
+                          // positionController: positionController,
+                          nameController: nameController,
+                          identificationNoController:
+                              identificationNoController,
+                          districtController: districtController,
+                          addressController: addressController,
+                          postcodeController: postcodeController,
+                          subDistrictController: subDistrictController,
+                          isHide: args['identificationNo'] == "",
+                        ),
+                        BottomBar(
+                          sendForm: sendForm,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                BottomBar(
-                  sendForm: sendForm,
-                ),
-              ],
+                  )
+                ],
+              ),
             ),
           ),
           // : Container(),

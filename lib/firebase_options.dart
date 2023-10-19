@@ -17,10 +17,11 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
+      // throw UnsupportedError(
+      //   'DefaultFirebaseOptions have not been configured for web - '
+      //   'you can reconfigure this by running the FlutterFire CLI again.',
+      // );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -53,6 +54,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBECC42UzQQJMaLlvhkdVYGxd54B8ggS1I',
+    appId: '1:95274423701:android:9dc8d4ca4495e14d10929c',
+    messagingSenderId: '95274423701',
+    projectId: 'natural-hazard-hub',
+    storageBucket: 'natural-hazard-hub.appspot.com',
+  );
+  static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBECC42UzQQJMaLlvhkdVYGxd54B8ggS1I',
     appId: '1:95274423701:android:9dc8d4ca4495e14d10929c',
     messagingSenderId: '95274423701',

@@ -121,19 +121,20 @@ class Profile extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SizedBox(
-                            width: size.width * 1,
-                            height: size.height * 0.4,
-                            // margin: EdgeInsets.all(15),
-                            child: NameIdentification(
-                              name: name,
-                              identificationNo: identificationNo,
+                          Expanded(
+                            child: Container(
+                              width: size.width * 1,
+                              margin: const EdgeInsets.all(10),
+                              child: NameIdentification(
+                                name: name,
+                                identificationNo: identificationNo,
+                              ),
                             ),
                           ),
-                          SizedBox(
+                          Container(
                             width: size.width * 1,
                             height: size.height * 0.4,
-                            // margin: EdgeInsets.all(15),
+                            margin: const EdgeInsets.all(10),
                             child: ProfileDetails(
                               communityAt: communityAt,
                             ),

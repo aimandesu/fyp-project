@@ -104,22 +104,22 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
       NavigationRailDestination(
         icon: Icon(Icons.home_outlined),
         selectedIcon: Icon(Icons.home_rounded),
-        label: Text(''),
+        label: Text('Rumah'),
       ),
       NavigationRailDestination(
         icon: Icon(Icons.camera_alt_outlined),
         selectedIcon: Icon(Icons.camera_alt_rounded),
-        label: Text(''),
+        label: Text('Bantuan'),
       ),
       NavigationRailDestination(
         icon: Icon(Icons.menu_book_outlined),
         selectedIcon: Icon(Icons.menu_book_rounded),
-        label: Text(''),
+        label: Text('Panduan'),
       ),
       NavigationRailDestination(
         icon: Icon(Icons.people_outlined),
         selectedIcon: Icon(Icons.people_rounded),
-        label: Text(''),
+        label: Text('Profil'),
       ),
     ];
 
@@ -217,6 +217,8 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
               destinations: _railPages,
               selectedIndex: _selectedPageIndex,
               onDestinationSelected: _selectPage,
+              groupAlignment: 0.0,
+              labelType: NavigationRailLabelType.selected,
             ),
             Expanded(
               child: _pages[_selectedPageIndex]['page'] as Widget,

@@ -54,7 +54,6 @@ class _ChatState extends State<Chat> {
     // final mediaQuery = MediaQuery.of(context);
 
     var appBar2 = AppBar(
-      automaticallyImplyLeading: false,
       title: const Text("Pertanyaan").animate().fade().slide(),
     );
 
@@ -105,6 +104,9 @@ class _ChatState extends State<Chat> {
                   icon: const Icon(Icons.send),
                 )
               ],
+            ),
+            const SizedBox(
+              height: 10,
             )
           ],
         ),

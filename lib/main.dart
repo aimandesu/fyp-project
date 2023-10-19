@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/admin/admin.dart';
 import 'package:fyp_project/onboarding/onboarding.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/providers/support_result_provider.dart';
@@ -20,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screen/chat/chat.dart';
 import 'firebase_options.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 //use ctrl alt k for reformat
 //use alt enter to wrap widget
@@ -112,18 +114,20 @@ class _MyAppState extends State<MyApp> {
         ),
         debugShowCheckedModeBanner: false,
         home: widget.onboardingComplete
-            ? StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return MainLayoutController(
-                      themeDefault: widget.switchTheme,
-                      toggleTheme: toggleTheme,
-                    ); //pass toggle here, switch dark mode and vice versa
-                  } else {
-                    return const SignLogin();
-                  }
-                }) //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+            ? kIsWeb
+                ? const Admin()
+                : StreamBuilder<User?>(
+                    stream: FirebaseAuth.instance.authStateChanges(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return MainLayoutController(
+                          themeDefault: widget.switchTheme,
+                          toggleTheme: toggleTheme,
+                        ); //pass toggle here, switch dark mode and vice versa
+                      } else {
+                        return const SignLogin();
+                      }
+                    }) //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
             : const Onboarding(),
         //Onboarding(),
         routes: {

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -68,7 +67,7 @@ class _HelpFormState extends State<HelpForm> {
     });
   }
 
-  void _collectdataAndSend() {
+  void collectDataAndSend() {
     List<Map<String, String>> data = [];
 
     for (var controllers in listFamilies) {
@@ -100,6 +99,7 @@ class _HelpFormState extends State<HelpForm> {
         familyMembers: data,
         authUID: authUID,
       );
+
       HelpFormProvider.sendHelpForm(helpForm, context);
       _clearTextFields();
     } on Exception catch (_) {
@@ -111,7 +111,6 @@ class _HelpFormState extends State<HelpForm> {
         ),
       );
     }
-    //provider stuff to send
   }
 
   void _clearTextFields() {
@@ -155,6 +154,7 @@ class _HelpFormState extends State<HelpForm> {
     setState(() {
       selectedPDF = resultMap["pdf"] as File?;
     });
+
     if (resultMap["showUpload"]) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -164,11 +164,6 @@ class _HelpFormState extends State<HelpForm> {
         ),
       );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -200,40 +195,52 @@ class _HelpFormState extends State<HelpForm> {
     the user can proceed with this thing
      */
 
-    return SingleChildScrollView(
-      //make future to ask user to sign in and wait for confirmation of their profile, or something like that
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          YourInformation(
-            nameController: nameController,
-            noICController: noICController,
-            addressController: addressController,
-            phoneController: phoneController,
-            ageController: ageController,
-            gender: gender,
-            changeGender: changeGender,
-            districtController: districtController,
-            postcodeController: postcodeController,
-          ),
-          VictimCategory(
-            category: category,
-            changeCategory: changeCategory,
-          ),
-          ListHousehold(
-            listFamilies: listFamilies,
-            addFamilyMember: addFamilyMember,
-            removeLast: removeLast,
-          ),
-          ProofVerification(
-            pictures: pictures,
-            navigatePictureUpload: navigatePictureUpload,
-            navigatePDFUpload: navigatePDFUpload,
-            selectedPDF: selectedPDF,
-          ),
-          submitButton(context),
-        ].animate(interval: 40.ms).fade(duration: 300.ms).slideY(),
-      ),
+    return FutureBuilder<bool>(
+      future: HelpFormProvider().hasIdentificationVerified(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data == false) {
+            return const Text("Please verify identity first");
+          } else {
+            return SingleChildScrollView(
+              //make future to ask user to sign in and wait for confirmation of their profile, or something like that
+              child: Column(
+                children: [
+                  YourInformation(
+                    nameController: nameController,
+                    noICController: noICController,
+                    addressController: addressController,
+                    phoneController: phoneController,
+                    ageController: ageController,
+                    gender: gender,
+                    changeGender: changeGender,
+                    districtController: districtController,
+                    postcodeController: postcodeController,
+                  ),
+                  VictimCategory(
+                    category: category,
+                    changeCategory: changeCategory,
+                  ),
+                  ListHousehold(
+                    listFamilies: listFamilies,
+                    addFamilyMember: addFamilyMember,
+                    removeLast: removeLast,
+                  ),
+                  ProofVerification(
+                    pictures: pictures,
+                    navigatePictureUpload: navigatePictureUpload,
+                    navigatePDFUpload: navigatePDFUpload,
+                    selectedPDF: selectedPDF,
+                  ),
+                  submitButton(context),
+                ].animate(interval: 40.ms).fade(duration: 300.ms).slideY(),
+              ),
+            );
+          }
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
@@ -243,26 +250,16 @@ class _HelpFormState extends State<HelpForm> {
       child: Container(
         margin: marginDefined,
         padding: paddingDefined,
-        // width: 100,
-        // decoration: BoxDecoration(
-        //   // color: Theme.of(context).colorScheme.primary,
-        //   borderRadius: BorderRadius.circular(30),
-        //   border: Border.all(
-        //     width: 1,
-        //   ),
-        // ),
         child: FilledButton.tonal(
           style: const ButtonStyle(
             padding: MaterialStatePropertyAll(
               EdgeInsets.all(20),
             ),
           ),
-          onPressed: _collectdataAndSend,
+          onPressed: collectDataAndSend,
           child: const Icon(Icons.send),
         ),
       ),
     );
   }
-
-//method taken out
 }

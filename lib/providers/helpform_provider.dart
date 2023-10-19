@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/models/helpform_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HelpFormProvider {
   static Future<void> sendHelpForm(
@@ -52,5 +53,17 @@ class HelpFormProvider {
         });
       });
     }
+  }
+
+  Future<bool> hasIdentificationVerified() async {
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
+    final instance = await FirebaseFirestore.instance
+        .collection("community")
+        .where("authUID", isEqualTo: authUID)
+        .get();
+
+    bool data = instance.docs.first.data()["identificationNo"] != "";
+
+    return data;
   }
 }
