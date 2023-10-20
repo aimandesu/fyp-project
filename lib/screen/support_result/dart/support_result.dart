@@ -44,9 +44,11 @@ class SupportResult extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ChatProvider.askAssistance();
-          Navigator.pushNamed(context, Chat.routeName);
+        onPressed: () async {
+          String args = await ChatProvider().askAssistance();
+          if (context.mounted) {
+            Navigator.pushNamed(context, Chat.routeName, arguments: args);
+          }
         },
         child: const Icon(
           Icons.support_agent,

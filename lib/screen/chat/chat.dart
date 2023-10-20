@@ -53,6 +53,8 @@ class _ChatState extends State<Chat> {
     // Size size = MediaQuery.of(context).size;
     // final mediaQuery = MediaQuery.of(context);
 
+    final arguments = ModalRoute.of(context)!.settings.arguments as String;
+
     var appBar2 = AppBar(
       title: const Text("Pertanyaan").animate().fade().slide(),
     );
@@ -71,29 +73,9 @@ class _ChatState extends State<Chat> {
         body: Column(
           children: [
             Expanded(
-              child: StreamBuilder<bool>(
-                stream: theStream,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container();
-                  }
-
-                  if (snapshot.hasError) {
-                    return Container();
-                  }
-                  bool hasPicked = snapshot.data ?? false;
-
-                  if (hasPicked) {
-                    return const ChatArea(); //here just shows the text yg will occur
-                  } else {
-                    return const Text('Awaiting for your calls to be picked')
-                        .animate()
-                        .fade()
-                        .slide();
-                  }
-                },
-              ),
-            ),
+                child: ChatArea(
+              arguments: arguments,
+            )),
             //here textfield
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

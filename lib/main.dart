@@ -113,10 +113,10 @@ class _MyAppState extends State<MyApp> {
           colorSchemeSeed: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
-        home: widget.onboardingComplete
-            ? kIsWeb
-                ? const Admin()
-                : StreamBuilder<User?>(
+        home: kIsWeb
+            ? const Admin()
+            : widget.onboardingComplete
+                ? StreamBuilder<User?>(
                     stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -128,7 +128,7 @@ class _MyAppState extends State<MyApp> {
                         return const SignLogin();
                       }
                     }) //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
-            : const Onboarding(),
+                : const Onboarding(),
         //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),

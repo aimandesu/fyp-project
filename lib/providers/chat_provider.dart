@@ -3,31 +3,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatProvider with ChangeNotifier {
-  static void askAssistance() async {
-    //do checking first
+  Future<String> askAssistance() async {
     final authUID = FirebaseAuth.instance.currentUser!.uid;
     final askAssistance =
         FirebaseFirestore.instance.collection("requestAssistance");
+    String requestIDtoPass = "";
 
-    final bool checkSession = await askAssistance
-        .where("isPicked", isEqualTo: true)
-        .where("authUID", isEqualTo: authUID)
-        .get()
-        .then((value) => value.docs.isEmpty);
+    final documentReference = await askAssistance.add({
+      "isPicked": false,
+      "assistanceID": "",
+      "authUID": authUID,
+      "date": DateTime.now(),
+      "requestID": "",
+    });
 
-    if (checkSession) {
-      askAssistance.add({
-        "isPicked": false,
-        "assistanceID": "",
-        "authUID": authUID,
-        "date": DateTime.now(),
-        "requestID": "",
-      }).then((value) {
-        askAssistance.doc(value.id).update({
-          "requestID": value.id,
-        });
-      });
-    }
+    requestIDtoPass = documentReference.id;
+    await askAssistance.doc(requestIDtoPass).update({
+      "requestID": requestIDtoPass,
+    });
+    // askAssistance.doc(requestIDtoPass).collection("chat");
+
+    return requestIDtoPass;
   }
 
   void deleteAssistanceRequest() async {
@@ -39,25 +35,25 @@ class ChatProvider with ChangeNotifier {
         .get();
 
     collection.then((value) async {
-      if (value.docs.first.data()['assistanceID'] == "" &&
-          value.docs.first.data()['isPicked'] == false) {
-        final snapshot = await collection;
-        for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> doc in value.docs) {
+        if (doc.data()['assistanceID'] == "" &&
+            doc.data()['isPicked'] == false) {
           await doc.reference.delete();
         }
       }
     });
   }
 
-  Future<String> getRequestID() async {
-    final authUID = FirebaseAuth.instance.currentUser!.uid;
-    final doc = await FirebaseFirestore.instance
-        .collection("requestAssistance")
-        .where("authUID", isEqualTo: authUID)
-        .where("isPicked", isEqualTo: true)
-        .get();
-    return doc.docs.first.data()['requestID'];
-  }
+  // Future<String> getRequestID() async {
+  //   final authUID = FirebaseAuth.instance.currentUser!.uid;
+  //   final doc = await FirebaseFirestore.instance
+  //       .collection("requestAssistance")
+  //       .where("authUID", isEqualTo: authUID)
+  //       .where("requestID", isNotEqualTo: "")
+  //       .where("isPicked", isEqualTo: true)
+  //       .get();
+  //   return doc.docs.first.data()['requestID'];
+  // }
 
   // Stream<bool> hasPicked() async* {
   //   final userUID = FirebaseAuth.instance.currentUser!.uid;
