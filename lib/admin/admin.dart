@@ -10,6 +10,13 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
+  /* things to do:
+  1. Form - ada boleh nampak orang punya form, gambar keadaan, and kelulusan
+  2. Assistance - boleh chat org tnya soalan, boleh send gmbr, and send file
+  3. Map - boleh tgok map, guna api untuk dptkn coordinate maybe mcm search bar, and dpt tgok all list kita punya map disaster  
+  4. Graph - boleh tengok mana various stuff - idk what that is
+  5. */
+
   late List<Widget> _pages;
   late List<NavigationRailDestination> _railPages;
   int _selectedPageIndex = 0;
@@ -26,13 +33,11 @@ class _AdminState extends State<Admin> {
 
     _railPages = <NavigationRailDestination>[
       const NavigationRailDestination(
-        icon: Icon(Icons.home_outlined),
-        selectedIcon: Icon(Icons.home_rounded),
+        icon: Icon(Icons.chat),
         label: Text('Rumah'),
       ),
       const NavigationRailDestination(
-        icon: Icon(Icons.camera_alt_outlined),
-        selectedIcon: Icon(Icons.camera_alt_rounded),
+        icon: Icon(Icons.note),
         label: Text('Bantuan'),
       ),
     ];
@@ -45,6 +50,16 @@ class _AdminState extends State<Admin> {
       body: Row(
         children: [
           NavigationRail(
+            // leading: const SizedBox(
+            //   width: 180,
+            //   child: Align(
+            //     alignment: Alignment.bottomRight,
+            //     child: Icon(Icons.close),
+            //   ),
+            // ),
+            elevation: 20,
+            // minWidth: 200,
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
             destinations: _railPages,
             selectedIndex: _selectedPageIndex,
             onDestinationSelected: _selectPage,

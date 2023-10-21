@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/admin/providers/assistance_provider.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:lottie/lottie.dart';
@@ -110,76 +111,86 @@ class _AssistanceState extends State<Assistance> {
                     )
                   ],
                 )
-              : Column(
+              : Stack(
                   children: [
-                    Expanded(
-                      child: StreamBuilder(
-                        stream: chatStream,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Container();
-                          }
+                    StreamBuilder(
+                      stream: chatStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container();
+                        }
 
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          }
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
 
-                          if (snapshot.hasData) {
-                            const String authUID = "dev";
+                        if (snapshot.hasData) {
+                          const String authUID = "dev";
 
-                            return SizedBox(
-                              width: size.width * 0.7,
-                              child: ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (_, index) {
-                                  String text = snapshot.data![index]['text'];
-                                  String uid = snapshot.data![index]['uid'];
-                                  return Bubble(
-                                    message: text,
-                                    isUser: uid == authUID,
-                                  );
-                                },
-                              ),
-                            );
-                          } else {
-                            return const Text("some error occurred");
-                          }
-                        },
-                      ),
+                          return SizedBox(
+                            width: size.width * 0.7,
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (_, index) {
+                                String text = snapshot.data![index]['text'];
+                                String uid = snapshot.data![index]['uid'];
+                                return Bubble(
+                                  message: text,
+                                  isUser: uid == authUID,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return const Text("some error occurred");
+                        }
+                      },
                     ),
+                    triggerOption
+                        ? Positioned(
+                            bottom: 50,
+                            right: 0,
+                            child: Container(
+                                margin: marginDefined,
+                                height: 50,
+                                width: 90,
+                                decoration: decorationDefined(
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    20)),
+                          ).animate().fade().slideY(curve: Curves.easeIn)
+                        : Container(),
                     Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                        margin: marginDefined,
-                        height: triggerOption ? size.height * 0.2 : 0,
-                        width: triggerOption ? 90 : 0,
-                        color: Colors.red,
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(child: TextEntered(chatText: chatText)),
+                            IconButton.filledTonal(
+                              onPressed: () {
+                                setState(() {
+                                  triggerOption = !triggerOption;
+                                });
+                              },
+                              icon: const Icon(Icons.browse_gallery),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            IconButton.filledTonal(
+                              onPressed: sendMessage,
+                              icon: const Icon(Icons.send),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(child: TextEntered(chatText: chatText)),
-                        IconButton.filledTonal(
-                          onPressed: () {
-                            setState(() {
-                              triggerOption = !triggerOption;
-                            });
-                          },
-                          icon: const Icon(Icons.browse_gallery),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        IconButton.filledTonal(
-                          onPressed: sendMessage,
-                          icon: const Icon(Icons.send),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        )
-                      ],
                     ),
                     const SizedBox(
                       height: 10,
