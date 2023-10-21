@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/assistance/assistance.dart';
 import 'package:fyp_project/admin/form_validation/form_validation.dart';
+import 'package:fyp_project/admin/information/information.dart';
+import 'package:fyp_project/admin/map_centre/map_centre.dart';
 
 class Admin extends StatefulWidget {
   const Admin({super.key});
@@ -29,9 +31,22 @@ class _AdminState extends State<Admin> {
 
   @override
   void initState() {
-    _pages = [const Assistance(), const FormValidation()];
+    _pages = [
+      const Information(),
+      const MapCentre(),
+      const Assistance(),
+      const FormValidation(),
+    ];
 
     _railPages = <NavigationRailDestination>[
+      const NavigationRailDestination(
+        icon: Icon(Icons.info),
+        label: Text('Info'),
+      ),
+      const NavigationRailDestination(
+        icon: Icon(Icons.map),
+        label: Text('Peta'),
+      ),
       const NavigationRailDestination(
         icon: Icon(Icons.chat),
         label: Text('Rumah'),

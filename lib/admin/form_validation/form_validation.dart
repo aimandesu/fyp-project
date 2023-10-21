@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/providers/form_provider.dart';
 import 'package:lottie/lottie.dart';
 import '../../constant.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class FormValidation extends StatefulWidget {
   const FormValidation({super.key});
@@ -16,6 +17,8 @@ class _FormValidationState extends State<FormValidation> {
   late Future<List<Map<String, dynamic>>> callsForm;
   String? formOn;
   Map<String, dynamic>? formToRender;
+  String? pdf;
+  bool showPDF = false;
 
   @override
   void initState() {
@@ -32,8 +35,8 @@ class _FormValidationState extends State<FormValidation> {
         Container(
           width: 250,
           height: size.height * 1,
-          // decoration: decorationDefined(
-          //     Theme.of(context).colorScheme.primaryContainer, 35),
+          decoration: decorationDefined(
+              Theme.of(context).colorScheme.primaryContainer, 35),
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           margin: marginDefined,
           child: FutureBuilder(
@@ -45,15 +48,17 @@ class _FormValidationState extends State<FormValidation> {
                   itemBuilder: (context, index) {
                     String caseID = snapshot.data![index]["caseID"];
                     return ListTile(
-                      tileColor: formOn == caseID
-                          ? Colors.red
-                          : Theme.of(context).colorScheme.onPrimary,
+                      trailing: formOn == caseID
+                          ? const Icon(Icons.select_all_rounded)
+                          : null,
                       title: const Text("caseID"),
                       subtitle: Text(caseID),
                       onTap: () {
                         setState(() {
+                          showPDF = false;
                           formOn = snapshot.data![index]["caseID"].toString();
                           formToRender = snapshot.data![index];
+                          pdf = formToRender!["selectedPDF"];
                         });
                       },
                     );
@@ -77,69 +82,125 @@ class _FormValidationState extends State<FormValidation> {
                     )
                   ],
                 )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      width: 350,
-                      height: size.height * 0.7,
-                      color: Colors.red,
-                      child: Column(
+              : showPDF
+                  ? pdf == null && showPDF == false
+                      ? Container()
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                width: size.width * 0.7,
+                                height: size.height * 0.8,
+                                decoration: decorationDefined(
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  26,
+                                ),
+                                padding: const EdgeInsets.all(20),
+                                child: SfPdfViewer.network(pdf.toString())),
+                            OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  showPDF = false;
+                                });
+                              },
+                              child: const Text("Close pdf"),
+                            )
+                          ],
+                        )
+                  : Container(
+                      width: size.width * 0.6,
+                      height: size.height * 0.8,
+                      margin: marginDefined,
+                      decoration: decorationDefined(
+                        Theme.of(context).colorScheme.primaryContainer,
+                        25,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(formToRender!["name"]),
-                          Text(formToRender!["noIC"]),
-                          Text(formToRender!["category"]),
-                          Text(formToRender!["phone"]),
-                          Text(
-                            "${formToRender!['adress']} ${formToRender!['postcode']} ${formToRender!['district']}",
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ScrollConfiguration(
+                                behavior: ScrollConfiguration.of(context)
+                                    .copyWith(dragDevices: {
+                                  PointerDeviceKind.touch,
+                                  PointerDeviceKind.mouse,
+                                }),
+                                child: PageView.builder(
+                                  itemCount: (formToRender!["pictures"] as List)
+                                      .length,
+                                  itemBuilder: (context, index) {
+                                    return Image.network(
+                                      formToRender!["pictures"][index],
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 300,
+                            height: size.height * 0.5,
+                            margin: marginDefined,
+                            padding: paddingDefined,
+                            decoration: decorationDefined(
+                              Theme.of(context).colorScheme.onPrimary,
+                              25,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(formToRender!["name"]),
+                                Text(formToRender!["noIC"]),
+                                Text(formToRender!["category"]),
+                                Text(formToRender!["phone"]),
+                                Text(
+                                  "${formToRender!['adress']} ${formToRender!['postcode']} ${formToRender!['district']}",
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          showPDF = true;
+                                        });
+                                      },
+                                      child: const Text("show pdf"),
+                                    ),
+                                    const OutlinedButton(
+                                        onPressed: null, child: Text("Next"))
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: 350,
-                      height: size.height * 0.7,
-                      child: ScrollConfiguration(
-                        behavior: ScrollConfiguration.of(context)
-                            .copyWith(dragDevices: {
-                          PointerDeviceKind.touch,
-                          PointerDeviceKind.mouse,
-                        }),
-                        child: PageView.builder(
-                          itemCount: (formToRender!["pictures"] as List).length,
-                          itemBuilder: (context, index) {
-                            print((formToRender!["pictures"] as List).length);
-                            print(formToRender!["pictures"][0]);
-                            return Image.network(
-                              formToRender!["pictures"][index],
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 350,
-                      height: size.height * 0.7,
-                      child: Text("pdf"),
-                    )
-                  ],
-                ),
         )
       ],
     );
