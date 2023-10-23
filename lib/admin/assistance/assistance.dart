@@ -44,9 +44,9 @@ class _AssistanceState extends State<Assistance> {
       children: [
         Container(
           width: 250,
-          height: size.height * 1,
-          decoration: decorationDefined(
-              Theme.of(context).colorScheme.primaryContainer, 35),
+          height: size.height * 0.8,
+          decoration: decorationDefinedShadow(
+              Theme.of(context).colorScheme.onPrimary, 35),
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           margin: marginDefined,
           child: StreamBuilder(

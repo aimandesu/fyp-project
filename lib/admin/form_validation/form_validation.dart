@@ -34,9 +34,9 @@ class _FormValidationState extends State<FormValidation> {
       children: [
         Container(
           width: 250,
-          height: size.height * 1,
-          decoration: decorationDefined(
-              Theme.of(context).colorScheme.primaryContainer, 35),
+          height: size.height * 0.8,
+          decoration: decorationDefinedShadow(
+              Theme.of(context).colorScheme.onPrimary, 35),
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           margin: marginDefined,
           child: FutureBuilder(
@@ -113,8 +113,8 @@ class _FormValidationState extends State<FormValidation> {
                       width: size.width * 0.6,
                       height: size.height * 0.8,
                       margin: marginDefined,
-                      decoration: decorationDefined(
-                        Theme.of(context).colorScheme.primaryContainer,
+                      decoration: decorationDefinedShadow(
+                        Theme.of(context).colorScheme.onPrimary,
                         25,
                       ),
                       child: Row(
@@ -165,7 +165,7 @@ class _FormValidationState extends State<FormValidation> {
                             height: size.height * 0.5,
                             margin: marginDefined,
                             padding: paddingDefined,
-                            decoration: decorationDefined(
+                            decoration: decorationDefinedShadow(
                               Theme.of(context).colorScheme.onPrimary,
                               25,
                             ),

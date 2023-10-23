@@ -74,8 +74,8 @@ class MapsProvider with ChangeNotifier {
             // print("location only with: $location");
             for (var locate in location) {
               listSubDistrict.add({
-                "latitude": locate['latitude'],
-                "longitude": locate['longitude'],
+                "latitude": double.parse(locate['latitude']),
+                "longitude": double.parse(locate['longitude']),
                 "locationName": locate['name'],
               });
             }
@@ -109,7 +109,5 @@ class MapsProvider with ChangeNotifier {
     };
 
     return details;
-
-
   }
 }

@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class MapLocation extends StatefulWidget {
   const MapLocation({super.key});
@@ -162,8 +163,10 @@ class _MapLocationState extends State<MapLocation> {
     // destinationLocation = ;
     // print(point.latitude);
     // print(point.longitude);
-    getPolyPoints(LatLng(
-        point.latitude, point.longitude)); //->disable or enable getPolyPoints
+    kIsWeb
+        ? null
+        : getPolyPoints(LatLng(point.latitude,
+            point.longitude)); //->disable or enable getPolyPoints
   }
 
   void setCurrentPlex(LatLng point) {
@@ -330,17 +333,19 @@ class _MapLocationState extends State<MapLocation> {
                               // },
                             ),
                           ),
-                          Positioned(
-                            bottom: 10,
-                            left: 10,
-                            child: FilledButton.tonal(
-                              onPressed: () async {
-                                await launchUrl(Uri.parse(
-                                    'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
-                              },
-                              child: const Text("Go to place"),
-                            ),
-                          )
+                          kIsWeb
+                              ? Container()
+                              : Positioned(
+                                  bottom: 10,
+                                  left: 10,
+                                  child: FilledButton.tonal(
+                                    onPressed: () async {
+                                      await launchUrl(Uri.parse(
+                                          'google.navigation:q=${pointToLocation!.latitude}, ${pointToLocation!.longitude}&key=$googleApiKey'));
+                                    },
+                                    child: const Text("Go to place"),
+                                  ),
+                                )
                         ],
                       ),
               ),
@@ -414,8 +419,9 @@ class _MapLocationState extends State<MapLocation> {
                           title: Text(
                             snapshot.data![index][i]['name'],
                           ),
-                          subtitle:
-                              placeName == snapshot.data![index][i]['name']
+                          subtitle: kIsWeb
+                              ? null
+                              : placeName == snapshot.data![index][i]['name']
                                   ? Wrap(
                                       alignment: WrapAlignment.spaceBetween,
                                       children: [
@@ -427,8 +433,10 @@ class _MapLocationState extends State<MapLocation> {
                                   : Container(),
                           onTap: () {
                             goToPlace(LatLng(
-                              snapshot.data![index][i]['latitude'],
-                              snapshot.data![index][i]['longitude'],
+                              double.parse(
+                                  snapshot.data![index][i]['latitude']),
+                              double.parse(
+                                  snapshot.data![index][i]['longitude']),
                             ));
                             setPlaceName(
                                 snapshot.data![index][i]['name'].toString());

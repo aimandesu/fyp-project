@@ -42,23 +42,23 @@ class _HelpCentreState extends State<HelpCentre> {
             margin: marginDefined,
             height: (mediaQuery.size.height - paddingTop) * 1,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 !backTo
                     ? SizedBox(
-                        height: (mediaQuery.size.height - paddingTop) * 0.6,
+                        height: (mediaQuery.size.height - paddingTop) * 0.9,
                         child: const MapLocation(),
                       )
                     : Container(),
-                Container(
-                  height: (mediaQuery.size.height - paddingTop) * 0.3,
-                  width: size.width * 1,
-                  decoration: decorationDefined(
-                    Theme.of(context).colorScheme.primaryContainer,
-                    25,
-                  ),
-                  child: const DonationList(),
-                )
+                // Container(
+                //   height: (mediaQuery.size.height - paddingTop) * 0.3,
+                //   width: size.width * 1,
+                //   decoration: decorationDefined(
+                //     Theme.of(context).colorScheme.primaryContainer,
+                //     25,
+                //   ),
+                //   child: const DonationList(),
+                // )
               ],
             ),
           ),
@@ -70,20 +70,20 @@ class _HelpCentreState extends State<HelpCentre> {
                 !backTo
                     ? SizedBox(
                         height: (mediaQuery.size.height - paddingTop) * 1,
-                        width: size.width * 0.7,
+                        width: size.width * 0.9,
                         child: const MapLocation(),
                       )
                     : Container(),
-                Expanded(
-                  child: Container(
-                    height: (mediaQuery.size.height - paddingTop) * 1,
-                    decoration: decorationDefined(
-                      Theme.of(context).colorScheme.primaryContainer,
-                      25,
-                    ),
-                    child: const DonationList(),
-                  ),
-                )
+                // Expanded(
+                //   child: Container(
+                //     height: (mediaQuery.size.height - paddingTop) * 1,
+                //     decoration: decorationDefined(
+                //       Theme.of(context).colorScheme.primaryContainer,
+                //       25,
+                //     ),
+                //     child: const DonationList(),
+                //   ),
+                // )
               ],
             ),
           ),

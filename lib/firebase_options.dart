@@ -18,10 +18,6 @@ class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
-      // throw UnsupportedError(
-      //   'DefaultFirebaseOptions have not been configured for web - '
-      //   'you can reconfigure this by running the FlutterFire CLI again.',
-      // );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -53,14 +49,17 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBECC42UzQQJMaLlvhkdVYGxd54B8ggS1I',
-    appId: '1:95274423701:android:9dc8d4ca4495e14d10929c',
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBVCWqQXH__GXsUgtdXfIdCNX6SOUk-Vf4',
+    appId: '1:95274423701:web:0c759c176e02e50810929c',
     messagingSenderId: '95274423701',
     projectId: 'natural-hazard-hub',
+    authDomain: 'natural-hazard-hub.firebaseapp.com',
     storageBucket: 'natural-hazard-hub.appspot.com',
+    measurementId: 'G-TK5E7LBYLM',
   );
-  static const FirebaseOptions web = FirebaseOptions(
+
+  static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBECC42UzQQJMaLlvhkdVYGxd54B8ggS1I',
     appId: '1:95274423701:android:9dc8d4ca4495e14d10929c',
     messagingSenderId: '95274423701',
