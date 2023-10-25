@@ -89,17 +89,19 @@ class _FormValidationState extends State<FormValidation> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                                width: size.width * 0.7,
-                                height: size.height * 0.8,
-                                decoration: decorationDefined(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  26,
-                                ),
-                                padding: const EdgeInsets.all(20),
-                                child: SfPdfViewer.network(pdf.toString())),
-                            OutlinedButton(
+                              width: size.width * 0.7,
+                              height: size.height * 0.75,
+                              decoration: decorationDefined(
+                                Theme.of(context).colorScheme.primaryContainer,
+                                26,
+                              ),
+                              padding: const EdgeInsets.all(20),
+                              child: SfPdfViewer.network(
+                                pdf.toString(),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            ElevatedButton(
                               onPressed: () {
                                 setState(() {
                                   showPDF = false;
@@ -183,7 +185,7 @@ class _FormValidationState extends State<FormValidation> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    OutlinedButton(
+                                    ElevatedButton(
                                       onPressed: () {
                                         setState(() {
                                           showPDF = true;
@@ -191,8 +193,10 @@ class _FormValidationState extends State<FormValidation> {
                                       },
                                       child: const Text("show pdf"),
                                     ),
-                                    const OutlinedButton(
-                                        onPressed: null, child: Text("Next"))
+                                    const ElevatedButton(
+                                      onPressed: null,
+                                      child: Text("Next"),
+                                    )
                                   ],
                                 )
                               ],

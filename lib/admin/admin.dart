@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/assistance/assistance.dart';
 import 'package:fyp_project/admin/form_validation/form_validation.dart';
+import 'package:fyp_project/admin/identification_verifiy/identification_verify.dart';
 import 'package:fyp_project/admin/information/information.dart';
 import 'package:fyp_project/admin/map_centre/map_centre.dart';
 
@@ -36,6 +37,7 @@ class _AdminState extends State<Admin> {
       const MapCentre(),
       const Assistance(),
       const FormValidation(),
+      const IdentificationVerification()
     ];
 
     _railPages = <NavigationRailDestination>[
@@ -54,6 +56,10 @@ class _AdminState extends State<Admin> {
       const NavigationRailDestination(
         icon: Icon(Icons.note),
         label: Text('Bantuan'),
+      ),
+      const NavigationRailDestination(
+        icon: Icon(Icons.face),
+        label: Text('Kad Pengenalan'),
       ),
     ];
     super.initState();

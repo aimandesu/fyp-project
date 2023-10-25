@@ -54,7 +54,6 @@ dependencies:
   flutter_animate: ^4.2.0+1
   http: ^1.1.0
   syncfusion_flutter_charts: ^23.1.36
-  fl_chart: ^0.63.0
   syncfusion_flutter_pdfviewer: ^23.1.41
 
 dev_dependencies:
