@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Bubble extends StatelessWidget {
-  const Bubble({required this.message, required this.isUser, super.key});
+  const Bubble(
+      {required this.message, required this.isUser, super.key, this.picture});
 
   final String message;
   final bool isUser;
+  final String? picture;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +44,20 @@ class Bubble extends StatelessWidget {
                 vertical: 16,
                 horizontal: 8,
               ),
-              child: Text(
-                message,
-                textAlign: TextAlign.start,
-              ),
+              child: picture == null
+                  ? Text(message, textAlign: TextAlign.start)
+                  : Column(
+                      children: [
+                        SizedBox(
+                            height: 300,
+                            width: 300,
+                            child: Image.network(picture.toString())),
+                        Text(
+                          message,
+                          textAlign: TextAlign.start,
+                        )
+                      ],
+                    ),
             ),
           ],
         ),

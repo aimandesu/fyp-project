@@ -74,14 +74,14 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           size: 30,
         ),
       },
-      {
-        'page': const DisasterGuide(),
-        'title': 'Panduan',
-        'icon': const Icon(
-          Icons.menu_book_rounded,
-          size: 30,
-        ),
-      },
+      // {
+      //   'page': const DisasterGuide(),
+      //   'title': 'Panduan',
+      //   'icon': const Icon(
+      //     Icons.menu_book_rounded,
+      //     size: 30,
+      //   ),
+      // },
       // {
       //   'page': const Places(),
       //   'title': 'Tempat',
@@ -111,11 +111,11 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
         selectedIcon: Icon(Icons.camera_alt_rounded),
         label: Text('Bantuan'),
       ),
-      NavigationRailDestination(
-        icon: Icon(Icons.menu_book_outlined),
-        selectedIcon: Icon(Icons.menu_book_rounded),
-        label: Text('Panduan'),
-      ),
+      // NavigationRailDestination(
+      //   icon: Icon(Icons.menu_book_outlined),
+      //   selectedIcon: Icon(Icons.menu_book_rounded),
+      //   label: Text('Panduan'),
+      // ),
       NavigationRailDestination(
         icon: Icon(Icons.people_outlined),
         selectedIcon: Icon(Icons.people_rounded),

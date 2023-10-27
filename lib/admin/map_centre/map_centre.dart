@@ -1,11 +1,8 @@
-import 'dart:async';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/screen/help_centre/widgets/map_location.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../../places_tutorial/location_service.dart';
+import 'package:http/http.dart' as http;
 
 class MapCentre extends StatefulWidget {
   const MapCentre({super.key});
@@ -16,6 +13,13 @@ class MapCentre extends StatefulWidget {
 
 class _MapCentreState extends State<MapCentre> {
   final TextEditingController _searchController = TextEditingController();
+
+  void getLocation(String query) async {
+    final response =
+        await http.get(Uri.parse("http://localhost:3000/api/maps/$query"));
+    final json = jsonDecode(response.body);
+    print(json);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,31 +37,36 @@ class _MapCentreState extends State<MapCentre> {
         ),
         Expanded(
           child: Container(
-            height: size.height * 0.8,
+            height: size.height * 0.4,
             margin: marginDefined,
             padding: paddingDefined,
             decoration: decorationDefinedShadow(
                 Theme.of(context).colorScheme.onPrimary, 25),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text("Tambah Pusat Bantuan"),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      child: TextFormField(
-                        controller: _searchController,
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          var place = await LocationService().getPlace(
-                            _searchController.text,
-                          );
-                          print(place);
-                        },
-                        child: const Text("Search Place"))
-                  ],
+                const Text(
+                  "Tambah Pusat Bantuan",
+                  style: textStyling,
+                ),
+                Container(
+                  width: 200,
+                  padding: paddingDefined,
+                  decoration: decorationDefinedShadow(
+                      Theme.of(context).colorScheme.onPrimary, 25),
+                  child: TextFormField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(border: InputBorder.none),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    getLocation(_searchController.text);
+                  },
+                  child: const Text("Search Place"),
                 )
               ],
             ),

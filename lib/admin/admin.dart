@@ -6,10 +6,14 @@ import 'package:fyp_project/admin/information/information.dart';
 import 'package:fyp_project/admin/map_centre/map_centre.dart';
 
 class Admin extends StatefulWidget {
-  const Admin({super.key});
+  const Admin(
+      {super.key, required this.toggleTheme, required this.themeDefault});
 
   @override
   State<Admin> createState() => _AdminState();
+
+  final VoidCallback toggleTheme;
+  final bool themeDefault;
 }
 
 class _AdminState extends State<Admin> {
@@ -71,13 +75,12 @@ class _AdminState extends State<Admin> {
       body: Row(
         children: [
           NavigationRail(
-            // leading: const SizedBox(
-            //   width: 180,
-            //   child: Align(
-            //     alignment: Alignment.bottomRight,
-            //     child: Icon(Icons.close),
-            //   ),
-            // ),
+            leading: IconButton(
+              onPressed: () => widget.toggleTheme(),
+              icon: widget.themeDefault
+                  ? const Icon(Icons.toggle_on, size: 40)
+                  : const Icon(Icons.toggle_off, size: 40),
+            ),
             elevation: 20,
             // minWidth: 200,
             backgroundColor: Theme.of(context).colorScheme.onPrimary,

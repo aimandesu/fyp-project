@@ -47,10 +47,10 @@ class _HomeState extends State<Home> {
             const Expanded(
               child: TabViews(),
             ),
-            TextButton(
-              onPressed: testApi,
-              child: const Text("Click me"),
-            )
+            // TextButton(
+            //   onPressed: testApi,
+            //   child: const Text("Click me"),
+            // )
             // const Statistic(),
             // Container(
             //   margin: const EdgeInsets.all(10),

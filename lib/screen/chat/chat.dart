@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:fyp_project/models/message_model.dart';
 import 'package:fyp_project/screen/chat/widgets/chat_area.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/chat/widgets/text_entered.dart';
@@ -33,7 +36,23 @@ class _ChatState extends State<Chat> {
             doc.docs.first.data()['isPicked'] != false);
   }
 
-  void sendMessage() {}
+  void sendMessage(
+    String requestID,
+    String message,
+    File? picture,
+  ) {
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
+
+    final messageModel = MessageModel(
+      requestID: requestID,
+      uid: authUID,
+      message: message,
+      picture: picture,
+    );
+
+    //send to provider
+    Provider.of<ChatProvider>(context, listen: false).addMessage(messageModel);
+  }
 
   @override
   void initState() {
@@ -82,7 +101,11 @@ class _ChatState extends State<Chat> {
               children: [
                 TextEntered(chatText: chatText),
                 IconButton.filledTonal(
-                  onPressed: sendMessage,
+                  onPressed: () => sendMessage(
+                    arguments,
+                    chatText.text,
+                    null,
+                  ), //here should hntr file image
                   icon: const Icon(Icons.send),
                 )
               ],

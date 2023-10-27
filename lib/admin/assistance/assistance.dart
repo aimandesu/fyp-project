@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/admin/providers/assistance_provider.dart';
@@ -5,6 +7,7 @@ import 'package:fyp_project/constant.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/message_model.dart';
 import '../../providers/chat_provider.dart';
 import '../../screen/chat/widgets/bubble.dart';
 import '../../screen/chat/widgets/text_entered.dart';
@@ -32,7 +35,23 @@ class _AssistanceState extends State<Assistance> {
     super.initState();
   }
 
-  void sendMessage() {}
+  void sendMessage(
+    String requestID,
+    String message,
+    File? picture,
+  ) {
+    String authUID = "dev";
+
+    final messageModel = MessageModel(
+      requestID: requestID,
+      uid: authUID,
+      message: message,
+      picture: picture,
+    );
+
+    //send to provider
+    Provider.of<ChatProvider>(context, listen: false).addMessage(messageModel);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +123,7 @@ class _AssistanceState extends State<Assistance> {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Lottie.asset("assets/chat.json"),
+                    Lottie.asset("assets/help.json", repeat: false),
                     const Text(
                       "Helping people is a good deed. Have a nice day!",
                       style: textStyling,
@@ -135,9 +154,13 @@ class _AssistanceState extends State<Assistance> {
                               itemBuilder: (_, index) {
                                 String text = snapshot.data![index]['text'];
                                 String uid = snapshot.data![index]['uid'];
+                                String? picture =
+                                    snapshot.data[index]['picture'];
+
                                 return Bubble(
                                   message: text,
                                   isUser: uid == authUID,
+                                  picture: picture,
                                 );
                               },
                             ),
@@ -182,7 +205,11 @@ class _AssistanceState extends State<Assistance> {
                               width: 10,
                             ),
                             IconButton.filledTonal(
-                              onPressed: sendMessage,
+                              onPressed: () => sendMessage(
+                                callsOn.toString(),
+                                chatText.text,
+                                null,
+                              ),
                               icon: const Icon(Icons.send),
                             ),
                             const SizedBox(

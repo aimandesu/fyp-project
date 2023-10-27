@@ -114,7 +114,10 @@ class _MyAppState extends State<MyApp> {
         ),
         debugShowCheckedModeBanner: false,
         home: kIsWeb
-            ? const Admin()
+            ? Admin(
+                themeDefault: widget.switchTheme,
+                toggleTheme: toggleTheme,
+              )
             : widget.onboardingComplete
                 ? StreamBuilder<User?>(
                     stream: FirebaseAuth.instance.authStateChanges(),
