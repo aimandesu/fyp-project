@@ -24,8 +24,8 @@ import 'screen/chat/chat.dart';
 import 'firebase_options.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-//use ctrl alt k for reformat
-//use alt enter to wrap widget
+//use ctrl alt l for reformat - just save
+//use alt enter to wrap widget - ctrl with dot
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

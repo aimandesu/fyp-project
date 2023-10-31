@@ -1,10 +1,19 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:fyp_project/data/chips_data.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
+import 'package:fyp_project/screen/report_incident/widgets/chip_choices.dart';
 import 'package:fyp_project/screen/report_incident/widgets/picture_display.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:lottie/lottie.dart' as lt;
 
+import '../../constant.dart';
 import '../help_form/widgets/camera/picture_upload.dart';
+import '../help_form/widgets/textfield_decoration.dart';
 
 class ReportIncidence extends StatefulWidget {
   static const routeName = "./report-incidence";
@@ -16,7 +25,16 @@ class ReportIncidence extends StatefulWidget {
 }
 
 class _ReportIncidenceState extends State<ReportIncidence> {
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   List<File>? pictures = [];
+  List<String> disaster = [];
+  bool incidenceExtra = false;
+  LocationData? currentLocation;
+  final Set<Marker> _markers = <Marker>{};
+  CameraPosition? _currentPlex;
+  final incidentController = TextEditingController();
+  bool backTo = false;
 
   Future<void> navigatePictureUpload(BuildContext context) async {
     var result = await Navigator.pushNamed(
@@ -36,6 +54,75 @@ class _ReportIncidenceState extends State<ReportIncidence> {
     });
   }
 
+  void resetSelectionState() {
+    setState(() {
+      backTo = true;
+    });
+    for (var chip in chipsData) {
+      chip.selected = false;
+    }
+  }
+
+  void changeIncidentExtra(bool toChange) {
+    setState(() {
+      incidenceExtra = toChange;
+    });
+  }
+
+  void getCurrentLocation() async {
+    if (mounted) {
+      Location location = Location();
+
+      location.getLocation().then((location) {
+        setState(() {
+          currentLocation = location;
+          setPosition();
+        });
+      });
+    }
+  }
+
+  void setCurrentPlex(LatLng point) {
+    _currentPlex = CameraPosition(
+      target: point,
+      zoom: 14,
+    );
+  }
+
+  void setYourPosMarker(LatLng point) {
+    setState(() {
+      String markerId = "your_location";
+
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker$markerId'),
+          // infoWindow: const InfoWindow(title: "From Json Marker"),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          position: point,
+        ),
+      );
+    });
+  }
+
+  void setPosition() {
+    if (currentLocation != null) {
+      setCurrentPlex(LatLng(
+        currentLocation!.latitude!,
+        currentLocation!.longitude!,
+      ));
+      setYourPosMarker(LatLng(
+        currentLocation!.latitude!,
+        currentLocation!.longitude!,
+      ));
+    }
+  }
+
+  @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
@@ -45,40 +132,100 @@ class _ReportIncidenceState extends State<ReportIncidence> {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     double paddingTop = appBar.preferredSize.height + mediaQuery.padding.top;
 
-    return Scaffold(
-      appBar: appBar,
-      body: ResponsiveLayoutController(
-        mobile: Column(
-          children: [
-            const Text(
-                "chip widget flutter - choose natural hazard incident happen"),
-            Container(
-              width: mediaQuery.size.width * 1,
-              height: (mediaQuery.size.height - paddingTop) * 0.3,
-              color: Theme.of(context).colorScheme.primaryContainer,
-              child: Stack(
+    Widget buildTextField = incidenceExtra
+        ? Expanded(
+            child: Container(
+              margin: marginDefined,
+              padding: paddingDefined,
+              decoration: inputDecorationDefined(context),
+              child: const TextField(
+                maxLines: null,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  border: InputBorder.none, // Remove the underline
+                ),
+              ),
+            ).animate().fade(duration: 300.ms),
+          )
+        : Container();
+
+    return WillPopScope(
+      onWillPop: () async {
+        resetSelectionState();
+        return true;
+      },
+      child: Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: SizedBox(
+            width: mediaQuery.size.width * 1,
+            height: (mediaQuery.size.height - paddingTop) * 1,
+            child: ResponsiveLayoutController(
+              mobile: Column(
                 children: [
-                  pictures == null
-                      ? Container()
-                      : PictureDisplay(
-                          picturesIncident: pictures,
-                          removePicture: _removePicture,
-                        ),
-                  Positioned(
-                    bottom: 0,
-                    right: 10,
-                    child: IconButton.filledTonal(
-                      onPressed: () => navigatePictureUpload(context),
-                      icon: const Icon(Icons.camera),
-                    ),
-                  )
+                  PictureDisplay(
+                    picturesIncident: pictures,
+                    removePicture: _removePicture,
+                    navigatePictureUpload: navigatePictureUpload,
+                    width: mediaQuery.size.width * 1,
+                    height: (mediaQuery.size.height - paddingTop) * 0.3,
+                  ),
+                  buildMap(mediaQuery, paddingTop),
+                  ChipChoices(
+                    disaster: disaster,
+                    incidentController: incidentController,
+                    changeIncidentExtra: changeIncidentExtra,
+                  ),
+                  buildTextField,
+                  incidenceExtra ? Container() : const Spacer(),
+                  buildSubmitButton()
                 ],
               ),
-            )
-          ],
+              tablet: const Text("tablet"),
+            ),
+          ),
         ),
-        tablet: const Text("tablet"),
       ),
+    );
+  }
+
+  Align buildSubmitButton() {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Container(
+        margin: marginDefined,
+        child: FilledButton.tonal(
+          onPressed: () {
+            print(disaster);
+            print(incidentController.text);
+          },
+          child: const Text("Submit"),
+        ),
+      ),
+    );
+  }
+
+  Container buildMap(MediaQueryData mediaQuery, double paddingTop) {
+    return Container(
+      margin: marginDefined,
+      height: (mediaQuery.size.height - paddingTop) * 0.2,
+      width: mediaQuery.size.width * 1,
+      child: currentLocation == null
+          ? Container(
+              child: lt.Lottie.asset("assets/chat.json"),
+            )
+          : !backTo
+              ? GoogleMap(
+                  mapType: MapType.normal,
+                  markers: _markers,
+                  zoomControlsEnabled: false,
+                  initialCameraPosition: _currentPlex as CameraPosition,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                )
+              : Container(),
     );
   }
 }

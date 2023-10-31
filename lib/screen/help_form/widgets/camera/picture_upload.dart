@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
 
 import 'camera_module.dart';
 import 'camera_option.dart';
@@ -11,6 +12,7 @@ import 'picture_display.dart';
 
 class PictureUpload extends StatefulWidget {
   static const routeName = "/picture-upload";
+
   const PictureUpload({super.key});
 
   @override
@@ -85,10 +87,10 @@ class _PictureUploadState extends State<PictureUpload> {
     });
   }
 
-  void _clearImageCache() async {
-    imageFile = null;
-    await _cameraController!.dispose();
-  }
+  // void _clearImageCache() async {
+  //   imageFile = null;
+  //   await _cameraController!.dispose();
+  // }
 
   void _removePicture(int index) {
     setState(() {
@@ -99,7 +101,15 @@ class _PictureUploadState extends State<PictureUpload> {
   @override
   void initState() {
     setupCamera();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _cameraController!.dispose();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    super.dispose();
   }
 
   @override
@@ -138,17 +148,18 @@ class _PictureUploadState extends State<PictureUpload> {
                       bottom: 0,
                       right: 0,
                       child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              PictureDisplay.routeName,
-                              arguments: {
-                                "pictures": _pictures,
-                                "removePicture": _removePicture,
-                              },
-                            );
-                          },
-                          child: const Text("Pergi ke gambar diambil")),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            PictureDisplay.routeName,
+                            arguments: {
+                              "pictures": _pictures,
+                              "removePicture": _removePicture,
+                            },
+                          );
+                        },
+                        child: const Text("Pergi ke gambar diambil"),
+                      ),
                     ),
                   ],
                 ),
@@ -177,10 +188,10 @@ class _PictureUploadState extends State<PictureUpload> {
             // :
             Row(
                 children: [
-                  CameraModule(
-                    height: size.height * 1,
-                    width: size.width * 0.9,
-                    cameraController: _cameraController,
+                  Expanded(
+                    child: CameraModule(
+                      cameraController: _cameraController,
+                    ),
                   ),
                   CameraOption(
                     width: size.width * 0.1,
@@ -189,7 +200,6 @@ class _PictureUploadState extends State<PictureUpload> {
                     pictures: _pictures,
                     takePicture: _takePicture,
                     uploadPhotos: _uploadPhotos,
-                    clearImageCache: _clearImageCache,
                     removePicture: _removePicture,
                     isPortrait: isPortrait,
                   ),

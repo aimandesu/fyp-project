@@ -13,7 +13,7 @@ class CameraOption extends StatelessWidget {
       required this.pictures,
       required this.takePicture,
       required this.uploadPhotos,
-      required this.clearImageCache,
+      // required this.clearImageCache,
       required this.isPortrait,
       required this.removePicture,
       super.key});
@@ -24,7 +24,7 @@ class CameraOption extends StatelessWidget {
   final List<File>? pictures;
   final VoidCallback takePicture;
   final VoidCallback uploadPhotos;
-  final VoidCallback clearImageCache;
+  // final VoidCallback clearImageCache;
   final bool isPortrait;
   final Function removePicture;
 

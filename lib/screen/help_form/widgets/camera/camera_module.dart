@@ -1,23 +1,20 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/constant.dart';
 
 class CameraModule extends StatelessWidget {
   const CameraModule({
     super.key,
-    required this.height,
-    required this.width,
     required CameraController? cameraController,
   }) : _cameraController = cameraController;
 
-  final double height;
-  final double width;
   final CameraController? _cameraController;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      width: width,
+    return Container(
+      margin: marginDefined,
+
       child: _cameraController == null
           ? Container()
           : CameraPreview(
