@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/home/widgets/tab_views.dart';
+import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'widgets/shelter_map.dart';
@@ -42,6 +43,13 @@ class _HomeState extends State<Home> {
               width: size.width * 1,
               height: 200,
               child: const ShelterMap().animate().fadeIn(),
+            ),
+            SizedBox(
+              child: GestureDetector(
+                onTap: () =>
+                    Navigator.of(context).pushNamed(ReportIncidence.routeName),
+                child: const Text("report incidence"),
+              ),
             ),
             // const Statistic(),
             const Expanded(

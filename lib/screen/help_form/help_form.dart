@@ -129,6 +129,8 @@ class _HelpFormState extends State<HelpForm> {
     }
   }
 
+  //pictures and pdf callback
+
   Future<void> navigatePictureUpload(BuildContext context) async {
     var result = await Navigator.pushNamed(
       context,

@@ -19,7 +19,6 @@ class _HelpCentreState extends State<HelpCentre> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     final mediaQuery = MediaQuery.of(context);
 
     AppBar appBar2 = AppBar(
@@ -70,7 +69,7 @@ class _HelpCentreState extends State<HelpCentre> {
                 !backTo
                     ? SizedBox(
                         height: (mediaQuery.size.height - paddingTop) * 1,
-                        width: size.width * 0.9,
+                        width: mediaQuery.size.width * 0.9,
                         child: const MapLocation(),
                       )
                     : Container(),

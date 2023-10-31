@@ -11,6 +11,7 @@ import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
+import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:fyp_project/screen/support_result/dart/support_result.dart';
 import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';
 import 'package:fyp_project/screen/verification/verification.dart';
@@ -29,8 +30,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-// ...
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -43,7 +42,6 @@ Future main() async {
     MyApp(
       onboardingComplete: onboardingComplete,
       switchTheme: switchTheme,
-      // prefs: prefs,
     ),
   );
 }
@@ -53,14 +51,11 @@ class MyApp extends StatefulWidget {
   MyApp({
     required this.onboardingComplete,
     required this.switchTheme,
-    // required this.prefs,
     super.key,
   });
 
   final bool onboardingComplete;
   bool switchTheme;
-
-  // final SharedPreferences prefs;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -73,24 +68,11 @@ class _MyAppState extends State<MyApp> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool("switchTheme", widget.switchTheme);
-    // print("here");
-    // print(prefs.getBool("switchTheme"));
-    // setState(() {
-    // themeDefault = prefs.getBool("switchTheme");
-
-    // });
   }
-
-  // Future<void> triggerSharedPreference() async {
-  //   // SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   // bool currentTheme = prefs.getBool('switchTheme') ?? false;
-  //   // themeDefault = currentTheme;
-  // }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      //still dont understand how this works?
       providers: [
         ChangeNotifierProvider(
           create: (_) => MapsProvider(),
@@ -126,13 +108,12 @@ class _MyAppState extends State<MyApp> {
                         return MainLayoutController(
                           themeDefault: widget.switchTheme,
                           toggleTheme: toggleTheme,
-                        ); //pass toggle here, switch dark mode and vice versa
+                        );
                       } else {
                         return const SignLogin();
                       }
-                    }) //default: SignUpLogin(), pass firebase testing stuff inside the signuplogin
+                    })
                 : const Onboarding(),
-        //Onboarding(),
         routes: {
           PictureUpload.routeName: (context) => const PictureUpload(),
           PDFUpload.routeName: (context) => const PDFUpload(),
@@ -142,7 +123,7 @@ class _MyAppState extends State<MyApp> {
           SupportResult.routeName: (context) => const SupportResult(),
           Result.routeName: (context) => const Result(),
           HelpCentre.routeName: (context) => const HelpCentre(),
-          // Graph.routeName: (context) => const Graph()
+          ReportIncidence.routeName: (context) => const ReportIncidence()
         },
       ),
     );
