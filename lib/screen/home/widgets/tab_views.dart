@@ -13,7 +13,7 @@ class _TabViewsState extends State<TabViews>
     with SingleTickerProviderStateMixin {
   static const List<Tab> myTabs = <Tab>[
     Tab(
-      child: Text("Berita"),
+      child: Text("Kejadian Harian"),
     ),
     Tab(
       child: Text("Data Harian"),

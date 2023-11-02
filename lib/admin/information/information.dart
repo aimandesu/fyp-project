@@ -35,12 +35,13 @@ class Information extends StatelessWidget {
               decoration: decorationDefinedShadow(color, circular),
               child: const CircularChart(),
             ),
-            Container(
-              width: size.width * 0.28,
-              height: size.height * 0.5,
-              margin: marginDefined,
-              decoration: decorationDefinedShadow(color, circular),
-              child: const FunnelChart(),
+            Expanded(
+              child: Container(
+                height: size.height * 0.5,
+                margin: marginDefined,
+                decoration: decorationDefinedShadow(color, circular),
+                child: const FunnelChart(),
+              ),
             ),
           ],
         ),
@@ -53,12 +54,13 @@ class Information extends StatelessWidget {
               decoration: decorationDefinedShadow(color, circular),
               child: const SplineChart(),
             ),
-            Container(
-              width: size.width * 0.4,
-              height: size.height * 0.4,
-              margin: marginDefined,
-              decoration: decorationDefinedShadow(color, circular),
-              child: const ColumnChart(),
+            Expanded(
+              child: Container(
+                height: size.height * 0.4,
+                margin: marginDefined,
+                decoration: decorationDefinedShadow(color, circular),
+                child: const ColumnChart(),
+              ),
             ),
           ],
         )

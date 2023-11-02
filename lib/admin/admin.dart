@@ -4,6 +4,7 @@ import 'package:fyp_project/admin/form_validation/form_validation.dart';
 import 'package:fyp_project/admin/identification_verifiy/identification_verify.dart';
 import 'package:fyp_project/admin/information/information.dart';
 import 'package:fyp_project/admin/map_centre/map_centre.dart';
+import 'package:fyp_project/constant.dart';
 
 class Admin extends StatefulWidget {
   const Admin(
@@ -20,7 +21,7 @@ class _AdminState extends State<Admin> {
   /* things to do:
   1. Form - ada boleh nampak orang punya form, gambar keadaan, and kelulusan
   2. Assistance - boleh chat org tnya soalan, boleh send gmbr, and send file
-  3. Map - boleh tgok map, guna api untuk dptkn coordinate maybe mcm search bar, and dpt tgok all list kita punya map disaster  
+  3. Map - boleh tgok map, guna api untuk dptkn coordinate maybe mcm search bar, and dpt tgok all list kita punya map disaster
   4. Graph - boleh tengok mana various stuff - idk what that is
   5. */
 
@@ -71,23 +72,51 @@ class _AdminState extends State<Admin> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Row(
         children: [
-          NavigationRail(
-            leading: IconButton(
-              onPressed: () => widget.toggleTheme(),
-              icon: widget.themeDefault
-                  ? const Icon(Icons.toggle_on, size: 40)
-                  : const Icon(Icons.toggle_off, size: 40),
-            ),
-            elevation: 20,
-            // minWidth: 200,
-            backgroundColor: Theme.of(context).colorScheme.onPrimary,
-            destinations: _railPages,
-            selectedIndex: _selectedPageIndex,
-            onDestinationSelected: _selectPage,
-            labelType: NavigationRailLabelType.all,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                height: size.height * 0.9,
+                decoration: decorationDefinedShadow(
+                  Theme.of(context).colorScheme.onPrimary,
+                  25,
+                ),
+                child: NavigationRail(
+                  extended: true,
+                  backgroundColor: Colors.transparent,
+                  destinations: _railPages,
+                  selectedIndex: _selectedPageIndex,
+                  onDestinationSelected: _selectPage,
+                ),
+              ),
+              Container(
+                decoration: decorationDefinedShadow(
+                    Theme.of(context).colorScheme.onPrimary, 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const IconButton(
+                      onPressed: null,
+                      icon: Icon(Icons.logout),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.1,
+                    ),
+                    IconButton(
+                      onPressed: () => widget.toggleTheme(),
+                      icon: widget.themeDefault
+                          ? const Icon(Icons.toggle_on, size: 40)
+                          : const Icon(Icons.toggle_off, size: 40),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
           Expanded(child: _pages[_selectedPageIndex])
         ],

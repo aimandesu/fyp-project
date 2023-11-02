@@ -25,10 +25,10 @@ class ResultContainer extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
 
     return Align(
-      alignment: Alignment.topCenter,
+      alignment: Alignment.center,
       child: Container(
         margin: const EdgeInsets.only(top: 10),
-        height: mediaQuery.size.height * 0.8,
+        height: mediaQuery.size.height * 0.5,
         width: mediaQuery.size.width * 0.9,
         decoration: decorationDefinedShadow(
             Theme.of(context).colorScheme.primaryContainer, 25),
@@ -40,7 +40,7 @@ class ResultContainer extends StatelessWidget {
               child: Text("Kes ID: $kesID"),
             ),
             Container(
-              height: mediaQuery.size.height * 0.4,
+              height: mediaQuery.size.height * 0.3,
               width: mediaQuery.size.width * 0.9,
               margin: marginDefined,
               child: Column(

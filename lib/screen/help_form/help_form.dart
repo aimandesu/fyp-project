@@ -235,7 +235,7 @@ class _HelpFormState extends State<HelpForm> {
                     selectedPDF: selectedPDF,
                   ),
                   submitButton(context),
-                ].animate(interval: 40.ms).fade(duration: 300.ms).slideY(),
+                ].animate(interval: 40.ms).fade(duration: 300.ms),
               ),
             );
           }

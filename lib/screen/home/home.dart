@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
+import 'package:fyp_project/screen/home/widgets/report.dart';
 import 'package:fyp_project/screen/home/widgets/tab_views.dart';
 import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:http/http.dart' as http;
@@ -39,17 +40,15 @@ class _HomeState extends State<Home> {
         mobile: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            // SizedBox(
+            //   width: size.width * 1,
+            //   height: 200,
+            //   child: const ShelterMap().animate().fadeIn(),
+            // ),
             SizedBox(
               width: size.width * 1,
               height: 200,
-              child: const ShelterMap().animate().fadeIn(),
-            ),
-            SizedBox(
-              child: GestureDetector(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(ReportIncidence.routeName),
-                child: const Text("report incidence"),
-              ),
+              child: const Report().animate().fadeIn(),
             ),
             // const Statistic(),
             const Expanded(
@@ -71,7 +70,7 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: size.width * 0.4,
               height: 200,
-              child: const ShelterMap().animate().fadeIn(),
+              child: const Report().animate().fadeIn(),
             ),
             const Expanded(
               child: TabViews(),
