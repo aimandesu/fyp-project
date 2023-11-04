@@ -21,8 +21,14 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   final TextEditingController chatText = TextEditingController();
-
+  bool callsPicked = false;
   late Stream<bool> theStream;
+
+  void callsHasBeenPicked(){
+    setState(() {
+      callsPicked = true;
+    });
+  }
 
   Stream<bool> hasPicked() async* {
     final authUID = FirebaseAuth.instance.currentUser!.uid;
@@ -92,11 +98,13 @@ class _ChatState extends State<Chat> {
         body: Column(
           children: [
             Expanded(
-                child: ChatArea(
-              arguments: arguments,
-            )),
+              child: ChatArea(
+                arguments: arguments,
+                  callsHasBeenPicked: callsHasBeenPicked,
+              ),
+            ),
             //here textfield
-            Row(
+            callsPicked ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextEntered(chatText: chatText),
@@ -109,7 +117,7 @@ class _ChatState extends State<Chat> {
                   icon: const Icon(Icons.send),
                 )
               ],
-            ),
+            ) : Container(),
             const SizedBox(
               height: 10,
             )

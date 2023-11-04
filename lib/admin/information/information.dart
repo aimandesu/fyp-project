@@ -6,6 +6,7 @@ import '../../screen/statistic/widgets/circular_chart.dart';
 import '../../screen/statistic/widgets/funnel_chart.dart';
 import '../../screen/statistic/widgets/line_chart.dart';
 import '../../screen/statistic/widgets/spline_chart.dart';
+import '../../screen/statistic/widgets/stackedbar_chart.dart';
 
 class Information extends StatelessWidget {
   const Information({super.key});
@@ -40,7 +41,7 @@ class Information extends StatelessWidget {
                 height: size.height * 0.5,
                 margin: marginDefined,
                 decoration: decorationDefinedShadow(color, circular),
-                child: const FunnelChart(),
+                child: const StackedBarChart(),
               ),
             ),
           ],

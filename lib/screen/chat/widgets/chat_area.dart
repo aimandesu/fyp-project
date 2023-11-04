@@ -8,10 +8,11 @@ import '../../../providers/chat_provider.dart';
 class ChatArea extends StatefulWidget {
   const ChatArea({
     super.key,
-    required this.arguments,
+    required this.arguments, required this.callsHasBeenPicked,
   });
 
   final String arguments;
+  final VoidCallback callsHasBeenPicked;
 
   @override
   State<ChatArea> createState() => _ChatAreaState();
@@ -50,8 +51,13 @@ class _ChatAreaState extends State<ChatArea> {
             final authUID = FirebaseAuth.instance.currentUser!.uid;
 
             if (snapshot.data!.isEmpty) {
-              return Text("awaiting calls");
+              return const Text("awaiting calls");
             } else {
+
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.callsHasBeenPicked();
+              });
+
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) {

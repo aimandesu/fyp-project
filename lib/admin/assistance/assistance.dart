@@ -93,6 +93,8 @@ class _AssistanceState extends State<Assistance> {
                               onPressed: () {
                                 setState(() {
                                   callsOn = snapshot.data![index]["requestID"];
+                                  AssistanceProvider()
+                                      .targetMessage(callsOn.toString());
                                   chatStream = Provider.of<ChatProvider>(
                                           context,
                                           listen: false)

@@ -79,7 +79,27 @@ class _AdminState extends State<Admin> {
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                decoration: decorationDefinedShadow(
+                    Theme.of(context).colorScheme.onPrimary, 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const IconButton(
+                      onPressed: null,
+                      icon: Icon(Icons.logout),
+                    ),
+                    IconButton(
+                      onPressed: () => widget.toggleTheme(),
+                      icon: widget.themeDefault
+                          ? const Icon(Icons.toggle_on, size: 40)
+                          : const Icon(Icons.toggle_off, size: 40),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 height: size.height * 0.9,
                 decoration: decorationDefinedShadow(
@@ -94,28 +114,6 @@ class _AdminState extends State<Admin> {
                   onDestinationSelected: _selectPage,
                 ),
               ),
-              Container(
-                decoration: decorationDefinedShadow(
-                    Theme.of(context).colorScheme.onPrimary, 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const IconButton(
-                      onPressed: null,
-                      icon: Icon(Icons.logout),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.1,
-                    ),
-                    IconButton(
-                      onPressed: () => widget.toggleTheme(),
-                      icon: widget.themeDefault
-                          ? const Icon(Icons.toggle_on, size: 40)
-                          : const Icon(Icons.toggle_off, size: 40),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
           Expanded(child: _pages[_selectedPageIndex])

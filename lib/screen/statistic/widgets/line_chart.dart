@@ -1,35 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/admin/providers/dataset_provider.dart';
+import 'package:fyp_project/models/charts/cases_count_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class LineChart extends StatelessWidget {
+class LineChart extends StatefulWidget {
   const LineChart({super.key});
 
   @override
+  State<LineChart> createState() => _LineChartState();
+}
+
+class _LineChartState extends State<LineChart> {
+  Future<dynamic>? lineChart;
+  List<String> _years = [];
+  String _selectedYear = DateTime.now().year.toString();
+
+  void initialiseYear() async {
+    _years = await DatasetProvider().fetchYear();
+  }
+
+  @override
+  void initState() {
+    lineChart = DatasetProvider().fetchLineChart(_selectedYear);
+    initialiseYear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SfCartesianChart(
-      title: ChartTitle(text: "test"),
-      primaryXAxis: CategoryAxis(),
-      series: <LineSeries<SalesData, String>>[
-        LineSeries<SalesData, String>(
-          // Bind data source
-          dataSource: <SalesData>[
-            SalesData('Jan', 35),
-            SalesData('Feb', 28),
-            SalesData('Mar', 34),
-            SalesData('Apr', 32),
-            SalesData('May', 40)
-          ],
-          xValueMapper: (SalesData sales, _) => sales.year,
-          yValueMapper: (SalesData sales, _) => sales.sales,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        const SizedBox(height: 20),
+        StatefulBuilder(
+          builder: (context, change) {
+            return DropdownButton(
+              value: _selectedYear,
+              items: _years.map((value) {
+                return DropdownMenuItem(value: value, child: Text(value));
+              }).toList(),
+              onChanged: (String? value) {
+                change(() {
+                  _selectedYear = value.toString();
+                });
+                setState(() {
+                  lineChart = DatasetProvider().fetchLineChart(_selectedYear);
+                });
+              },
+              underline: Container(
+                color: Colors.transparent,
+              ),
+            );
+          },
+        ),
+        FutureBuilder<dynamic>(
+          future: lineChart,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const CircularProgressIndicator(); // Show a loading indicator while waiting for data.
+            }
+
+            List<CasesCountModel> chartData =
+                (snapshot.data as List<dynamic>).map((data) {
+              return CasesCountModel(
+                month: data['month'],
+                numberCases: data['numberCases'],
+              );
+            }).toList();
+
+            return SfCartesianChart(
+              title: ChartTitle(
+                text: "Occurrence Cases of Natural Hazard",
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              ),
+              primaryXAxis: CategoryAxis(),
+              series: <LineSeries<CasesCountModel, String>>[
+                LineSeries<CasesCountModel, String>(
+                    // Bind data source
+                    dataSource: chartData,
+                    xValueMapper: (CasesCountModel cases, _) => cases.month,
+                    yValueMapper: (CasesCountModel cases, _) =>
+                        cases.numberCases,
+                    dataLabelSettings:
+                        const DataLabelSettings(isVisible: true)),
+              ],
+            );
+          },
         ),
       ],
     );
   }
-}
-
-class SalesData {
-  SalesData(this.year, this.sales);
-
-  final String year;
-  final double sales;
 }

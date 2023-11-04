@@ -44,7 +44,7 @@ class HelpFormModel {
   ) =>
       {
         'name': name,
-        'adress': address,
+        'address': address,
         'postcode': postcode,
         'district': district,
         'phone': phone,

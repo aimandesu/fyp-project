@@ -9,4 +9,25 @@ class AssistanceProvider {
         .snapshots()
         .map((event) => event.docs.map((doc) => doc.data()).toList());
   }
+
+  void targetMessage(String chatID) async {
+    String authUID = "dev";
+    await FirebaseFirestore.instance
+        .collection("requestAssistance")
+        .doc(chatID)
+        .update({
+      "assistanceID": authUID,
+      "isPicked": true,
+    });
+
+    await FirebaseFirestore.instance
+        .collection("requestAssistance")
+        .doc(chatID)
+        .collection("chat")
+        .add({
+      'index': 0,
+      'uid': authUID,
+      'text': "Selamat Datang, Apa yang boleh kami bantu?",
+    });
+  }
 }
