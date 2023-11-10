@@ -22,10 +22,11 @@ class Graph extends StatelessWidget {
       //here we will pass the data using future builder, for each of the instance
       child: Column(
         children: [
-          LineChart(),
-          CircularChart(),
-          FunnelChart(),
-          SplineChart(),
+          Text("Nothing here at the moments")
+          // LineChart(),
+          // CircularChart(),
+          // FunnelChart(),
+          // SplineChart(),
         ],
       ),
       // ),

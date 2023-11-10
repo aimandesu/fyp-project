@@ -1,9 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/assistance/assistance.dart';
 import 'package:fyp_project/admin/form_validation/form_validation.dart';
 import 'package:fyp_project/admin/identification_verifiy/identification_verify.dart';
 import 'package:fyp_project/admin/information/information.dart';
-import 'package:fyp_project/admin/map_centre/map_centre.dart';
+import 'package:fyp_project/admin/report_notify/report_notify.dart';
 import 'package:fyp_project/constant.dart';
 
 class Admin extends StatefulWidget {
@@ -39,7 +40,7 @@ class _AdminState extends State<Admin> {
   void initState() {
     _pages = [
       const Information(),
-      const MapCentre(),
+      const ReportNotify(),
       const Assistance(),
       const FormValidation(),
       const IdentificationVerification()

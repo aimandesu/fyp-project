@@ -2,31 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/models/charts/shelter_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../models/charts/cases_count_model.dart';
+
 class ColumnChart extends StatelessWidget {
-  const ColumnChart({super.key});
+  const ColumnChart({super.key, required this.snapshot});
+
+  final List<dynamic> snapshot;
 
   @override
   Widget build(BuildContext context) {
-    final List<ShelterModel> chartData = [
-      ShelterModel(month: "Jan", counts: 10),
-      ShelterModel(month: "Feb", counts: 5),
-      ShelterModel(month: "Mac", counts: 30),
-      ShelterModel(month: "April", counts: 3)
-    ];
+
+    List<CasesCountModel> chartData = (snapshot).map((data) {
+      return CasesCountModel(
+        month: data['month'],
+        numberCases: data['numberCases'],
+      );
+    }).toList();
+
     return SfCartesianChart(
       title: ChartTitle(
         text: "Bilangan Mangsa di Pusat Pemindahan",
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       primaryXAxis: CategoryAxis(),
-      series: <ChartSeries<ShelterModel, String>>[
+      series: <ChartSeries<CasesCountModel, String>>[
         // Renders column chart
-        ColumnSeries<ShelterModel, String>(
+        ColumnSeries<CasesCountModel, String>(
           dataSource: chartData,
-          xValueMapper: (ShelterModel data, _) => data.month,
-          yValueMapper: (ShelterModel data, _) => data.counts,
+          xValueMapper: (CasesCountModel data, _) => data.month,
+          yValueMapper: (CasesCountModel data, _) => data.numberCases,
         )
       ],
     );
   }
 }
+
+
+

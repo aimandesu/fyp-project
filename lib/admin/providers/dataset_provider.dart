@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatasetProvider {
-
   Future<dynamic> fetchYear() async {
     final docSnapshot = await FirebaseFirestore.instance
         .collection("dataset")
@@ -10,10 +9,9 @@ class DatasetProvider {
         .get();
 
     return docSnapshot.docs.map((e) => e.data()['year'].toString()).toList();
-
   }
 
-  Future<List<Map<String, dynamic>>?> fetchLineChart(String year) async {
+  Future<List<Map<String, dynamic>>?> fetchChart(String year) async {
     final docSnapshot = await FirebaseFirestore.instance
         .collection("dataset")
         .doc("cases")
@@ -28,8 +26,30 @@ class DatasetProvider {
       }
     }
 
-    return null; // Handle the case when the document doesn't exist or the data is not in the expected format.
+    return null;
   }
 
+  //not in use as of now
+  void updateDataset(
+    String year,
+    String month,
+    dynamic newValue,
+    String key,
+  ) async {
+    DocumentReference docRef = FirebaseFirestore.instance
+        .collection("dataset")
+        .doc("cases")
+        .collection("year")
+        .doc(year);
 
+    DocumentSnapshot doc = await docRef.get();
+
+    if (doc.exists) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      if (data["month"] == month) {
+        data[key] = newValue;
+        await docRef.set(data);
+      }
+    }
+  }
 }
