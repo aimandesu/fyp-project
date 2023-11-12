@@ -1,49 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:fyp_project/models/helpform_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fyp_project/models/report_incidence_model.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 
-class HelpFormProvider {
-  static Future<void> sendHelpForm(
-    HelpFormModel helpFormModel,
+class ReportProvider {
+  static Future<void> submitIncident(
+    ReportIncidenceModel reportIncidenceModel,
     BuildContext context,
   ) async {
     DateTime now = DateTime.now();
     String formatter = DateFormat.yMMMMd('en_US').format(now);
 
-    String pathFiles =
-        "form/individual/${helpFormModel.district}/${helpFormModel.noIC}/$formatter";
+    //send form
+    String pathFiles = "report/incidence/$formatter";
 
-    //url
-    String pdfUrl = "";
     List<String> imgUrl = [];
-
     Reference reference = FirebaseStorage.instance.ref();
 
     try {
-      //pdf url
-      final data = await helpFormModel.selectedPDF.readAsBytes();
-      Reference referenceDirectory = reference.child("$pathFiles/file");
-      await referenceDirectory.putData(
-        data,
-        SettableMetadata(
-          contentType: 'application/pdf',
-          customMetadata: {'fileType': 'pdf'},
-        ),
-      );
-      pdfUrl = await referenceDirectory.getDownloadURL();
-
-      //picture url
-      for (int i = 0; i < helpFormModel.pictures.length; i++) {
-        final contentType = getImageContentType(helpFormModel.pictures[i]);
+      for (int i = 0; i < reportIncidenceModel.pictures.length; i++) {
+        final contentType =
+            getImageContentType(reportIncidenceModel.pictures[i]);
         Reference referenceDirectory = reference.child(
-          "$pathFiles/cases/${helpFormModel.pictures[i].uri.pathSegments.last}",
+          "$pathFiles/${reportIncidenceModel.userUID}/${reportIncidenceModel.pictures[i].uri.pathSegments.last}",
         );
         await referenceDirectory.putFile(
-          helpFormModel.pictures[i],
+          reportIncidenceModel.pictures[i],
           SettableMetadata(
             contentType: contentType,
             customMetadata: {'fileType': 'image'},
@@ -63,28 +49,15 @@ class HelpFormProvider {
           },
         );
       }
-      //ke here kena guna technique alert stack trace
     } finally {
-      final helpForm = FirebaseFirestore.instance.collection("form");
-      final json = helpFormModel.toJson(pdfUrl, imgUrl, formatter);
-      await helpForm.add(json).then((value) {
-        helpForm.doc(value.id).update({
-          "caseID": value.id,
+      final instance = FirebaseFirestore.instance.collection("report");
+      final json = reportIncidenceModel.toJson(imgUrl, formatter);
+      await instance.add(json).then((value) {
+        instance.doc(value.id).update({
+          "reportID": value.id,
         });
       });
     }
-  }
-
-  Future<bool> hasIdentificationVerified() async {
-    final authUID = FirebaseAuth.instance.currentUser!.uid;
-    final instance = await FirebaseFirestore.instance
-        .collection("community")
-        .where("authUID", isEqualTo: authUID)
-        .get();
-
-    bool data = instance.docs.first.data()["identificationNo"] != "";
-
-    return data;
   }
 }
 

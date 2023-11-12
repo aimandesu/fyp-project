@@ -41,6 +41,7 @@ class HelpFormModel {
   Map<String, dynamic> toJson(
     String selectedPDF,
     List<String> pictures,
+    String date,
   ) =>
       {
         'name': name,
@@ -58,5 +59,6 @@ class HelpFormModel {
         'reviewed': reviewed,
         'authUID': authUID,
         'approved': approved,
+        'date': date,
       }; //things that from reference download
 }

@@ -57,7 +57,7 @@ class _PendingState extends State<Pending> {
                       onTap: () {
                         setState(() {
                           showPDF = false;
-                          formOn = snapshot.data![index]["caseID"].toString();
+                          formOn = caseID;
                           formToRender = snapshot.data![index];
                           pdf = formToRender!["selectedPDF"];
                         });

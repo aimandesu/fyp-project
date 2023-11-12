@@ -11,10 +11,12 @@ import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
+import 'package:fyp_project/screen/news/news_content.dart';
 import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:fyp_project/screen/support_result/dart/support_result.dart';
 import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';
 import 'package:fyp_project/screen/verification/verification.dart';
+import 'package:fyp_project/services/fcm_service.dart';
 import 'package:fyp_project/signlogin/signlogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -27,12 +29,19 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 //use ctrl alt l for reformat - just save
 //use alt enter to wrap widget - ctrl with dot
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  //initialise messaging
+  FcmService().setupInteractedMessage();
+  //check if fcm is still valid, if not update
+  //do above function here
   SharedPreferences prefs;
   prefs = await SharedPreferences.getInstance();
   final onboardingComplete = prefs.getBool('onboardingComplete') ?? false;
@@ -95,6 +104,7 @@ class _MyAppState extends State<MyApp> {
           colorSchemeSeed: Colors.blue,
         ),
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         home: kIsWeb
             ? Admin(
                 themeDefault: widget.switchTheme,
@@ -123,7 +133,8 @@ class _MyAppState extends State<MyApp> {
           SupportResult.routeName: (context) => const SupportResult(),
           Result.routeName: (context) => const Result(),
           HelpCentre.routeName: (context) => const HelpCentre(),
-          ReportIncidence.routeName: (context) => const ReportIncidence()
+          ReportIncidence.routeName: (context) => const ReportIncidence(),
+          NewsContent.routeName: (context) => const NewsContent(),
         },
       ),
     );

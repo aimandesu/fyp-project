@@ -1,13 +1,19 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/data/chips_data.dart';
+import 'package:fyp_project/models/report_incidence_model.dart';
+import 'package:fyp_project/providers/report_provider.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/report_incident/widgets/chip_choices.dart';
 import 'package:fyp_project/screen/report_incident/widgets/picture_display.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart' as lt;
 
@@ -35,6 +41,34 @@ class _ReportIncidenceState extends State<ReportIncidence> {
   CameraPosition? _currentPlex;
   final incidentController = TextEditingController();
   bool backTo = false;
+
+  void submitReport() {
+    //wrap with try catch
+    try {
+      String userUID = FirebaseAuth.instance.currentUser!.uid;
+
+      final reportIncidenceModel = ReportIncidenceModel(
+        pictures: pictures as List<File>,
+        currentLocation: GeoPoint(
+          currentLocation!.latitude!,
+          currentLocation!.longitude!,
+        ),
+        disaster: disaster,
+        description: incidentController.text,
+        userUID: userUID,
+      );
+
+      ReportProvider.submitIncident(reportIncidenceModel, context);
+    } on Exception catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("There is input field that is not completed"),
+          duration:
+              Duration(seconds: 2), // You can adjust the duration as needed
+        ),
+      );
+    }
+  }
 
   Future<void> navigatePictureUpload(BuildContext context) async {
     var result = await Navigator.pushNamed(
@@ -118,6 +152,11 @@ class _ReportIncidenceState extends State<ReportIncidence> {
   }
 
   @override
+  void dispose() {
+    incidentController.dispose();
+  }
+
+  @override
   void initState() {
     getCurrentLocation();
     super.initState();
@@ -138,10 +177,11 @@ class _ReportIncidenceState extends State<ReportIncidence> {
               margin: marginDefined,
               padding: paddingDefined,
               decoration: inputDecorationDefined(context),
-              child: const TextField(
+              child: TextField(
+                controller: incidentController,
                 maxLines: null,
                 textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none, // Remove the underline
                 ),
               ),
@@ -196,10 +236,7 @@ class _ReportIncidenceState extends State<ReportIncidence> {
       child: Container(
         margin: marginDefined,
         child: FilledButton.tonal(
-          onPressed: () {
-            print(disaster);
-            print(incidentController.text);
-          },
+          onPressed: () => submitReport(),
           child: const Text("Submit"),
         ),
       ),
