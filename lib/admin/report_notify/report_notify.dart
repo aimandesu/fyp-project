@@ -36,35 +36,54 @@ class _ReportNotifyState extends State<ReportNotify> {
     });
   }
 
-  void sendNotification(Map<String, dynamic> message) async {
+  void showPopUp(String title, String content) {
+    showDialog(
+      context: context, // You'll need a BuildContext to show a dialog
+      builder: (BuildContext context) {
+        return alertDialog(context, title, content);
+      },
+    );
+  }
 
-    if(message['title'] == "" || message['body'] == "") {
-      showDialog(
-        context: context, // You'll need a BuildContext to show a dialog
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Error"),
-            content: const Text("One or more fields are empty."),
-            actions: <Widget>[
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }else{
+  void sendNotification(
+    Map<String, dynamic> message,
+    String district,
+  ) async {
+    final List<String> userList;
+
+    if (message['title'] == "" || message['body'] == "") {
+      showPopUp("mesej", "ada kosong");
+    } else {
       //way to pass
-      // final response = await http.get(Uri.parse("http://localhost:3000/api/fcm"));
-      // final json = jsonDecode(response.body);
-      // print(json);
-      print(message['district']);
-      print(message['title']);
-      print(message['body']);
+      userList = await FormProvider().getUserAssociated(district);
+      message.putIfAbsent("userTokens", () => userList);
+
+      final encodedMessage = Uri.encodeComponent(jsonEncode(message));
+
+      final response = await http
+          .get(Uri.parse("http://localhost:3000/api/fcm/$encodedMessage"));
+      //handle response in node js, not complete yet, if succeed i want to show message
+      final json = jsonDecode(response.body);
+
+      if (json == "success") {
+        showPopUp("mesej", "ada kosong");
+      }
     }
+  }
+
+  AlertDialog alertDialog(BuildContext context, String title, String content) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: <Widget>[
+        TextButton(
+          child: const Text("OK"),
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+        ),
+      ],
+    );
   }
 
   @override

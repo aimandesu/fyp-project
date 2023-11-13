@@ -10,7 +10,7 @@ class NotifyPeople extends StatelessWidget {
     required this.body,
   });
 
-  final void Function(Map<String, dynamic>) sendNotification;
+  final void Function(Map<String, dynamic>, String) sendNotification;
   final TextEditingController title;
   final TextEditingController body;
 
@@ -23,14 +23,14 @@ class NotifyPeople extends StatelessWidget {
       "Chemor",
     ];
 
-    String val = district.first;
+    String currentDistrict = district.first;
 
     return Column(
       children: [
         //stateful builder for mukim ada
         StatefulBuilder(builder: (context, setState) {
           return DropdownButton(
-            value: val,
+            value: currentDistrict,
             items: district.map((value) {
               return DropdownMenuItem(
                 value: value,
@@ -39,7 +39,7 @@ class NotifyPeople extends StatelessWidget {
             }).toList(),
             onChanged: (String? value) {
               setState(() {
-                val = value.toString();
+                currentDistrict = value.toString();
               });
             },
           );
@@ -68,10 +68,10 @@ class NotifyPeople extends StatelessWidget {
           onPressed: () {
             sendNotification(
               {
-                "district": val,
                 "title": title.text,
                 "body": body.text,
               },
+              currentDistrict,
             );
           },
           child: const Text("Beri Amaran"),
