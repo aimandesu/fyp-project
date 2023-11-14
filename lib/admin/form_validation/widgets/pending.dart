@@ -176,7 +176,7 @@ class _PendingState extends State<Pending> {
                             margin: marginDefined,
                             padding: paddingDefined,
                             decoration: decorationDefinedShadow(
-                              Theme.of(context).colorScheme.onPrimary,
+                              Theme.of(context).colorScheme.primaryContainer,
                               25,
                             ),
                             child: Column(

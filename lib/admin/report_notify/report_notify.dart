@@ -48,15 +48,23 @@ class _ReportNotifyState extends State<ReportNotify> {
   void sendNotification(
     Map<String, dynamic> message,
     String district,
+    List<String> images,
   ) async {
     final List<String> userList;
 
-    if (message['title'] == "" || message['body'] == "") {
+    if (message['title'] == "" || message['body'] == "" || images.isEmpty) {
       showPopUp("mesej", "ada kosong");
     } else {
       //way to pass
       userList = await FormProvider().getUserAssociated(district);
+
+      //put userTokens
       message.putIfAbsent("userTokens", () => userList);
+
+      //put images for notification
+      message.putIfAbsent("image", () => images.first);
+
+      print(message);
 
       final encodedMessage = Uri.encodeComponent(jsonEncode(message));
 
@@ -68,6 +76,8 @@ class _ReportNotifyState extends State<ReportNotify> {
       if (json == "success") {
         showPopUp("mesej", "ada kosong");
       }
+
+      //send to database
     }
   }
 
@@ -98,17 +108,17 @@ class _ReportNotifyState extends State<ReportNotify> {
 
     return Row(
       children: [
-        // ListReport(
-        //   reportIncidence: reportIncidence,
-        //   reportOn: reportOn,
-        //   changeReportOn: changeReportOn,
-        // ),
+        ListReport(
+          reportIncidence: reportIncidence,
+          reportOn: reportOn,
+          changeReportOn: changeReportOn,
+        ),
         ReportDescription(
           formToRender: formToRender,
         ),
         Container(
           width: size.width * 0.25,
-          height: size.height * 0.5,
+          height: size.height * 1,
           margin: marginDefined,
           decoration: decorationDefinedShadow(
             Theme.of(context).colorScheme.onPrimary,
