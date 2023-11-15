@@ -40,36 +40,24 @@ class ChatProvider with ChangeNotifier {
 
     collection.then((value) async {
       for (QueryDocumentSnapshot<Map<String, dynamic>> doc in value.docs) {
-        if (doc.data()['assistanceID'] == "" &&
-            doc.data()['isPicked'] == false) {
+        if (doc.data()['isPicked'] == false) {
           await doc.reference.delete();
+        } else {
+          final thePath = FirebaseFirestore.instance
+              .collection("requestAssistance")
+              .doc(doc.data()["requestID"])
+              .collection("chat");
+          final lengthMessage =
+              await thePath.get().then((value) => value.docs.length);
+          await thePath.add({
+            'index': lengthMessage,
+            'uid': authUID,
+            'text': "exit",
+          });
         }
       }
     });
   }
-
-  // Future<String> getRequestID() async {
-  //   final authUID = FirebaseAuth.instance.currentUser!.uid;
-  //   final doc = await FirebaseFirestore.instance
-  //       .collection("requestAssistance")
-  //       .where("authUID", isEqualTo: authUID)
-  //       .where("requestID", isNotEqualTo: "")
-  //       .where("isPicked", isEqualTo: true)
-  //       .get();
-  //   return doc.docs.first.data()['requestID'];
-  // }
-
-  // Stream<bool> hasPicked() async* {
-  //   final userUID = FirebaseAuth.instance.currentUser!.uid;
-  //
-  //   yield* FirebaseFirestore.instance
-  //       .collection("requestAssistance")
-  //       .where("userUID", isEqualTo: userUID)
-  //       .snapshots()
-  //       .map((doc) =>
-  //           doc.docs.first.data()['assistanceID'] != "" &&
-  //           doc.docs.first.data()['isPicked'] != false);
-  // }
 
   Stream<List<Map<String, dynamic>>> fetchChat(String requestID) async* {
     yield* FirebaseFirestore.instance

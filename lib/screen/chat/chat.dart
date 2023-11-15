@@ -22,24 +22,11 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   final TextEditingController chatText = TextEditingController();
   bool callsPicked = false;
-  late Stream<bool> theStream;
 
   void callsHasBeenPicked(){
     setState(() {
       callsPicked = true;
     });
-  }
-
-  Stream<bool> hasPicked() async* {
-    final authUID = FirebaseAuth.instance.currentUser!.uid;
-
-    yield* FirebaseFirestore.instance
-        .collection("requestAssistance")
-        .where("authUID", isEqualTo: authUID)
-        .snapshots()
-        .map((doc) =>
-            doc.docs.first.data()['assistanceID'] != "" &&
-            doc.docs.first.data()['isPicked'] != false);
   }
 
   void sendMessage(
@@ -58,12 +45,6 @@ class _ChatState extends State<Chat> {
 
     //send to provider
     Provider.of<ChatProvider>(context, listen: false).addMessage(messageModel);
-  }
-
-  @override
-  void initState() {
-    theStream = hasPicked();
-    super.initState();
   }
 
   @override

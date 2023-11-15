@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../constant.dart';
@@ -14,6 +15,9 @@ class ReportDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    DateTime? date = formToRender == null ? null : (formToRender!["date"] as Timestamp).toDate();
+    String? dateIncident = date == null ? null : DateFormat.yMMMMd('en_US').format(date);
 
     return Expanded(
       child: formToRender == null
@@ -98,6 +102,7 @@ class ReportDescription extends StatelessWidget {
                         Theme.of(context).colorScheme.primaryContainer, 25),
                     child: Column(
                       children: [
+                        Text(dateIncident!),
                         formToRender!["description"] != ""
                             ? Text(formToRender!["description"])
                             : Container(),

@@ -1,16 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:fyp_project/admin/assistance/chat_place.dart';
+import 'package:fyp_project/admin/assistance/list_need_assistance.dart';
 import 'package:fyp_project/admin/providers/assistance_provider.dart';
-import 'package:fyp_project/constant.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/message_model.dart';
 import '../../providers/chat_provider.dart';
-import '../../screen/chat/widgets/bubble.dart';
-import '../../screen/chat/widgets/text_entered.dart';
 
 class Assistance extends StatefulWidget {
   const Assistance({super.key});
@@ -21,7 +17,7 @@ class Assistance extends StatefulWidget {
 
 class _AssistanceState extends State<Assistance> {
   late Stream callStream;
-  late Stream chatStream;
+  late Stream? chatStream;
   bool triggerOption = false;
 
   bool customTileExpanded = false;
@@ -32,7 +28,29 @@ class _AssistanceState extends State<Assistance> {
   @override
   void initState() {
     callStream = AssistanceProvider().pickCalls();
+    chatStream = null;
     super.initState();
+  }
+
+  void changeOption() {
+    setState(() {
+      triggerOption = !triggerOption;
+    });
+  }
+
+  void expandTile(bool expanded) {
+    setState(() {
+      customTileExpanded = expanded;
+    });
+  }
+
+  void changeChannelMessage(String requestID) {
+    setState(() {
+      callsOn = requestID;
+      AssistanceProvider().targetMessage(callsOn.toString());
+      chatStream = Provider.of<ChatProvider>(context, listen: false)
+          .fetchChat(callsOn.toString());
+    });
   }
 
   void sendMessage(
@@ -61,172 +79,19 @@ class _AssistanceState extends State<Assistance> {
 
     return Row(
       children: [
-        Container(
-          width: 250,
-          height: size.height * 0.8,
-          decoration: decorationDefinedShadow(
-              Theme.of(context).colorScheme.onPrimary, 35),
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          margin: marginDefined,
-          child: StreamBuilder(
-              stream: callStream,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container();
-                } else {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return Theme(
-                        data: Theme.of(context)
-                            .copyWith(dividerColor: Colors.transparent),
-                        child: ExpansionTile(
-                          // expandedAlignment: Alignment.centerLeft,
-                          expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                          title: Text(snapshot.data![index]["requestID"]),
-                          children: [
-                            const Text("Proceed to messaging"),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  callsOn = snapshot.data![index]["requestID"];
-                                  AssistanceProvider()
-                                      .targetMessage(callsOn.toString());
-                                  chatStream = Provider.of<ChatProvider>(
-                                          context,
-                                          listen: false)
-                                      .fetchChat(callsOn.toString());
-                                  //refresh the stream
-                                });
-                              },
-                              child: const Text("Proceed"),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                          onExpansionChanged: (bool expanded) {
-                            setState(() {
-                              customTileExpanded = expanded;
-                            });
-                          },
-                        ),
-                      );
-                    },
-                  );
-                }
-              }),
+        ListNeedAssistance(
+          callStream: callStream,
+          changeChannelMessage: changeChannelMessage,
+          expandTile: expandTile,
         ),
-        Expanded(
-          child: callsOn == null
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Lottie.asset("assets/help.json", repeat: false),
-                    const Text(
-                      "Helping people is a good deed. Have a nice day!",
-                      style: textStyling,
-                    )
-                  ],
-                )
-              : Stack(
-                  children: [
-                    StreamBuilder(
-                      stream: chatStream,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Container();
-                        }
-
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        }
-
-                        if (snapshot.hasData) {
-                          const String authUID = "dev";
-
-                          return SizedBox(
-                            width: size.width * 0.7,
-                            child: ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (_, index) {
-                                String text = snapshot.data![index]['text'];
-                                String uid = snapshot.data![index]['uid'];
-                                String? picture =
-                                    snapshot.data[index]['picture'];
-
-                                return Bubble(
-                                  message: text,
-                                  isUser: uid == authUID,
-                                  picture: picture,
-                                );
-                              },
-                            ),
-                          );
-                        } else {
-                          return const Text("some error occurred");
-                        }
-                      },
-                    ),
-                    triggerOption
-                        ? Positioned(
-                            bottom: 50,
-                            right: 0,
-                            child: Container(
-                                margin: marginDefined,
-                                height: 50,
-                                width: 90,
-                                decoration: decorationDefined(
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
-                                    20)),
-                          ).animate().fade().slideY(curve: Curves.easeIn)
-                        : Container(),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(child: TextEntered(chatText: chatText)),
-                            IconButton.filledTonal(
-                              onPressed: () {
-                                setState(() {
-                                  triggerOption = !triggerOption;
-                                });
-                              },
-                              icon: const Icon(Icons.browse_gallery),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            IconButton.filledTonal(
-                              onPressed: () => sendMessage(
-                                callsOn.toString(),
-                                chatText.text,
-                                null,
-                              ),
-                              icon: const Icon(Icons.send),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    )
-                  ],
-                ),
-        ),
+        ChatPlace(
+          callsOn: callsOn,
+          chatStream: chatStream,
+          triggerOption: triggerOption,
+          chatText: chatText,
+          changeOption: changeOption,
+          sendMessage: sendMessage,
+        )
       ],
     );
   }
