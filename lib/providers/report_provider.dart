@@ -13,7 +13,12 @@ class ReportProvider {
     BuildContext context,
   ) async {
     DateTime now = DateTime.now();
+
+    //for storage
     String formatter = DateFormat.yMMMMd('en_US').format(now);
+
+    //for database
+    DateTime date =  DateTime(now.year, now.month, now.day);
 
     //send form
     String pathFiles = "report/incidence/$formatter";
@@ -51,7 +56,7 @@ class ReportProvider {
       }
     } finally {
       final instance = FirebaseFirestore.instance.collection("report");
-      final json = reportIncidenceModel.toJson(imgUrl, formatter);
+      final json = reportIncidenceModel.toJson(imgUrl, date);
       await instance.add(json).then((value) {
         instance.doc(value.id).update({
           "reportID": value.id,

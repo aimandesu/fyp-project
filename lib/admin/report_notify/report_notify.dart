@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/report_notify/widgets/list_report.dart';
 import 'package:fyp_project/admin/report_notify/widgets/notify_people.dart';
@@ -26,6 +27,16 @@ class _ReportNotifyState extends State<ReportNotify> {
   TextEditingController title = TextEditingController();
   TextEditingController body = TextEditingController();
 
+  List<String>? images = [];
+  List<GeoPoint>? geoPoints = [];
+
+  List<String> district = [
+    "Ipoh",
+    "Lahat",
+    "Tanjung Rambutan",
+    "Chemor",
+  ];
+
   void changeReportOn(
     String reportID,
     Map<String, dynamic> reportForm,
@@ -38,7 +49,7 @@ class _ReportNotifyState extends State<ReportNotify> {
 
   void showPopUp(String title, String content) {
     showDialog(
-      context: context, // You'll need a BuildContext to show a dialog
+      context: context,
       builder: (BuildContext context) {
         return alertDialog(context, title, content);
       },
@@ -49,22 +60,26 @@ class _ReportNotifyState extends State<ReportNotify> {
     Map<String, dynamic> message,
     String district,
     List<String> images,
+    List<GeoPoint> geoPoints,
   ) async {
     final List<String> userList;
 
-    if (message['title'] == "" || message['body'] == "" || images.isEmpty) {
-      showPopUp("mesej", "ada kosong");
+    if (message['title'] == "" ||
+        message['body'] == "" ||
+        images.isEmpty ||
+        geoPoints.isEmpty) {
+      showPopUp("Error", "There appear to be field missing");
     } else {
-      //way to pass
+      //get tokens, and pass to message for notification
       userList = await FormProvider().getUserAssociated(district);
 
       //put userTokens
       message.putIfAbsent("userTokens", () => userList);
 
-      //put images for notification
+      //put images
       message.putIfAbsent("image", () => images.first);
 
-      print(message);
+      print(message); //here what we gonna send notification
 
       final encodedMessage = Uri.encodeComponent(jsonEncode(message));
 
@@ -128,6 +143,9 @@ class _ReportNotifyState extends State<ReportNotify> {
             sendNotification: sendNotification,
             title: title,
             body: body,
+            images: images,
+            geoPoints: geoPoints,
+            district: district,
           ),
         ),
       ],

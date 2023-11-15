@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constant.dart';
@@ -10,25 +11,22 @@ class NotifyPeople extends StatelessWidget {
     required this.sendNotification,
     required this.title,
     required this.body,
+    required this.images,
+    required this.geoPoints,
+    required this.district,
   });
 
-  final void Function(Map<String, dynamic>, String, List<String>)
+  final void Function(Map<String, dynamic>, String, List<String>, List<GeoPoint>)
       sendNotification;
   final TextEditingController title;
   final TextEditingController body;
+  final List<String>? images;
+  final List<GeoPoint>? geoPoints;
+  final List<String> district;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    List<String>? images = [];
-
-    List<String> district = [
-      "Ipoh",
-      "Lahat",
-      "Tanjung Rambutan",
-      "Chemor",
-    ];
 
     String currentDistrict = district.first;
 
@@ -72,7 +70,7 @@ class NotifyPeople extends StatelessWidget {
           onAccept: (value) {
             print("value acepted");
 
-            images.add(value);
+            images?.add(value);
           },
           onLeave: (value) {
             print("value does not land"); //should we do something here?
@@ -86,7 +84,7 @@ class NotifyPeople extends StatelessWidget {
                   Theme.of(context).colorScheme.primaryContainer, 25),
               child: Stack(
                 children: [
-                  images.isNotEmpty
+                  images!.isNotEmpty
                       ? ScrollConfiguration(
                           behavior: ScrollConfiguration.of(context)
                               .copyWith(dragDevices: {
@@ -94,53 +92,71 @@ class NotifyPeople extends StatelessWidget {
                             PointerDeviceKind.mouse,
                           }),
                           child: PageView.builder(
-                              itemCount: images.length,
+                              itemCount: images?.length,
                               itemBuilder: (context, index) {
-                                return Image.network(images[index]);
+                                return Image.network(images![index]);
                               }),
                         )
                       : const Center(
-                          child: Text(
-                              "No pictures selected, please drag the pictures"),
+                          child: Text("Drag the pictures here"),
                         ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: paddingDefined,
-                          margin: marginDefined,
-                          decoration: decorationDefinedShadow(
-                            Theme.of(context).colorScheme.onPrimary,
-                            25,
-                          ),
-                          child: const Text("Drop Here"),
-                        ),
-                        Container(
-                            padding: paddingDefined,
-                            margin: marginDefined,
-                            decoration: decorationDefinedShadow(
-                              Theme.of(context).colorScheme.onPrimary,
-                              25,
-                            ),
-                            child: Text(images.length.toString())),
-                      ],
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      padding: paddingDefined,
+                      margin: marginDefined,
+                      decoration: decorationDefinedShadow(
+                        Theme.of(context).colorScheme.onPrimary,
+                        25,
+                      ),
+                      child: Text(images!.length.toString()),
                     ),
-                  )
+                  ),
                 ],
               ),
             );
+          },
+        ),
+        DragTarget<GeoPoint>(
+          onAccept: (value) {
+            print("value acepted");
 
-            // return images.isNotEmpty
-            //     ? Text(images[0]!)
-            //     : Container(
-            //         height: 20,
-            //         width: 20,
-            //         color: Colors.blue,
-            //       );
+            geoPoints?.add(value);
+          },
+          onLeave: (value) {
+            print("value does not land"); //should we do something here?
+          },
+          builder: (context, _, reject) {
+            return Container(
+              height: size.height * 0.1,
+              width: size.width * 0.25,
+              margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+              decoration: decorationDefinedShadow(
+                  Theme.of(context).colorScheme.primaryContainer, 25),
+              child: geoPoints!.isNotEmpty
+                  ? ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context)
+                          .copyWith(dragDevices: {
+                        PointerDeviceKind.touch,
+                        PointerDeviceKind.mouse,
+                      }),
+                      child: PageView.builder(
+                        itemCount: geoPoints?.length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text("latitude: ${geoPoints![index].latitude}"),
+                              Text("longitude: ${geoPoints![index].longitude}"),
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  : const Center(
+                      child: Text("Drag location points here"),
+                    ),
+            );
           },
         ),
         Expanded(
@@ -172,7 +188,8 @@ class NotifyPeople extends StatelessWidget {
                     "body": body.text,
                   },
                   currentDistrict,
-                  images,
+                  images!,
+                  geoPoints!,
                 );
               },
               child: const Text("Beri Amaran"),

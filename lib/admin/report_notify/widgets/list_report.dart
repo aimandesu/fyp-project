@@ -3,22 +3,26 @@ import 'package:flutter/material.dart';
 import '../../../constant.dart';
 
 class ListReport extends StatelessWidget {
-  const ListReport({super.key, required this.reportIncidence, required this.reportOn, required this.changeReportOn,});
+  const ListReport({
+    super.key,
+    required this.reportIncidence,
+    required this.reportOn,
+    required this.changeReportOn,
+  });
 
   final Future<List<Map<String, dynamic>>> reportIncidence;
-  final  String? reportOn;
+  final String? reportOn;
   final Function changeReportOn;
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
 
     return Container(
       width: 250,
       height: size.height * 0.8,
-      decoration: decorationDefinedShadow(
-          Theme.of(context).colorScheme.onPrimary, 35),
+      decoration:
+          decorationDefinedShadow(Theme.of(context).colorScheme.onPrimary, 35),
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       margin: marginDefined,
       child: FutureBuilder(
@@ -36,8 +40,7 @@ class ListReport extends StatelessWidget {
                   title: const Text("reportID"),
                   subtitle: Text(reportID),
                   onTap: () {
-                    changeReportOn(reportID,
-                        snapshot.data![index]);
+                    changeReportOn(reportID, snapshot.data![index]);
                   },
                 );
               },

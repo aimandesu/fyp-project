@@ -41,7 +41,7 @@ class HelpFormModel {
   Map<String, dynamic> toJson(
     String selectedPDF,
     List<String> pictures,
-    String date,
+    DateTime date,
   ) =>
       {
         'name': name,

@@ -12,7 +12,12 @@ class HelpFormProvider {
     BuildContext context,
   ) async {
     DateTime now = DateTime.now();
+
+    //for storage
     String formatter = DateFormat.yMMMMd('en_US').format(now);
+
+    //for database
+    DateTime date =  DateTime(now.year, now.month, now.day);
 
     String pathFiles =
         "form/individual/${helpFormModel.district}/${helpFormModel.noIC}/$formatter";
@@ -66,7 +71,7 @@ class HelpFormProvider {
       //ke here kena guna technique alert stack trace
     } finally {
       final helpForm = FirebaseFirestore.instance.collection("form");
-      final json = helpFormModel.toJson(pdfUrl, imgUrl, formatter);
+      final json = helpFormModel.toJson(pdfUrl, imgUrl, date);
       await helpForm.add(json).then((value) {
         helpForm.doc(value.id).update({
           "caseID": value.id,

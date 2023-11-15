@@ -19,7 +19,7 @@ class ReportIncidenceModel {
 
   Map<String, dynamic> toJson(
     List<String> pictures,
-    String date,
+    DateTime date,
   ) =>
       {
         'pictures': pictures,
