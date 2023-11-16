@@ -11,30 +11,37 @@ class FormCounts extends StatelessWidget {
     return Row(
       children: [
         Container(
-          height: 100,
-          width: size.width * 0.1,
+          width: 150,
           margin: marginDefined,
           decoration: decorationDefinedShadow(
               Theme.of(context).colorScheme.onPrimary, 25),
           child: const ListTile(
-            title: Text("title"),
+            title: Text("Pending"),
             subtitle: Text("23"),
-            trailing: Text("data"),
+            // trailing: Text("data"),
           )
         ),
         Container(
-          height: 100,
-          width: size.width * 0.1,
+          width: 150,
           margin: marginDefined,
           decoration: decorationDefinedShadow(
               Theme.of(context).colorScheme.onPrimary, 25),
+          child: const ListTile(
+            title: Text("OnWatch"),
+            subtitle: Text("23"),
+            // trailing: Text("data"),
+          ),
         ),
         Container(
-          height: 100,
-          width: size.width * 0.1,
+          width: 150,
           margin: marginDefined,
           decoration: decorationDefinedShadow(
               Theme.of(context).colorScheme.onPrimary, 25),
+          child: const ListTile(
+            title: Text("Completed"),
+            subtitle: Text("23"),
+            // trailing: Text("data"),
+          ),
         )
       ],
     );

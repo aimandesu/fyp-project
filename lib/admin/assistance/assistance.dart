@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fyp_project/admin/assistance/chat_place.dart';
-import 'package:fyp_project/admin/assistance/list_need_assistance.dart';
+import 'package:fyp_project/admin/assistance/widgets/chat_place.dart';
+import 'package:fyp_project/admin/assistance/widgets/list_need_assistance.dart';
 import 'package:fyp_project/admin/providers/assistance_provider.dart';
 import 'package:provider/provider.dart';
 import '../../models/message_model.dart';

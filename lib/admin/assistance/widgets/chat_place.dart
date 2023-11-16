@@ -5,9 +5,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/admin/providers/assistance_provider.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../constant.dart';
-import '../../screen/chat/widgets/bubble.dart';
-import '../../screen/chat/widgets/text_entered.dart';
+import '../../../constant.dart';
+import '../../../screen/chat/widgets/bubble.dart';
+import '../../../screen/chat/widgets/text_entered.dart';
 
 class ChatPlace extends StatelessWidget {
   const ChatPlace({

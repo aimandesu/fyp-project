@@ -18,8 +18,6 @@ class FormValidation extends StatefulWidget {
 
 class _FormValidationState extends State<FormValidation>
     with SingleTickerProviderStateMixin {
-
-
   static const List<Tab> myTabs = <Tab>[
     Tab(
       child: Text("Pending"),
@@ -35,19 +33,20 @@ class _FormValidationState extends State<FormValidation>
 
   @override
   void initState() {
-    _tabController = TabController(length: myTabs.length, vsync: this);
+    _tabController = TabController(
+      length: myTabs.length,
+      vsync: this,
+    );
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FormCounts(),
+        const FormCounts(),
         DefaultTabController(
           length: myTabs.length,
           child: TabBar(
@@ -65,10 +64,13 @@ class _FormValidationState extends State<FormValidation>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: const [
+            children: [
               Pending(),
-              OnWatch(),
-              Completed(),
+              const OnWatch(),
+              Container(
+                margin: marginDefined,
+                child: const Completed(),
+              ),
             ],
           ),
         )
