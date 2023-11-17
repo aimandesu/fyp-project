@@ -65,7 +65,7 @@ class _FormValidationState extends State<FormValidation>
           child: TabBarView(
             controller: _tabController,
             children: [
-              Pending(),
+              const Pending(),
               const OnWatch(),
               Container(
                 margin: marginDefined,

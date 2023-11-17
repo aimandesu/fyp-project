@@ -88,6 +88,7 @@ class AuthService {
         collection.doc(value.id).update({
           'userUID': value.id,
           'fcmToken': fcmToken,
+          'verified': false,
         });
       });
     }

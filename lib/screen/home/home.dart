@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/home/widgets/report.dart';
 import 'package:fyp_project/screen/home/widgets/tab_views.dart';
+import 'package:fyp_project/screen/news/widgets/news.dart';
 import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -50,19 +51,9 @@ class _HomeState extends State<Home> {
               height: 200,
               child: const Report().animate().fadeIn(),
             ),
-            // const Statistic(),
             const Expanded(
-              child: TabViews(),
+              child: News(),
             ),
-            // TextButton(
-            //   onPressed: testApi,
-            //   child: const Text("Click me"),
-            // )
-            // const Statistic(),
-            // Container(
-            //   margin: const EdgeInsets.all(10),
-            //   child: const MapLocation(),
-            // ),
           ],
         ),
         tablet: Row(
@@ -72,9 +63,7 @@ class _HomeState extends State<Home> {
               height: 200,
               child: const Report().animate().fadeIn(),
             ),
-            const Expanded(
-              child: TabViews(),
-            ),
+            Text("news bentuk tablet")
           ],
         ));
   }

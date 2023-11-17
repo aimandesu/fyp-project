@@ -17,7 +17,7 @@ class HelpFormProvider {
     String formatter = DateFormat.yMMMMd('en_US').format(now);
 
     //for database
-    DateTime date =  DateTime(now.year, now.month, now.day);
+    DateTime date = DateTime(now.year, now.month, now.day);
 
     String pathFiles =
         "form/individual/${helpFormModel.district}/${helpFormModel.noIC}/$formatter";
@@ -87,7 +87,8 @@ class HelpFormProvider {
         .where("authUID", isEqualTo: authUID)
         .get();
 
-    bool data = instance.docs.first.data()["identificationNo"] != "";
+    bool data = instance.docs.first.data()["identificationNo"] != "" &&
+        instance.docs.first.data()["verified"] != false;
 
     return data;
   }

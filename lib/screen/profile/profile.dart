@@ -38,13 +38,14 @@ class Profile extends StatelessWidget {
             final communityAt = snapshot.data!['communityAt'];
             final name = snapshot.data!['name'];
             final identificationNo = snapshot.data!['identificationNo'];
+            final bool verified = snapshot.data!['verified'];
 
             //here buat update profile guna widget sama update profile using concep yg push navigation?
             //amik snapshot.data
 
             final data = snapshot.data;
 
-            if (identificationNo == "") {
+            if (identificationNo == "" && verified == false) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,6 +70,8 @@ class Profile extends StatelessWidget {
                   ),
                 ],
               );
+            } else if (identificationNo != "" && verified == false) {
+              return const Text("Your application is waiting for verification");
             } else {
               return ResponsiveLayoutController(
                 //ganti future builder
