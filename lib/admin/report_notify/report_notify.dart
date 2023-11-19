@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/admin/providers/news_provider.dart';
 import 'package:fyp_project/admin/report_notify/widgets/list_report.dart';
 import 'package:fyp_project/admin/report_notify/widgets/notify_people.dart';
 import 'package:fyp_project/admin/report_notify/widgets/report_description.dart';
+import 'package:fyp_project/models/admin/notification_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
@@ -37,10 +39,8 @@ class _ReportNotifyState extends State<ReportNotify> {
     "Chemor",
   ];
 
-  void changeReportOn(
-    String reportID,
-    Map<String, dynamic> reportForm,
-  ) {
+  void changeReportOn(String reportID,
+      Map<String, dynamic> reportForm,) {
     setState(() {
       reportOn = reportID;
       formToRender = reportForm;
@@ -56,13 +56,14 @@ class _ReportNotifyState extends State<ReportNotify> {
     );
   }
 
-  void sendNotification(
-    Map<String, dynamic> message,
-    String district,
-    List<String> images,
-    List<GeoPoint> geoPoints,
-  ) async {
+  void sendNotification(Map<String, dynamic> message,
+      String district,
+      List<String> images,
+      List<GeoPoint> geoPoints,
+      DateTime date,) async {
     final List<String> userList;
+
+     date =  DateTime(date.year, date.month, date.day);
 
     if (message['title'] == "" ||
         message['body'] == "" ||
@@ -89,10 +90,20 @@ class _ReportNotifyState extends State<ReportNotify> {
       final json = jsonDecode(response.body);
 
       if (json == "success") {
-        showPopUp("mesej", "ada kosong");
+        showPopUp("mesej", "message dihntr");
       }
 
       //send to database
+      final notificationModel = NotificationModel(
+        title: message['title'],
+        content: message['body'],
+        district: district,
+        images: images,
+        geoPoints: geoPoints,
+        date: date,);
+      final Map<String, dynamic> notificationData = notificationModel.toJson();
+
+      NewsProvider().createNews(notificationData);
     }
   }
 

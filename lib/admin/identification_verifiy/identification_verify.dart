@@ -4,6 +4,7 @@ import 'package:fyp_project/admin/identification_verifiy/widgets/identification_
 import 'package:fyp_project/admin/identification_verifiy/widgets/list_identification.dart';
 import 'package:fyp_project/admin/providers/form_provider.dart';
 import 'package:fyp_project/constant.dart';
+import 'package:lottie/lottie.dart';
 
 class IdentificationVerification extends StatefulWidget {
   const IdentificationVerification({super.key});
@@ -43,32 +44,43 @@ class _IdentificationVerificationState
       children: [
         ListIdentification(
           identificationList: identificationList,
-            userUID: userUID,
+          userUID: userUID,
           setIdentificationOn: setIdentificationOn,
         ),
-        Expanded(
-          child: Container(
-            height: size.height * 0.8,
-            margin: marginDefined,
-            decoration: decorationDefinedShadow(
-              Theme.of(context).colorScheme.onPrimary,
-              35,
-            ),
-            child: Row(
-              children: [
-                FrontBackIC(
-                  identificationImage:
-                      identificationInfo?["identificationImage"],
-                ),
-                Expanded(
-                  child: IdentificationInfo(
-                    identificationInfo: identificationInfo,
+        userUID == null
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset("assets/help.json", repeat: false),
+                  const Text(
+                    "Helping people is a good deed. Have a nice day!",
+                    style: textStyling,
+                  )
+                ],
+              )
+            : Expanded(
+                child: Container(
+                  height: size.height * 0.8,
+                  margin: marginDefined,
+                  decoration: decorationDefinedShadow(
+                    Theme.of(context).colorScheme.onPrimary,
+                    35,
+                  ),
+                  child: Row(
+                    children: [
+                      FrontBackIC(
+                        identificationImage:
+                            identificationInfo?["identificationImage"],
+                      ),
+                      Expanded(
+                        child: IdentificationInfo(
+                          identificationInfo: identificationInfo,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ],
     );
   }

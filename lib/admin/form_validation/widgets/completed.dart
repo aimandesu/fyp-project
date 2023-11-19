@@ -44,11 +44,7 @@ class _CompletedState extends State<Completed> {
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: callsForm,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(); // Show a loader while fetching data
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return Table(
             // columnWidths: const <int, TableColumnWidth>{
             //   0: IntrinsicColumnWidth(),
@@ -101,6 +97,8 @@ class _CompletedState extends State<Completed> {
                       ]),
             ],
           );
+        } else {
+          return Container();
         }
       },
     );

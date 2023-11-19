@@ -18,18 +18,18 @@ class ListIdentification extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
-      width: 250,
-      height: size.height * 0.8,
-      decoration:
-          decorationDefinedShadow(Theme.of(context).colorScheme.onPrimary, 35),
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-      margin: marginDefined,
-      child: FutureBuilder(
-        future: identificationList,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
+    return FutureBuilder(
+      future: identificationList,
+      builder: (context, snapshot) {
+        if (snapshot.hasData  && snapshot.data!.isNotEmpty) {
+          return Container(
+            width: 250,
+            height: size.height * 0.8,
+            decoration:
+            decorationDefinedShadow(Theme.of(context).colorScheme.onPrimary, 35),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            margin: marginDefined,
+            child: ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 String user = snapshot.data![index]["userUID"];
@@ -50,12 +50,12 @@ class ListIdentification extends StatelessWidget {
                   return Container();
                 }
               },
-            );
-          } else {
-            return Container();
-          }
-        },
-      ),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }

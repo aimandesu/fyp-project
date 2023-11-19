@@ -16,7 +16,7 @@ class NotifyPeople extends StatelessWidget {
     required this.district,
   });
 
-  final void Function(Map<String, dynamic>, String, List<String>, List<GeoPoint>)
+  final void Function(Map<String, dynamic>, String, List<String>, List<GeoPoint>, DateTime,)
       sendNotification;
   final TextEditingController title;
   final TextEditingController body;
@@ -190,6 +190,7 @@ class NotifyPeople extends StatelessWidget {
                   currentDistrict,
                   images!,
                   geoPoints!,
+                  DateTime.now() //here should have mcm option utk pick time
                 );
               },
               child: const Text("Beri Amaran"),

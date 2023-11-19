@@ -38,33 +38,31 @@ class _HomeState extends State<Home> {
     // print(ResponsiveLayoutController.isTablet(context));
 
     return ResponsiveLayoutController(
-        mobile: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            // SizedBox(
-            //   width: size.width * 1,
-            //   height: 200,
-            //   child: const ShelterMap().animate().fadeIn(),
-            // ),
-            SizedBox(
-              width: size.width * 1,
-              height: 200,
-              child: const Report().animate().fadeIn(),
-            ),
-            const Expanded(
-              child: News(),
-            ),
-          ],
-        ),
-        tablet: Row(
-          children: [
-            SizedBox(
-              width: size.width * 0.4,
-              height: 200,
-              child: const Report().animate().fadeIn(),
-            ),
-            Text("news bentuk tablet")
-          ],
-        ));
+      mobile: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          SizedBox(
+            width: size.width * 1,
+            height: 200,
+            child: const Report().animate().fadeIn(),
+          ),
+          const Expanded(
+            child: News(),
+          ),
+        ],
+      ),
+      tablet: Row(
+        children: [
+          SizedBox(
+            width: size.width * 0.4,
+            height: 200,
+            child: const Report().animate().fadeIn(),
+          ),
+          const Expanded(
+            child: News(),
+          ),
+        ],
+      ),
+    );
   }
 }

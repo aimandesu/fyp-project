@@ -197,13 +197,20 @@ class _HelpFormState extends State<HelpForm> {
     the user can proceed with this thing
      */
 
-    return FutureBuilder<bool>(
+    return FutureBuilder(
       future: HelpFormProvider().hasIdentificationVerified(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data == false) {
+          if (snapshot.data!["identificationNo"] == "") {
             return const Text("Please verify identity first");
-          } else {
+          }
+
+          if (snapshot.data!["verified"] == false) {
+            return const Text("identification is being reviewed");
+          }
+
+          if (snapshot.data!["identificationNo"] != "" &&
+              snapshot.data!["verified"] != false) {
             return SingleChildScrollView(
               //make future to ask user to sign in and wait for confirmation of their profile, or something like that
               child: Column(
@@ -238,6 +245,8 @@ class _HelpFormState extends State<HelpForm> {
                 ].animate(interval: 40.ms).fade(duration: 300.ms),
               ),
             );
+          }else{
+            return Container();
           }
         } else {
           return Container();

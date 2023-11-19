@@ -16,7 +16,7 @@ class Assistance extends StatefulWidget {
 }
 
 class _AssistanceState extends State<Assistance> {
-  late Stream callStream;
+  late Stream<List<Map<String, dynamic>>> callStream;
   late Stream? chatStream;
   bool triggerOption = false;
 
@@ -35,6 +35,12 @@ class _AssistanceState extends State<Assistance> {
   void changeOption() {
     setState(() {
       triggerOption = !triggerOption;
+    });
+  }
+
+  void resetChat() {
+    setState(() {
+      callsOn = null;
     });
   }
 
@@ -91,6 +97,7 @@ class _AssistanceState extends State<Assistance> {
           chatText: chatText,
           changeOption: changeOption,
           sendMessage: sendMessage,
+          resetChat: resetChat,
         )
       ],
     );

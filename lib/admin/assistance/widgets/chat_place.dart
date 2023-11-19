@@ -18,6 +18,7 @@ class ChatPlace extends StatelessWidget {
     required this.chatText,
     required this.changeOption,
     required this.sendMessage,
+    required this.resetChat,
   });
 
   final String? callsOn;
@@ -30,6 +31,7 @@ class ChatPlace extends StatelessWidget {
     String message,
     File? picture,
   ) sendMessage;
+  final VoidCallback resetChat;
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +87,11 @@ class ChatPlace extends StatelessWidget {
                                         children: [
                                           const Text("User has left the chat"),
                                           OutlinedButton(
-                                            onPressed: () =>
-                                                AssistanceProvider()
-                                                    .endChat(callsOn!),
+                                            onPressed: () {
+                                              AssistanceProvider()
+                                                  .endChat(callsOn!);
+                                              resetChat();
+                                            },
                                             child: const Text("Kill chat"),
                                           )
                                         ],

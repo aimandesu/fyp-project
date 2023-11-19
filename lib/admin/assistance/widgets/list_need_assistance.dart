@@ -10,7 +10,7 @@ class ListNeedAssistance extends StatelessWidget {
     required this.expandTile,
   });
 
-   Stream<dynamic> callStream;
+   Stream<List<Map<String, dynamic>>> callStream;
   final void Function(String) changeChannelMessage;
   final void Function(bool) expandTile;
 
@@ -18,20 +18,19 @@ class ListNeedAssistance extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Container(
-      width: 250,
-      height: size.height * 0.8,
-      decoration:
-          decorationDefinedShadow(Theme.of(context).colorScheme.onPrimary, 35),
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-      margin: marginDefined,
-      child: StreamBuilder(
-        stream: callStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container();
-          } else {
-            return ListView.builder(
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: callStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+
+          return Container(
+            width: 250,
+            height: size.height * 0.8,
+            decoration:
+            decorationDefinedShadow(Theme.of(context).colorScheme.onPrimary, 35),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            margin: marginDefined,
+            child: ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 return Theme(
@@ -61,10 +60,12 @@ class ListNeedAssistance extends StatelessWidget {
                   ),
                 );
               },
-            );
-          }
-        },
-      ),
+            ),
+          );
+        }else{
+          return Container();
+        }
+      },
     );
   }
 }

@@ -80,17 +80,14 @@ class HelpFormProvider {
     }
   }
 
-  Future<bool> hasIdentificationVerified() async {
+  Future<Map<String, dynamic>> hasIdentificationVerified() async {
     final authUID = FirebaseAuth.instance.currentUser!.uid;
     final instance = await FirebaseFirestore.instance
         .collection("community")
         .where("authUID", isEqualTo: authUID)
         .get();
 
-    bool data = instance.docs.first.data()["identificationNo"] != "" &&
-        instance.docs.first.data()["verified"] != false;
-
-    return data;
+    return instance.docs.first.data();
   }
 }
 

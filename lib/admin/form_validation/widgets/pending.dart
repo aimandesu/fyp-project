@@ -33,18 +33,18 @@ class _PendingState extends State<Pending> {
 
     return Row(
       children: [
-        Container(
-          width: 250,
-          height: size.height * 0.8,
-          decoration: decorationDefinedShadow(
-              Theme.of(context).colorScheme.onPrimary, 35),
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          margin: marginDefined,
-          child: FutureBuilder(
-            future: callsForm,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
+        FutureBuilder(
+          future: callsForm,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              return Container(
+                width: 250,
+                height: size.height * 0.8,
+                decoration: decorationDefinedShadow(
+                    Theme.of(context).colorScheme.onPrimary, 35),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                margin: marginDefined,
+                child: ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     String caseID = snapshot.data![index]["caseID"];
@@ -64,12 +64,12 @@ class _PendingState extends State<Pending> {
                       },
                     );
                   },
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
         ),
         Expanded(
           child: formToRender == null
