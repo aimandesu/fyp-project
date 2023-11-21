@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/home/widgets/report.dart';
 import 'package:fyp_project/screen/home/widgets/tab_views.dart';
-import 'package:fyp_project/screen/news/widgets/news.dart';
+import 'package:fyp_project/screen/news/news.dart';
 import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

@@ -24,7 +24,7 @@ class ListReport extends StatelessWidget {
         if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           return Container(
             width: 250,
-            height: size.height * 0.8,
+            height: size.height * 1,
             decoration: decorationDefinedShadow(
                 Theme.of(context).colorScheme.onPrimary, 35),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -37,7 +37,7 @@ class ListReport extends StatelessWidget {
                   trailing: reportOn == reportID
                       ? const Icon(Icons.select_all_rounded)
                       : null,
-                  title: const Text("reportID"),
+                  title: const Text("ID report"),
                   subtitle: Text(reportID),
                   onTap: () {
                     changeReportOn(reportID, snapshot.data![index]);

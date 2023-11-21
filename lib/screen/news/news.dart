@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/providers/news_provider.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
+import 'package:fyp_project/screen/news/widgets/news_content.dart';
 
 class News extends StatefulWidget {
   const News({super.key});
@@ -26,13 +27,14 @@ class _NewsState extends State<News> {
     return FutureBuilder<List<Map<String, dynamic>>>(
         future: news,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             return ListView.builder(
               //wrap column here
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 if (snapshot.hasData) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     // initiallyExpanded: true,
                     // trailing: SizedBox.shrink(),
                     // title: ,
@@ -55,35 +57,45 @@ class _NewsState extends State<News> {
   }
 
   List<Widget> _buildContent(Size size, List<Map<String, dynamic>> content) {
-    return content.map((item) {
-      return Container(
-        //here on tap
-        width: size.width * 1,
-        height: ResponsiveLayoutController.isMobile(context)
-            ? size.height * 0.15
-            : size.height * 0.5,
-        margin: marginDefined,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            buildBackHolder(context),
-            buildImage(
-              context,
-              size,
-              item["images"][0],
+    return content
+        .map(
+          (item) => GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                NewsContent.routeName,
+                arguments: item,
+              );
+            },
+            child: Container(
+              //here on tap
+              width: size.width * 1,
+              height: ResponsiveLayoutController.isMobile(context)
+                  ? size.height * 0.15
+                  : size.height * 0.5,
+              margin: marginDefined,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  buildBackHolder(context),
+                  buildImage(
+                    context,
+                    size,
+                    item["images"][0],
+                  ),
+                  //send image here
+                  buildNewsDetails(
+                    context,
+                    size,
+                    item["title"],
+                    item["content"],
+                  )
+                  //send details here
+                ],
+              ),
             ),
-            //send image here
-            buildNewsDetails(
-              context,
-              size,
-              item["title"],
-              item["content"],
-            )
-            //send details here
-          ],
-        ),
-      );
-    }).toList();
+          ),
+        )
+        .toList();
   }
 
   Positioned buildNewsDetails(

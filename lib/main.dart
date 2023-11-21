@@ -11,7 +11,7 @@ import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/main_layout_controller.dart';
 import 'package:fyp_project/providers/maps_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
-import 'package:fyp_project/screen/news/news_content.dart';
+import 'package:fyp_project/screen/news/widgets/news_content.dart';
 import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:fyp_project/screen/support_result/dart/support_result.dart';
 import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';

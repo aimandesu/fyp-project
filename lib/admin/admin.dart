@@ -78,44 +78,49 @@ class _AdminState extends State<Admin> {
     return Scaffold(
       body: Row(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: decorationDefinedShadow(
-                    Theme.of(context).colorScheme.onPrimary, 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const IconButton(
-                      onPressed: null,
-                      icon: Icon(Icons.logout),
-                    ),
-                    IconButton(
-                      onPressed: () => widget.toggleTheme(),
-                      icon: widget.themeDefault
-                          ? const Icon(Icons.toggle_on, size: 40)
-                          : const Icon(Icons.toggle_off, size: 40),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: size.height * 0.9,
+          Padding(
+            padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),
+            child: Expanded(
+              child: Container(
                 decoration: decorationDefinedShadow(
                   Theme.of(context).colorScheme.onPrimary,
                   25,
                 ),
-                child: NavigationRail(
-                  extended: true,
-                  backgroundColor: Colors.transparent,
-                  destinations: _railPages,
-                  selectedIndex: _selectedPageIndex,
-                  onDestinationSelected: _selectPage,
+                child: Stack(
+                  children: [
+                    NavigationRail(
+                      labelType: NavigationRailLabelType.selected,
+                      useIndicator: true,
+                      // extended: true,
+                      backgroundColor: Colors.transparent,
+                      destinations: _railPages,
+                      selectedIndex: _selectedPageIndex,
+                      onDestinationSelected: _selectPage,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.logout),
+                          ),
+                          IconButton(
+                            onPressed: () => widget.toggleTheme(),
+                            icon: widget.themeDefault
+                                ? const Icon(Icons.toggle_on, size: 40)
+                                : const Icon(Icons.toggle_off, size: 40),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
           Expanded(child: _pages[_selectedPageIndex])
         ],

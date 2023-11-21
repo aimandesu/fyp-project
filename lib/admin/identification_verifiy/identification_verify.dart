@@ -48,15 +48,17 @@ class _IdentificationVerificationState
           setIdentificationOn: setIdentificationOn,
         ),
         userUID == null
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset("assets/help.json", repeat: false),
-                  const Text(
-                    "Helping people is a good deed. Have a nice day!",
-                    style: textStyling,
-                  )
-                ],
+            ? Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset("assets/help.json", repeat: false),
+                    const Text(
+                      "Helping people is a good deed. Have a nice day!",
+                      style: textStyling,
+                    )
+                  ],
+                ),
               )
             : Expanded(
                 child: Container(

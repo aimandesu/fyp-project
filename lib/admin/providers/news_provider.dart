@@ -13,31 +13,48 @@ class NewsProvider {
 
     //before passing sort this by date to a new map
 
-    var mapDate = groupBy(instance, (Map obj) => (obj["date"] as Timestamp).toDate())
-        .entries
-        .map((entry) => {
-              "date": entry.key,
-              "content": (entry.value).map((item) {
-                return {
-                  "title": item["title"],
-                  "content": item["content"],
-                  "district": item["district"],
-                  "images": item["images"],
-                  "geoPoints": item["geoPoints"],
-                };
-              }).toList()
-            })
-        .toList();
+    var mapDate =
+        groupBy(instance, (Map obj) => (obj["date"] as Timestamp).toDate())
+            .entries
+            .map((entry) => {
+                  "date": entry.key,
+                  "content": (entry.value).map((item) {
+                    return {
+                      "title": item["title"],
+                      "content": item["content"],
+                      "district": item["district"],
+                      "images": item["images"],
+                      "geoPoints": item["geoPoints"],
+                    };
+                  }).toList()
+                })
+            .toList();
 
     return mapDate;
   }
 
-  Future<void> createNews(
+  Future<Map<String, dynamic>> fetchTargetNews(String newsID) async {
+    final instance = await FirebaseFirestore.instance
+        .collection("news")
+        .doc(newsID)
+        .get()
+        .then((value) => value.data());
+    return instance as Map<String, dynamic>;
+  }
+
+  Future<String> createNews(
     Map<String, dynamic> notificationData,
   ) async {
+    String newsID = "";
     BuildContext context = navigatorKey.currentContext as BuildContext;
     try {
-      await FirebaseFirestore.instance.collection("news").add(notificationData);
+      final newsForm = FirebaseFirestore.instance.collection("news");
+      await newsForm.add(notificationData).then((value) {
+        newsID = value.id;
+        newsForm.doc(value.id).update({
+          "newsID": newsID,
+        });
+      });
     } on FirebaseException catch (e) {
       if (context.mounted) {
         showDialog(
@@ -50,5 +67,6 @@ class NewsProvider {
         );
       }
     }
+    return newsID;
   }
 }

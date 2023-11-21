@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/screen/news/widgets/news.dart';
+import 'package:fyp_project/screen/news/news.dart';
 import 'package:fyp_project/screen/statistic/statistic.dart';
 
 class TabViews extends StatefulWidget {

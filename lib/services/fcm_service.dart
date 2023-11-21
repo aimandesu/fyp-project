@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/main.dart';
-import 'package:fyp_project/screen/news/news_content.dart';
+import 'package:fyp_project/screen/news/widgets/news_content.dart';
 
 class FcmService {
   Future<void> setupInteractedMessage() async {

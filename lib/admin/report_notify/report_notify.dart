@@ -71,14 +71,33 @@ class _ReportNotifyState extends State<ReportNotify> {
         geoPoints.isEmpty) {
       showPopUp("Error", "There appear to be field missing");
     } else {
+
+      //send to database
+      final notificationModel = NotificationModel(
+        title: message['title'],
+        content: message['body'],
+        district: district,
+        images: images,
+        geoPoints: geoPoints,
+        date: date,);
+      final Map<String, dynamic> notificationData = notificationModel.toJson();
+
+      String newsID = await NewsProvider().createNews(notificationData);
+
       //get tokens, and pass to message for notification
       userList = await FormProvider().getUserAssociated(district);
 
       //put userTokens
       message.putIfAbsent("userTokens", () => userList);
 
+      List<String> encodedImageLinks = images.map((link) {
+        return Uri.encodeComponent(link);
+      }).toList();
+
       //put images
-      message.putIfAbsent("image", () => images.first);
+      message.putIfAbsent("images", () => encodedImageLinks);
+
+      message.putIfAbsent("newsID", () => newsID);
 
       print(message); //here what we gonna send notification
 
@@ -93,17 +112,6 @@ class _ReportNotifyState extends State<ReportNotify> {
         showPopUp("mesej", "message dihntr");
       }
 
-      //send to database
-      final notificationModel = NotificationModel(
-        title: message['title'],
-        content: message['body'],
-        district: district,
-        images: images,
-        geoPoints: geoPoints,
-        date: date,);
-      final Map<String, dynamic> notificationData = notificationModel.toJson();
-
-      NewsProvider().createNews(notificationData);
     }
   }
 
