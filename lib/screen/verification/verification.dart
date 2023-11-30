@@ -210,16 +210,16 @@ class _VerificationState extends State<Verification> {
         //       icon: const Icon(Icons.keyboard_return),
         //     ),
         //   ),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child:
-              //  showSignUp
-              //     ?
-              SizedBox(
-            height: size.height * 1,
-            width: size.width * 1,
-            child: ResponsiveLayoutController(
-              mobile: Column(
+        body:
+            //  showSignUp
+            //     ?
+            SizedBox(
+          height: size.height * 1,
+          width: size.width * 1,
+          child: ResponsiveLayoutController(
+            mobile: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
                 children: [
                   SizedBox(
                     width: size.width * 1,
@@ -246,7 +246,10 @@ class _VerificationState extends State<Verification> {
                   ),
                 ],
               ),
-              tablet: Row(
+            ),
+            tablet: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Row(
                 children: [
                   //here just check jr if image tu ada if yes view je and buat utton yg leh change image
                   SizedBox(
@@ -283,8 +286,8 @@ class _VerificationState extends State<Verification> {
               ),
             ),
           ),
-          // : Container(),
         ),
+        // : Container(),
       ),
     );
   }

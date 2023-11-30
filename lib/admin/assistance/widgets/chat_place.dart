@@ -66,7 +66,8 @@ class ChatPlace extends StatelessWidget {
                       const String authUID = "dev";
 
                       return SizedBox(
-                        width: size.width * 0.7,
+                        width: size.width * 1,
+                        height: size.height *0.9,
                         child: ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (_, index) {
@@ -81,18 +82,21 @@ class ChatPlace extends StatelessWidget {
                                       decoration: decorationDefinedShadow(
                                           Theme.of(context)
                                               .colorScheme
-                                              .primaryContainer,
-                                          35),
+                                              .onPrimary,
+                                          25),
+                                      padding: paddingDefined,
+                                      margin: marginDefined,
                                       child: Column(
                                         children: [
-                                          const Text("User has left the chat"),
-                                          OutlinedButton(
+                                          const Text("Perbualan Ditamatkan"),
+                                          const SizedBox(height: 20,),
+                                          ElevatedButton(
                                             onPressed: () {
                                               AssistanceProvider()
                                                   .endChat(callsOn!);
                                               resetChat();
                                             },
-                                            child: const Text("Kill chat"),
+                                            child: const Text("Tamatkan Panggilan"),
                                           )
                                         ],
                                       )));
@@ -127,7 +131,7 @@ class ChatPlace extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(
-                    height: 50,
+                    height: size.height * 0.1,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -8,6 +8,7 @@ class NewsProvider {
   Future<List<Map<String, dynamic>>> fetchNews() async {
     final instance = await FirebaseFirestore.instance
         .collection("news")
+        .orderBy("date", descending: true)
         .get()
         .then((value) => value.docs.map((e) => e.data()).toList());
 

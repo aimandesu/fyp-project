@@ -43,17 +43,17 @@ class SupportResult extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          String args = await ChatProvider().askAssistance();
-          if (context.mounted) {
-            Navigator.pushNamed(context, Chat.routeName, arguments: args);
-          }
-        },
-        child: const Icon(
-          Icons.support_agent,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     String args = await ChatProvider().askAssistance();
+      //     if (context.mounted) {
+      //       Navigator.pushNamed(context, Chat.routeName, arguments: args);
+      //     }
+      //   },
+      //   child: const Icon(
+      //     Icons.support_agent,
+      //   ),
+      // ),
     );
   }
 }

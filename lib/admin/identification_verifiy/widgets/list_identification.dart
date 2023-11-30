@@ -24,7 +24,7 @@ class ListIdentification extends StatelessWidget {
         if (snapshot.hasData  && snapshot.data!.isNotEmpty) {
           return Container(
             width: 250,
-            height: size.height * 0.8,
+            height: size.height * 1,
             decoration:
             decorationDefinedShadow(Theme.of(context).colorScheme.onPrimary, 35),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),

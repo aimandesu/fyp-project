@@ -49,23 +49,23 @@ class _AdminState extends State<Admin> {
     _railPages = <NavigationRailDestination>[
       const NavigationRailDestination(
         icon: Icon(Icons.info),
-        label: Text('Info'),
+        label: Text('Info Statistical'),
       ),
       const NavigationRailDestination(
         icon: Icon(Icons.map),
-        label: Text('Peta'),
+        label: Text('News & Notification'),
       ),
       const NavigationRailDestination(
         icon: Icon(Icons.chat),
-        label: Text('Rumah'),
+        label: Text('Assistant Helper'),
       ),
       const NavigationRailDestination(
         icon: Icon(Icons.note),
-        label: Text('Bantuan'),
+        label: Text('HelpFrom Verification'),
       ),
       const NavigationRailDestination(
         icon: Icon(Icons.face),
-        label: Text('Kad Pengenalan'),
+        label: Text('IC Verification'),
       ),
     ];
     super.initState();
@@ -80,8 +80,7 @@ class _AdminState extends State<Admin> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),
-            child: Expanded(
-              child: Container(
+            child: Container(
                 decoration: decorationDefinedShadow(
                   Theme.of(context).colorScheme.onPrimary,
                   25,
@@ -120,7 +119,7 @@ class _AdminState extends State<Admin> {
                   ],
                 ),
               ),
-            ),
+
           ),
           Expanded(child: _pages[_selectedPageIndex])
         ],

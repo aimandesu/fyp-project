@@ -8,7 +8,7 @@ class SplineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: 'Average high/low temperature of London'),
+      title: ChartTitle(text: 'Average high/low temperature of Ipoh'),
       legend: const Legend(isVisible: true),
       primaryXAxis: CategoryAxis(
           majorGridLines: const MajorGridLines(width: 0),

@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/providers/news_provider.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/news/widgets/news_content.dart';
+import 'package:intl/intl.dart';
 
 class News extends StatefulWidget {
   const News({super.key});
@@ -33,14 +35,21 @@ class _NewsState extends State<News> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 if (snapshot.hasData) {
+                  DateTime dateTime = snapshot.data![index]["date"];
+                  String formatter =
+                      DateFormat.yMMMMd('en_US').format(dateTime);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // initiallyExpanded: true,
                     // trailing: SizedBox.shrink(),
                     // title: ,
                     children: [
-                      Text(
-                        snapshot.data![index]["date"].toString(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          formatter,
+                          style: const TextStyle(fontSize: 20),
+                        ),
                       ),
                       ..._buildContent(size, snapshot.data![index]["content"])
                     ],

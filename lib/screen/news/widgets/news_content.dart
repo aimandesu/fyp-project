@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/providers/news_provider.dart';
+import 'package:fyp_project/constant.dart';
+import 'package:fyp_project/screen/news/widgets/news_map.dart';
 
 class NewsContent extends StatefulWidget {
   static const routeName = "/news-content";
@@ -20,14 +23,12 @@ class _NewsContentState extends State<NewsContent> {
     setState(() {
       toDisplay = data;
     });
-    print(toDisplay);
   }
 
-  void updateFromOntap(Map<String, dynamic> message) {
+  void updateFromOnTap(Map<String, dynamic> message) {
     setState(() {
       toDisplay = message;
     });
-    print(toDisplay);
   }
 
   @override
@@ -37,7 +38,7 @@ class _NewsContentState extends State<NewsContent> {
       if (message is RemoteMessage) {
         updateFromNotification(message.data["newsID"]);
       } else {
-        updateFromOntap(message);
+        updateFromOnTap(message);
       }
     }
     _isInit = false;
@@ -46,10 +47,59 @@ class _NewsContentState extends State<NewsContent> {
 
   @override
   Widget build(BuildContext context) {
-    return toDisplay == null
-        ? Container()
-        : Column(
-            children: [Text(toDisplay!["content"])],
-          );
+    final mediaQuery = MediaQuery.of(context);
+
+    AppBar appBar2 = AppBar(
+      title:  Text(toDisplay!["title"]),
+    );
+
+    final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
+
+    return Scaffold(
+      appBar: appBar2,
+      body: toDisplay == null
+          ? Container()
+          : SizedBox(
+              width: mediaQuery.size.width * 1,
+              height: (mediaQuery.size.height - paddingTop) * 1,
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: mediaQuery.size.width * 1,
+                    height: (mediaQuery.size.height - paddingTop) * 0.3,
+                    child: PageView.builder(
+                      itemCount: (toDisplay!["images"] as List).length,
+                      itemBuilder: (context, index) {
+                        return Image.network(
+                          toDisplay!["images"][index],
+                          fit: BoxFit.fill,
+                        );
+                      },
+                    ),
+                  ),
+                  //images
+                  Container(
+                    decoration: decorationDefined(
+                      Theme.of(context).colorScheme.primaryContainer,
+                      25,
+                    ),
+                    margin: marginDefined,
+                    padding: paddingDefined,
+                    height: mediaQuery.size.height * 0.25,
+                    width: mediaQuery.size.width * 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(toDisplay!["district"]),
+                        Text(toDisplay!["content"]),
+                      ],
+                    ),
+                  ),
+                  //geopoints
+                  NewsMap(geoPoints: toDisplay!["geoPoints"])
+                ],
+              ),
+            ),
+    );
   }
 }

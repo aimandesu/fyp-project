@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/providers/profile_provider.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
+import 'package:fyp_project/screen/chat/chat.dart';
 import 'package:fyp_project/screen/help_form/help_form.dart';
 import 'package:fyp_project/screen/disaster_guide/disaster_guide.dart';
 import 'package:fyp_project/screen/profile/profile.dart';
@@ -127,21 +129,23 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     super.initState();
   }
 
-  // Widget? _buildFloatingActionButton() {
-  //   if (_pages[_selectedPageIndex]['title'].toString() == "Panduan") {
-  //     return FloatingActionButton(
-  //       onPressed: () {
-  //         ChatProvider.askAssistance();
-  //         Navigator.pushNamed(context, Chat.routeName);
-  //       },
-  //       child: const Icon(
-  //         Icons.support_agent,
-  //       ),
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  Widget? _buildFloatingActionButton() {
+    if (_pages[_selectedPageIndex]['title'].toString() == "Rumah") {
+      return FloatingActionButton(
+        onPressed: () async {
+              String args = await ChatProvider().askAssistance();
+              if (context.mounted) {
+                Navigator.pushNamed(context, Chat.routeName, arguments: args);
+              }
+            },
+        child: const Icon(
+          Icons.support_agent,
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
 
   List<Widget>? _buildAppBarWidget() {
     if (_pages[_selectedPageIndex]['title'].toString() == "Bantuan") {
@@ -264,7 +268,7 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
               ),
             )
           : null,
-      // floatingActionButton: _buildFloatingActionButton(),
+      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 }
