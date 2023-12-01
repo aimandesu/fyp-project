@@ -35,9 +35,6 @@ class _NewsState extends State<News> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 if (snapshot.hasData) {
-                  DateTime dateTime = snapshot.data![index]["date"];
-                  String formatter =
-                      DateFormat.yMMMMd('en_US').format(dateTime);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // initiallyExpanded: true,
@@ -47,7 +44,7 @@ class _NewsState extends State<News> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          formatter,
+                        snapshot.data![index]["date"].toString(),
                           style: const TextStyle(fontSize: 20),
                         ),
                       ),

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
+import 'package:intl/intl.dart';
 
 import '../../main.dart';
 
@@ -14,22 +15,27 @@ class NewsProvider {
 
     //before passing sort this by date to a new map
 
-    var mapDate =
-        groupBy(instance, (Map obj) => (obj["date"] as Timestamp).toDate())
-            .entries
-            .map((entry) => {
-                  "date": entry.key,
-                  "content": (entry.value).map((item) {
-                    return {
-                      "title": item["title"],
-                      "content": item["content"],
-                      "district": item["district"],
-                      "images": item["images"],
-                      "geoPoints": item["geoPoints"],
-                    };
-                  }).toList()
-                })
-            .toList();
+    var mapDate = groupBy(
+            instance,
+            (Map obj) => (
+                  DateFormat.yMMMMd('en_US').format(
+                    (obj["date"] as Timestamp).toDate(),
+                  ),
+                ))
+        .entries
+        .map((entry) => {
+              "date": entry.key,
+              "content": (entry.value).map((item) {
+                return {
+                  "title": item["title"],
+                  "content": item["content"],
+                  "district": item["district"],
+                  "images": item["images"],
+                  "geoPoints": item["geoPoints"],
+                };
+              }).toList()
+            })
+        .toList();
 
     return mapDate;
   }
