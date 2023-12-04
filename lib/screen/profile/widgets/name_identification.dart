@@ -29,14 +29,23 @@ class NameIdentification extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Nama: $name",
-            style: const TextStyle(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Nama"),
+              Text(
+                name,
+              ),
+            ],
           ),
-          Text(
-            // communityAt['place'],
-            "No Kad Pengenalan: $identificationNo",
-            style: const TextStyle(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Kad Pengenalan"),
+              Text(
+                identificationNo,
+              ),
+            ],
           ),
         ],
       ),

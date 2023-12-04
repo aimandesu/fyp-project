@@ -29,7 +29,7 @@ class ProfileProvider with ChangeNotifier {
     String docPath,
   ) async {
     String pathFiles =
-        "profile/${userModel.communityAt['district']}/${userModel.identificationNo}";
+        "profile/${userModel.communityAt['subDistrict']}/${userModel.identificationNo}";
 
     Map<String, String> identificationImage = {
       'back': '',
@@ -54,7 +54,6 @@ class ProfileProvider with ChangeNotifier {
           final data = userModel.toJson(identificationImage);
 
           collection.doc(docPath).update(data);
-          notifyListeners();
         }
       });
 

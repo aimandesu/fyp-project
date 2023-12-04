@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -25,8 +26,8 @@ class _HelpFormState extends State<HelpForm> {
   final phoneController = TextEditingController();
   final noICController = TextEditingController();
   final postcodeController = TextEditingController();
-  final districtController = TextEditingController();
-  String gender = "male";
+  final subDistrictController = TextEditingController(text: "Ipoh");
+  String gender = "Lelaki";
   final ageController = TextEditingController();
   String category = "Berpindah ke PPS";
   final List<Map<String, TextEditingController>> listFamilies = [];
@@ -80,37 +81,47 @@ class _HelpFormState extends State<HelpForm> {
 
       data.add(newDataEntry);
     }
-    // print(data); [{}, {}]
-    try {
-      final authUID = FirebaseAuth.instance.currentUser!.uid;
 
-      final helpForm = HelpFormModel(
-        name: nameController.text,
-        address: addressController.text,
-        postcode: postcodeController.text,
-        district: districtController.text,
-        phone: phoneController.text,
-        noIC: noICController.text,
-        gender: gender,
-        age: int.parse(ageController.text),
-        category: category,
-        selectedPDF: selectedPDF as File,
-        pictures: pictures as List<File>,
-        familyMembers: data,
-        authUID: authUID,
-      );
-
-      HelpFormProvider.sendHelpForm(helpForm, context);
-      _clearTextFields();
-    } on Exception catch (_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("There is input field that is not completed"),
-          duration:
-              Duration(seconds: 2), // You can adjust the duration as needed
-        ),
-      );
+    if (nameController.text == "" ||
+        addressController.text == "" ||
+        postcodeController.text == "" ||
+        phoneController.text == "" ||
+        noICController.text == "" ||
+        ageController.text == "" ||
+        selectedPDF == null ||
+        pictures == null) {
+      popSnackBar(context, "Ada informasi tidak lengkap");
+      return;
     }
+
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
+
+    final helpForm = HelpFormModel(
+      name: nameController.text,
+      address: addressController.text,
+      postcode: postcodeController.text,
+      subDistrict: subDistrictController.text,
+      phone: phoneController.text,
+      noIC: noICController.text,
+      gender: gender,
+      age: int.parse(ageController.text),
+      category: category,
+      selectedPDF: selectedPDF as File,
+      pictures: pictures as List<File>,
+      familyMembers: data,
+      authUID: authUID,
+    );
+
+    //try send data
+    HelpFormProvider.sendHelpForm(helpForm, context).whenComplete(() {
+      Navigator.pop(context);
+      popSnackBar(context, "Permohonan bantuan dihantar.");
+    }).onError((error, stackTrace) => popSnackBar(context, error.toString()));
+    //call alert dialog
+    popLoadingDialog(context);
+
+    //clear all text field
+    _clearTextFields();
   }
 
   void _clearTextFields() {
@@ -119,7 +130,7 @@ class _HelpFormState extends State<HelpForm> {
     phoneController.clear();
     noICController.clear();
     postcodeController.clear();
-    districtController.clear();
+    subDistrictController.clear();
     ageController.clear();
     for (var controllers in listFamilies) {
       // deleteField(_listFamilies.indexOf(controllers));
@@ -158,13 +169,7 @@ class _HelpFormState extends State<HelpForm> {
     });
 
     if (resultMap["showUpload"]) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('PDF uploaded successfully!'),
-          duration:
-              Duration(seconds: 2), // You can adjust the duration as needed
-        ),
-      );
+      popSnackBar(context, "PDF berjaya diupload");
     }
   }
 
@@ -175,7 +180,7 @@ class _HelpFormState extends State<HelpForm> {
     phoneController.dispose();
     noICController.dispose();
     postcodeController.dispose();
-    districtController.dispose();
+    subDistrictController.dispose();
     ageController.dispose();
     for (var controllers in listFamilies) {
       for (var controller in controllers.values) {
@@ -187,16 +192,6 @@ class _HelpFormState extends State<HelpForm> {
 
   @override
   Widget build(BuildContext context) {
-    //we will have name, address, phone no, and salinan pengesahan from ketua kampung
-    //create function from here to take files, then pass it to filesUpload, if files is
-    //fullfill then put checkbox
-    //maybe if we proceed, then the will be volunteer comes and take a look first at damage done?
-
-    /*
-    here I want to check if the user has gone through ic or not, if not denied the request that
-    the user can proceed with this thing
-     */
-
     return FutureBuilder(
       future: HelpFormProvider().hasIdentificationVerified(),
       builder: (context, snapshot) {
@@ -212,7 +207,6 @@ class _HelpFormState extends State<HelpForm> {
           if (snapshot.data!["identificationNo"] != "" &&
               snapshot.data!["verified"] != false) {
             return SingleChildScrollView(
-              //make future to ask user to sign in and wait for confirmation of their profile, or something like that
               child: Column(
                 children: [
                   YourInformation(
@@ -223,7 +217,7 @@ class _HelpFormState extends State<HelpForm> {
                     ageController: ageController,
                     gender: gender,
                     changeGender: changeGender,
-                    districtController: districtController,
+                    subDistrictController: subDistrictController,
                     postcodeController: postcodeController,
                   ),
                   VictimCategory(
@@ -245,7 +239,7 @@ class _HelpFormState extends State<HelpForm> {
                 ].animate(interval: 40.ms).fade(duration: 300.ms),
               ),
             );
-          }else{
+          } else {
             return Container();
           }
         } else {

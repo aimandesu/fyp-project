@@ -51,6 +51,7 @@ class VictimCategory extends StatelessWidget {
       width: size.width * 1,
       decoration: inputDecorationDefined(context),
       child: DropdownButton<String>(
+        underline: const SizedBox(),
         isExpanded: true,
         value: category,
         // hint: Text("gender"),

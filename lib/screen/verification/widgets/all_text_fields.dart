@@ -46,99 +46,20 @@ class _AllTextFieldsState extends State<AllTextFields> {
             //     widget.positionController, "Your Position"),
             widget.isHide == true
                 ? fieldText(
-                    paddingField, context, widget.nameController, "Your Name")
+                    paddingField, context, widget.nameController, "Nama", true, TextInputType.text)
                 : Container(),
             widget.isHide == true
                 ? fieldText(paddingField, context,
-                    widget.identificationNoController, "Your Identification No")
+                    widget.identificationNoController, "No Kad Pengenalan", true, TextInputType.number)
                 : Container(),
             fieldText(paddingField, context, widget.addressController,
-                "Your Address"),
-            fieldText(paddingField, context, widget.districtController,
-                "Your District"),
+                "Alamat", true, TextInputType.text),
             fieldText(paddingField, context, widget.postcodeController,
-                "Your Postcode"),
+                "Poskod", true, TextInputType.number),
             fieldText(paddingField, context, widget.subDistrictController,
-                "Your Sub District"),
-
-            //   Container(
-            //     width: isTablet ? widthTablet : null,
-            //     // height: isTablet
-            //     //     ? (mediaQuery.size.height - paddingTop) * 0.2
-            //     //     : (mediaQuery.size.height - paddingTop) * 0.08,
-            //     margin: marginDefined,
-            //     padding: paddingField,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(25),
-            //       border: Border.all(
-            //         color: Theme.of(context).colorScheme.primary,
-            //       ),
-            //     ),
-            //     child: Center(
-            //       child: TextFormField(
-            //         controller: widget.nameController,
-            //         decoration:
-            //             const InputDecoration.collapsed(hintText: "Your Name"),
-            //       ),
-            //     ),
-            //   ),
-            //   Container(
-            //     width: isTablet ? widthTablet : null,
-            //     margin: marginDefined,
-            //   padding: paddingField,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(25),
-            //       border: Border.all(
-            //         color: Theme.of(context).colorScheme.primary,
-            //       ),
-            //     ),
-            //     child: Center(
-            //       child: TextFormField(
-            //         controller: widget.emailController,
-            //         decoration:
-            //             const InputDecoration.collapsed(hintText: "Your Email"),
-            //       ),
-            //     ),
-            //   ),
-            //   Container(
-            //     width: isTablet ? widthTablet : null,
-            //     margin: marginDefined,
-            //    padding: paddingField,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(25),
-            //       border: Border.all(
-            //         color: Theme.of(context).colorScheme.primary,
-            //       ),
-            //     ),
-            //     child: Center(
-            //       child: TextFormField(
-            //         controller: widget.passwordController,
-            //         decoration: const InputDecoration.collapsed(
-            //             hintText: "Your Password"),
-            //       ),
-            //     ),
-            //   ),
-            //   Container(
-            //     width: isTablet ? widthTablet : null,
-            //     margin: marginDefined,
-            //  padding: paddingField,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(25),
-            //       border: Border.all(
-            //         color: Theme.of(context).colorScheme.primary,
-            //       ),
-            //     ),
-            //     child: Center(
-            //       child: TextFormField(
-            //         controller: widget.addressController,
-            //         keyboardType: TextInputType.multiline,
-            //         maxLines: null,
-            //         decoration: const InputDecoration.collapsed(
-            //           hintText: "Your Address",
-            //         ),
-            //       ),
-            //     ),
-            //   ),
+                "Bandar", false, TextInputType.text),
+            fieldText(paddingField, context, widget.districtController,
+                "Daerah", false, TextInputType.text),
           ],
         ),
       ),
@@ -150,6 +71,8 @@ class _AllTextFieldsState extends State<AllTextFields> {
     BuildContext context,
     TextEditingController controller,
     String hintText,
+      bool enable,
+      TextInputType keyboard,
   ) {
     return Container(
       margin: marginDefined,
@@ -162,6 +85,8 @@ class _AllTextFieldsState extends State<AllTextFields> {
       ),
       child: Center(
         child: TextFormField(
+          keyboardType: keyboard,
+          enabled: enable,
           controller: controller,
           decoration: InputDecoration.collapsed(hintText: hintText),
         ),

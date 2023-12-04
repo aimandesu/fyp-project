@@ -16,14 +16,13 @@ class TextFieldDecoration extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: TextField(
+        enableInteractiveSelection: false,
         controller: textEditingController,
         keyboardType: textInputType,
-        // textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.next,
         decoration: InputDecoration.collapsed(
           hintText: hintText,
         ),
-        // onChanged: (value) => print(value),
-        // onSubmitted: (value) => print("submitted: $value"),
       ),
     );
   }
@@ -31,7 +30,7 @@ class TextFieldDecoration extends StatelessWidget {
 
 BoxDecoration inputDecorationDefined(BuildContext context) {
   return BoxDecoration(
-    borderRadius: BorderRadius.circular(25),
+    borderRadius: BorderRadius.circular(20),
     border: Border.all(
       width: 1,
       color: Theme.of(context).colorScheme.primary,

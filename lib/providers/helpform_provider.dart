@@ -20,7 +20,7 @@ class HelpFormProvider {
     DateTime date = DateTime(now.year, now.month, now.day);
 
     String pathFiles =
-        "form/individual/${helpFormModel.district}/${helpFormModel.noIC}/$formatter";
+        "form/individual/${helpFormModel.subDistrict}/${helpFormModel.noIC}/$formatter";
 
     //url
     String pdfUrl = "";

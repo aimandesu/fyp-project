@@ -33,17 +33,24 @@ class ProfileDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Mukim"),
+              const Text("Poskod"),
+              Text(communityAt['postcode']),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Bandar"),
               Text(communityAt['subDistrict']),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Poskod"),
-              Text(communityAt['postcode']),
+              const Text("Mukim"),
+              Text(communityAt['district']),
             ],
-          )
+          ),
         ],
       ),
     ).animate().fade(curve: Curves.easeIn);

@@ -14,7 +14,7 @@ class YourInformation extends StatelessWidget {
     required this.ageController,
     required this.gender,
     required this.changeGender,
-    required this.districtController,
+    required this.subDistrictController,
     required this.postcodeController,
   });
 
@@ -23,7 +23,7 @@ class YourInformation extends StatelessWidget {
   final TextEditingController addressController;
   final TextEditingController phoneController;
   final TextEditingController ageController;
-  final TextEditingController districtController;
+  final TextEditingController subDistrictController;
   final TextEditingController postcodeController;
   String gender;
   final Function(String value) changeGender;
@@ -79,6 +79,18 @@ class YourInformation extends StatelessWidget {
   Row genderAgePhoneInput(Size size, BuildContext context) {
     return Row(
       children: [
+        Container(
+          margin: marginDefined,
+          padding: paddingDefined,
+          height: 60,
+          width: size.width * 0.2,
+          decoration: inputDecorationDefined(context),
+          child: TextFieldDecoration(
+            hintText: "Umur",
+            textInputType: TextInputType.number,
+            textEditingController: ageController,
+          ),
+        ),
         Expanded(
           child: Container(
             margin: marginDefined,
@@ -95,19 +107,20 @@ class YourInformation extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            // margin: marginDefined,
+            margin: marginDefined,
             padding: paddingDefined,
             height: 60,
             // width: size.width * 0.3,
             decoration: inputDecorationDefined(context),
             child: DropdownButton<String>(
+              underline: const SizedBox(),
               value: gender,
               isExpanded: true,
               // hint: Text("gender"),
               onChanged: (String? value) {
                 changeGender(value.toString());
               },
-              items: ["male", "female"].map((value) {
+              items: ["Lelaki", "Perempuan"].map((value) {
                 return DropdownMenuItem(
                   value: value,
                   child: Text(value),
@@ -116,18 +129,7 @@ class YourInformation extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          margin: marginDefined,
-          padding: paddingDefined,
-          height: 60,
-          width: size.width * 0.2,
-          decoration: inputDecorationDefined(context),
-          child: TextFieldDecoration(
-            hintText: "Umur",
-            textInputType: TextInputType.number,
-            textEditingController: ageController,
-          ),
-        ),
+
       ],
     );
   }
@@ -156,8 +158,8 @@ class YourInformation extends StatelessWidget {
             decoration: inputDecorationDefined(context),
             child: TextFieldDecoration(
               hintText: "Daerah",
-              textInputType: TextInputType.text,
-              textEditingController: districtController,
+              textInputType: TextInputType.none,
+              textEditingController: subDistrictController,
             ),
           ),
         ),

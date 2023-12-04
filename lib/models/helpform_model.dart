@@ -4,7 +4,7 @@ class HelpFormModel {
   final String name;
   final String address;
   final String postcode;
-  final String district;
+  final String subDistrict;
   final String phone;
   final String noIC;
   final String gender;
@@ -17,13 +17,11 @@ class HelpFormModel {
   final String authUID;
   final bool approved;
 
-  //kena tmbh district, ni for pisahkn reference tu
-
   HelpFormModel({
     required this.name,
     required this.address,
     required this.postcode,
-    required this.district,
+    required this.subDistrict,
     required this.phone,
     required this.noIC,
     required this.gender,
@@ -37,7 +35,6 @@ class HelpFormModel {
     this.approved = false,
   });
 
-  //for firebase toJson type
   Map<String, dynamic> toJson(
     String selectedPDF,
     List<String> pictures,
@@ -47,7 +44,7 @@ class HelpFormModel {
         'name': name,
         'address': address,
         'postcode': postcode,
-        'district': district,
+        'subDistrict': subDistrict,
         'phone': phone,
         'noIC': noIC,
         'gender': gender,
@@ -60,5 +57,5 @@ class HelpFormModel {
         'authUID': authUID,
         'approved': approved,
         'date': date,
-      }; //things that from reference download
+      };
 }

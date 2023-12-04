@@ -20,16 +20,14 @@ class Verification extends StatefulWidget {
 }
 
 class _VerificationState extends State<Verification> {
-  // bool showSignUp = true;
-
   late Map<String, dynamic> args;
   bool _isInit = true;
 
   //communityAt
-  final districtController = TextEditingController();
+  final districtController = TextEditingController(text: "Kinta");
   final addressController = TextEditingController();
   final postcodeController = TextEditingController();
-  final subDistrictController = TextEditingController();
+  final subDistrictController = TextEditingController(text: "Ipoh");
 
   //identificationImage
   File? frontIC;
@@ -38,16 +36,6 @@ class _VerificationState extends State<Verification> {
   //the rest
   final identificationNoController = TextEditingController();
   final nameController = TextEditingController();
-
-  // final positionController = TextEditingController(); //?
-
-  // void takePicture(bool isFront, bool isCamera) {
-  //   _takePicture(isFront, isCamera);
-  // }
-
-  // void removePicture(bool isFront) {
-  //   _removePicture(isFront);
-  // }
 
   Future<void> takePicture(bool isFront) async {
     final picker = ImagePicker();
@@ -83,13 +71,38 @@ class _VerificationState extends State<Verification> {
     }
   }
 
+  void showPopUp(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog(context, title, content);
+      },
+    );
+  }
+
+  AlertDialog alertDialog(BuildContext context, String title, String content) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: <Widget>[
+        TextButton(
+          child: const Text("OK"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+
   void sendForm() {
-    //fireabase sent stuff
-    //define shape of the usermodel and send
+    if (backIC == null || frontIC == null) {
+      showPopUp("Ralat", "Gambar tidak lagi di import");
+    }
 
     final userModel = UserModel(
       communityAt: {
-        'district': districtController.text.toLowerCase(),
+        'district': districtController.text,
         'place': addressController.text,
         'postcode': postcodeController.text,
         'subDistrict': subDistrictController.text,
@@ -103,12 +116,19 @@ class _VerificationState extends State<Verification> {
       authUID: args['authUID'],
     );
 
-    //send it
-    ProfileProvider().updateProfile(
-      userModel,
-      context,
-      args['userUID'],
-    );
+    if (userModel.identificationNo == "" ||
+        userModel.communityAt["postcode"] == "" ||
+        userModel.communityAt["place"] == "" ||
+        userModel.name == "") {
+      showPopUp("Ralat", "Terdapat maklumat yang tidak lengkap");
+    } else {
+      ProfileProvider().updateProfile(
+        userModel,
+        context,
+        args['userUID'],
+      );
+      Navigator.of(context).pop();
+    }
   }
 
   void handlePicLoad(Map<String, dynamic> images) async {
@@ -127,29 +147,12 @@ class _VerificationState extends State<Verification> {
       backIC!.writeAsBytesSync(backBytes.bodyBytes);
       frontIC!.writeAsBytesSync(frontBytes.bodyBytes);
     });
-
-    // final String frontUrl = args['identificationImage']['front'];
-    // final String backUrl = args['identificationImage']['back'];
-
-    // final frontBytes = await http.get(Uri.parse(frontUrl));
-    // final backBytes = await http.get(Uri.parse(backUrl));
-
-    // final tempDir = await getTemporaryDirectory();
-    // backIC = await File('${tempDir.path}/image.png').create();
-
-    // setState(() {
-    //   backIC!.writeAsBytesSync(backBytes.bodyBytes);
-    //   frontIC!.writeAsBytesSync(frontBytes.bodyBytes);
-    // });
   }
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
       args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      // print(args); {communityAt: {district: , postcode: , place: , subDistrict: },
-      //identificationImage: {back: , front: }, name: , identificationNo: ,
-      //authUID: SudrkEySEkYUTHFF1K54M7EtoIf2, userUID: WYYOI3s27VC5QART82ns}
 
       if (args['identificationNo'] == "") {
         return;
@@ -160,8 +163,6 @@ class _VerificationState extends State<Verification> {
         districtController.text = args['communityAt']['district'];
         postcodeController.text = args['communityAt']['postcode'];
         subDistrictController.text = args['communityAt']['subDistrict'];
-
-        //supposedly for picture buh in file
 
         handlePicLoad(args['identificationImage']);
       }
@@ -174,7 +175,6 @@ class _VerificationState extends State<Verification> {
 
   @override
   void dispose() {
-    // positionController.dispose();
     nameController.dispose();
     identificationNoController.dispose();
     addressController.dispose();
@@ -186,34 +186,18 @@ class _VerificationState extends State<Verification> {
 
   @override
   Widget build(BuildContext context) {
-    // final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
-
     Size size = MediaQuery.of(context).size;
 
     return WillPopScope(
       onWillPop: () async {
-        // _deleteCacheDir();
         imageCache.clear();
         return true;
       },
       child: Scaffold(
-        appBar:
-            // showSignUp
-            //     ?
-            AppBar(
+        appBar: AppBar(
           title: const Text("Kemaskini Profil"),
         ),
-        // : AppBar(
-        //     title: const Text("Login"),
-        //     leading: IconButton(
-        //       onPressed: negateShowSignUp,
-        //       icon: const Icon(Icons.keyboard_return),
-        //     ),
-        //   ),
-        body:
-            //  showSignUp
-            //     ?
-            SizedBox(
+        body: SizedBox(
           height: size.height * 1,
           width: size.width * 1,
           child: ResponsiveLayoutController(
@@ -232,7 +216,6 @@ class _VerificationState extends State<Verification> {
                     ),
                   ),
                   AllTextFields(
-                    // positionController: positionController,
                     nameController: nameController,
                     identificationNoController: identificationNoController,
                     districtController: districtController,
@@ -251,7 +234,6 @@ class _VerificationState extends State<Verification> {
               physics: const BouncingScrollPhysics(),
               child: Row(
                 children: [
-                  //here just check jr if image tu ada if yes view je and buat utton yg leh change image
                   SizedBox(
                     width: size.width * 0.5,
                     child: ICimage(
@@ -266,7 +248,6 @@ class _VerificationState extends State<Verification> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AllTextFields(
-                          // positionController: positionController,
                           nameController: nameController,
                           identificationNoController:
                               identificationNoController,
@@ -287,7 +268,6 @@ class _VerificationState extends State<Verification> {
             ),
           ),
         ),
-        // : Container(),
       ),
     );
   }
