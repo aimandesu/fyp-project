@@ -18,7 +18,7 @@ class ListHousehold extends StatelessWidget {
           padding: paddingDefined,
           child: Text(
             "Senarai isi rumah",
-            style: textStyling,
+            style: textStyling30,
           ),
         ),
         TableInput(

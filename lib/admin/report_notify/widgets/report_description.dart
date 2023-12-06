@@ -27,7 +27,7 @@ class ReportDescription extends StatelessWidget {
                 Lottie.asset("assets/chat.json"),
                 const Text(
                   "Helping people is a good deed. Have a nice day!",
-                  style: textStyling,
+                  style: textStyling30,
                 )
               ],
             )
@@ -41,7 +41,7 @@ class ReportDescription extends StatelessWidget {
                 children: [
                   Text(
                     formToRender!["disaster"].join(", "),
-                    style: textStyling,
+                    style: textStyling30,
                   ),
                   ScrollConfiguration(
                     behavior: ScrollConfiguration.of(context).copyWith(

@@ -28,7 +28,7 @@ class ProofVerification extends StatelessWidget {
           padding: paddingDefined,
           child: Text(
             "Pengesahan dan Bukti",
-            style: textStyling,
+            style: textStyling30,
           ),
         ),
         proofAndVerification(),

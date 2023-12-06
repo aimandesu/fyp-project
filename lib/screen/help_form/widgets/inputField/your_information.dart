@@ -41,7 +41,7 @@ class YourInformation extends StatelessWidget {
           padding: paddingDefined,
           child: Text(
             "Maklumat Anda",
-            style: textStyling,
+            style: textStyling30,
           ),
         ),
         definedInput(context, "Name", nameController, TextInputType.text),

@@ -34,7 +34,7 @@ class NotifyPeople extends StatelessWidget {
       children: [
         const Text(
           "Beri Amaran",
-          style: textStyling,
+          style: textStyling30,
         ),
         StatefulBuilder(builder: (context, setState) {
           return DropdownButton(

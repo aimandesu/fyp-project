@@ -32,7 +32,7 @@ class VictimCategory extends StatelessWidget {
           padding: paddingDefined,
           child: Text(
             "Kategori Mangsa",
-            style: textStyling,
+            style: textStyling30,
           ),
         ),
         kategoriMangsa(size, context),

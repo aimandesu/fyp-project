@@ -1,10 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/providers/support_result_provider.dart';
 import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';
 import 'package:provider/provider.dart';
-
-import '../../../providers/chat_provider.dart';
-import '../../chat/chat.dart';
 
 class SupportResult extends StatelessWidget {
   static const routeName = "/support-result";
@@ -22,9 +20,12 @@ class SupportResult extends StatelessWidget {
             .getAppliedForm(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
+            return ListView.separated(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
+                Timestamp timestamp = snapshot.data![index]['date'];
                 String caseID = snapshot.data![index]['caseID'];
                 return GestureDetector(
                   onTap: () {
@@ -33,8 +34,16 @@ class SupportResult extends StatelessWidget {
                   },
                   child: ListTile(
                     tileColor: Theme.of(context).colorScheme.primaryContainer,
-                    title: Text(snapshot.data![index]['caseID']),
+                    title: Text(
+                      "${timestamp.toDate().day}, ${timestamp.toDate().month}, ${timestamp.toDate().year}"
+                    ),
+                    subtitle: Text(snapshot.data![index]['caseID']),
                   ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  height: 10,
                 );
               },
             );
@@ -43,17 +52,6 @@ class SupportResult extends StatelessWidget {
           }
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     String args = await ChatProvider().askAssistance();
-      //     if (context.mounted) {
-      //       Navigator.pushNamed(context, Chat.routeName, arguments: args);
-      //     }
-      //   },
-      //   child: const Icon(
-      //     Icons.support_agent,
-      //   ),
-      // ),
     );
   }
 }

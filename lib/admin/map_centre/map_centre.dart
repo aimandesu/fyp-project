@@ -47,7 +47,7 @@ class _MapCentreState extends State<MapCentre> {
               children: [
                 const Text(
                   "Tambah Pusat Bantuan",
-                  style: textStyling,
+                  style: textStyling30,
                 ),
                 Container(
                   width: 200,

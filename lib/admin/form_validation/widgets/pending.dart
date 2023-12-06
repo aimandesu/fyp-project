@@ -79,7 +79,7 @@ class _PendingState extends State<Pending> {
                     Lottie.asset("assets/chat.json"),
                     const Text(
                       "Helping people is a good deed. Have a nice day!",
-                      style: textStyling,
+                      style: textStyling30,
                     )
                   ],
                 )

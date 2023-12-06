@@ -27,9 +27,9 @@ class ResultContainer extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: Container(
-        margin: const EdgeInsets.only(top: 10),
+        margin: marginDefined,
         height: mediaQuery.size.height * 0.5,
-        width: mediaQuery.size.width * 0.9,
+        width: mediaQuery.size.width * 1,
         decoration: decorationDefinedShadow(
             Theme.of(context).colorScheme.primaryContainer, 25),
         child: Column(
@@ -47,9 +47,21 @@ class ResultContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Nama: $nama"),
-                  Text("No Phone: $noPhone"),
-                  Text("No Kad Pengenalan: $noKadPengenalan"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [const Text("Nama"), Text("$nama")],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text("No Phone"), Text("$noPhone")],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("No Kad Pengenalan"),
+                      Text(" $noKadPengenalan")
+                    ],
+                  )
                 ],
               ),
             ),
