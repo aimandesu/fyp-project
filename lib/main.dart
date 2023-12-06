@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fyp_project/admin/admin.dart';
 import 'package:fyp_project/onboarding/onboarding.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
@@ -37,6 +38,8 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   //initialise messaging
   FcmService().setupInteractedMessage();

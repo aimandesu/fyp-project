@@ -58,16 +58,12 @@ class _PDFUploadState extends State<PDFUpload> {
         body: Column(
           children: [
             _selectedPDF == null
-                ? SizedBox(
-                    height: size.height * 0.9,
-                    width: size.width * 1,
-                    child: const Center(
-                      child: Text("No PDF File"),
+                ? const Expanded(
+                    child: Center(
+                      child: Text("Tiada Pengesahan PDF"),
                     ),
                   )
-                : SizedBox(
-                    height: size.height * 0.9,
-                    width: size.width * 1,
+                : Expanded(
                     child: PDFView(
                       filePath: _selectedPDF!.path,
                     ),

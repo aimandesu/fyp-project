@@ -1,14 +1,14 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp_project/constant.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
+import 'package:image/image.dart' as img;
 import 'camera_module.dart';
 import 'camera_option.dart';
-import 'picture_display.dart';
 
 class PictureUpload extends StatefulWidget {
   static const routeName = "/picture-upload";
@@ -24,6 +24,7 @@ class _PictureUploadState extends State<PictureUpload> {
   List<File>? _pictures = [];
   CameraController? _cameraController;
   List<CameraDescription> _cameras = [];
+  int turns = 0;
 
   //features camera
   // double _minAvailableZoom = 1.0;
@@ -57,10 +58,19 @@ class _PictureUploadState extends State<PictureUpload> {
     }
   }
 
-  //take picture using gallery
-
   Future<void> _takePicture() async {
     final XFile xFile = await _cameraController!.takePicture();
+    if (turns != 0) {
+      int angle = 90;
+      if (turns == 1) {
+        angle = -90;
+      }
+      img.Image? capturedImage =
+          img.decodeImage(await File(xFile.path).readAsBytes());
+      final orientedImage =
+          img.copyRotate(capturedImage!, angle: angle.toInt());
+      await File(xFile.path).writeAsBytes(img.encodeJpg(orientedImage));
+    }
     if (mounted) {
       setState(() {
         _pictures!.add(File(xFile.path));
@@ -102,13 +112,21 @@ class _PictureUploadState extends State<PictureUpload> {
   void initState() {
     setupCamera();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
   }
 
   @override
   void dispose() {
     _cameraController!.dispose();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeRight,
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    // ]);
     super.dispose();
   }
 
@@ -127,156 +145,54 @@ class _PictureUploadState extends State<PictureUpload> {
         return true;
       },
       child: Scaffold(
-        // body: ResponsiveLayoutController(
-        // mobile: isPortrait
-        //     ?
-        body: isPortrait
-            ? Padding(
-                padding: paddingDefined,
-                child: Stack(
-                  children: [
-                    const Center(
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        "Sila benarkan mod putaran dan pusing kepada mod landskap",
-                        style: TextStyle(
-                          fontSize: 23,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            PictureDisplay.routeName,
-                            arguments: {
-                              "pictures": _pictures,
-                              "removePicture": _removePicture,
-                            },
-                          );
-                        },
-                        child: const Text("Pergi ke gambar diambil"),
-                      ),
-                    ),
-                  ],
+        body: NativeDeviceOrientationReader(
+          useSensor: true,
+          builder: (ctx) {
+            final orientation = NativeDeviceOrientationReader.orientation(ctx);
+            switch (orientation) {
+              case NativeDeviceOrientation.portraitUp:
+                turns = 0;
+                break;
+              case NativeDeviceOrientation.portraitDown:
+                turns = 2;
+                break;
+              case NativeDeviceOrientation.landscapeLeft:
+                turns = 1;
+                break;
+              case NativeDeviceOrientation.landscapeRight:
+                turns = 3;
+                break;
+              case NativeDeviceOrientation.unknown:
+                turns = 0;
+                break;
+            }
+            return Column(
+              children: [
+                Container(
+                  color: Colors.black,
+                  height: size.height * 0.05,
+                  width: size.width * 1,
                 ),
-              )
-            :
-            // Column(
-            //     children: [
-            //       CameraModule(
-            //         height: size.height * 0.9,
-            //         width: size.width * 1,
-            //         cameraController: _cameraController,
-            //       ),
-            //       CameraOption(
-            //         width: size.width * 1,
-            //         height: size.height * 0.1,
-            //         size: size,
-            //         pictures: _pictures,
-            //         takePicture: _takePicture,
-            //         uploadPhotos: _uploadPhotos,
-            //         clearImageCache: _clearImageCache,
-            //         removePicture: _removePicture,
-            //         isPortrait: isPortrait,
-            //       )
-            //     ],
-            //   )
-            // :
-            Row(
-                children: [
-                  Expanded(
-                    child: CameraModule(
-                      cameraController: _cameraController,
-                    ),
+                SizedBox(
+                  height: size.height * 0.8,
+                  width: size.width * 1,
+                  child: CameraModule(
+                    cameraController: _cameraController,
                   ),
-                  CameraOption(
-                    width: size.width * 0.1,
-                    height: size.height * 1,
-                    size: size,
+                ),
+                Expanded(
+                  child: CameraOption(
                     pictures: _pictures,
                     takePicture: _takePicture,
                     uploadPhotos: _uploadPhotos,
                     removePicture: _removePicture,
-                    isPortrait: isPortrait,
                   ),
-                ],
-              ),
-        // tablet: isPortrait
-        //     ? Column(
-        //         children: [
-        //           CameraModule(
-        //             height: size.height * 0.9,
-        //             width: size.width * 1,
-        //             cameraController: _cameraController,
-        //           ),
-        //           CameraOption(
-        //             width: size.width * 1,
-        //             height: size.height * 0.1,
-        //             size: size,
-        //             pictures: _pictures,
-        //             takePicture: _takePicture,
-        //             uploadPhotos: _uploadPhotos,
-        //             clearImageCache: _clearImageCache,
-        //             removePicture: _removePicture,
-        //             isPortrait: isPortrait,
-        //           )
-        //         ],
-        //       )
-        //     : Row(
-        //         children: [
-        //           CameraModule(
-        //             height: size.height * 1,
-        //             width: size.width * 0.9,
-        //             cameraController: _cameraController,
-        //           ),
-        //           CameraOption(
-        //             width: size.width * 0.1,
-        //             height: size.height * 1,
-        //             size: size,
-        //             pictures: _pictures,
-        //             takePicture: _takePicture,
-        //             uploadPhotos: _uploadPhotos,
-        //             clearImageCache: _clearImageCache,
-        //             removePicture: _removePicture,
-        //             isPortrait: isPortrait,
-        //           ),
-        //         ],
-        //       ),
-        // ),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 }
-
-// class RecentPictures extends StatelessWidget {
-//   const RecentPictures({
-//     super.key,
-//     required this.size,
-//     required List<File>? pictures,
-//   }) : _pictures = pictures;
-
-//   final Size size;
-//   final List<File>? _pictures;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: marginDefined,
-//       height: size.height * 0.1,
-//       width: size.height * 0.1,
-//       color: _pictures!.isEmpty ? Colors.black : null,
-//       child: _pictures!.isEmpty
-//           ? null
-//           : FittedBox(
-//               fit: BoxFit.fill,
-//               child: Image(
-//                 image: FileImage(_pictures!.last),
-//               ),
-//             ),
-//     );
-//   }
-// }

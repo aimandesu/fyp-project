@@ -59,6 +59,8 @@ dependencies:
   intl: ^0.18.1
   firebase_messaging: ^14.7.4
   collection: ^1.17.2
+  native_device_orientation: ^1.2.1
+  image: ^4.1.3
 
 dev_dependencies:
   flutter_test:
