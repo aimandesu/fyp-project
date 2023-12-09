@@ -29,7 +29,6 @@ class ChatPlace extends StatelessWidget {
   final void Function(
     String requestID,
     String message,
-    File? picture,
   ) sendMessage;
   final VoidCallback resetChat;
 
@@ -73,7 +72,7 @@ class ChatPlace extends StatelessWidget {
                           itemBuilder: (_, index) {
                             String text = snapshot.data![index]['text'];
                             String uid = snapshot.data![index]['uid'];
-                            String? picture = snapshot.data[index]['picture'];
+                            List<dynamic>? picture = snapshot.data[index]['picture'];
 
                             if (text == "exit") {
                               return Align(
@@ -115,19 +114,19 @@ class ChatPlace extends StatelessWidget {
                     }
                   },
                 ),
-                triggerOption
-                    ? Positioned(
-                        bottom: 50,
-                        right: 0,
-                        child: Container(
-                            margin: marginDefined,
-                            height: 50,
-                            width: 90,
-                            decoration: decorationDefined(
-                                Theme.of(context).colorScheme.primaryContainer,
-                                20)),
-                      ).animate().fade().slideY(curve: Curves.easeIn)
-                    : Container(),
+                // triggerOption
+                //     ? Positioned(
+                //         bottom: 50,
+                //         right: 0,
+                //         child: Container(
+                //             margin: marginDefined,
+                //             height: 50,
+                //             width: 90,
+                //             decoration: decorationDefined(
+                //                 Theme.of(context).colorScheme.primaryContainer,
+                //                 20)),
+                //       ).animate().fade().slideY(curve: Curves.easeIn)
+                //     : Container(),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(
@@ -136,10 +135,10 @@ class ChatPlace extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(child: TextEntered(chatText: chatText)),
-                        IconButton.filledTonal(
-                          onPressed: () => changeOption(),
-                          icon: const Icon(Icons.browse_gallery),
-                        ),
+                        // IconButton.filledTonal(
+                        //   onPressed: () => changeOption(),
+                        //   icon: const Icon(Icons.browse_gallery),
+                        // ),
                         const SizedBox(
                           width: 10,
                         ),
@@ -147,7 +146,6 @@ class ChatPlace extends StatelessWidget {
                           onPressed: () => sendMessage(
                             callsOn.toString(),
                             chatText.text,
-                            null,
                           ),
                           icon: const Icon(Icons.send),
                         ),

@@ -62,7 +62,6 @@ class _AssistanceState extends State<Assistance> {
   void sendMessage(
     String requestID,
     String message,
-    File? picture,
   ) {
     String authUID = "dev";
 
@@ -70,11 +69,13 @@ class _AssistanceState extends State<Assistance> {
       requestID: requestID,
       uid: authUID,
       message: message,
-      picture: picture,
     );
 
     //send to provider
     Provider.of<ChatProvider>(context, listen: false).addMessage(messageModel);
+
+    //clear text chat
+    chatText.clear();
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,11 +7,21 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../constant.dart';
+import 'package:http/http.dart' as http;
 
 class ReportDescription extends StatelessWidget {
   const ReportDescription({super.key, required this.formToRender});
 
   final Map<String, dynamic>? formToRender;
+  
+  void showPlace(var lat, var long) async{
+    final response = await http.get(
+      Uri.parse("https://api.geoapify.com/v1/geocode/reverse?lat=$lat&lon=$long&apiKey=$reverseGeoApiKey")
+    );
+    final json = jsonDecode(response.body);
+    print("called here geo reverse");
+    print(json);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +50,10 @@ class ReportDescription extends StatelessWidget {
               ),
               child: Column(
                 children: [
+                  OutlinedButton(onPressed: () => showPlace(
+                      formToRender!["currentLocation"].latitude,
+                      formToRender!["currentLocation"].longitude
+                  ), child: Text("fe")),
                   Text(
                     formToRender!["disaster"].join(", "),
                     style: textStyling30,
@@ -61,6 +76,7 @@ class ReportDescription extends StatelessWidget {
                         itemCount: formToRender!["pictures"].length,
                         itemBuilder: (context, index) {
                           return Stack(
+                            fit: StackFit.passthrough,
                             children: [
                               Image.network(
                                 formToRender!["pictures"][index],

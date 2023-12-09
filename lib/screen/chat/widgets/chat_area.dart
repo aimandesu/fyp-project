@@ -63,7 +63,7 @@ class _ChatAreaState extends State<ChatArea> {
                 itemBuilder: (_, index) {
                   String text = snapshot.data![index]['text'];
                   String uid = snapshot.data![index]['uid'];
-                  String? picture = snapshot.data![index]['picture'];
+                  List<dynamic>? picture = snapshot.data![index]['picture'];
                   return Bubble(
                     message: text,
                     isUser: uid == authUID,

@@ -50,7 +50,7 @@ class _NewsContentState extends State<NewsContent> {
     final mediaQuery = MediaQuery.of(context);
 
     AppBar appBar2 = AppBar(
-      title:  Text(toDisplay!["title"]),
+      title: Text(toDisplay!["title"]),
     );
 
     final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
@@ -70,9 +70,27 @@ class _NewsContentState extends State<NewsContent> {
                     child: PageView.builder(
                       itemCount: (toDisplay!["images"] as List).length,
                       itemBuilder: (context, index) {
-                        return Image.network(
-                          toDisplay!["images"][index],
-                          fit: BoxFit.fill,
+                        return Stack(
+                          fit: StackFit.passthrough,
+                          children: [
+                            Image.network(
+                              toDisplay!["images"][index],
+                              fit: BoxFit.fill,
+                            ),
+                            Positioned(
+                              top: 7,
+                              right: 5,
+                              child: Container(
+                                  padding: paddingDefined,
+                                  decoration: decorationDefined(
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    100,
+                                  ),
+                                  child: Text((index + 1).toString())),
+                            ),
+                          ],
                         );
                       },
                     ),
@@ -90,8 +108,18 @@ class _NewsContentState extends State<NewsContent> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(toDisplay!["district"]),
-                        Text(toDisplay!["content"]),
+                        Text(
+                          toDisplay!["district"],
+                          style: textStyling20,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        //this should be some kind of place, sbb we already make it only ipoh lol
+                        Text(
+                          toDisplay!["content"],
+                          style: textStyling17,
+                        ),
                       ],
                     ),
                   ),

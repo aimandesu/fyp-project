@@ -74,13 +74,22 @@ class ChatProvider with ChangeNotifier {
   ) async {
     Reference reference = FirebaseStorage.instance.ref();
     String pathFiles = "message/${messageModel.uid}/${messageModel.requestID}";
-    String imgUrl = "";
+    List<String> imgUrl = [];
     if (messageModel.picture != null) {
       try {
-        Reference referenceDirectory = reference.child(pathFiles);
-        await referenceDirectory.putFile(messageModel.picture as File);
-        String url = await referenceDirectory.getDownloadURL();
-        imgUrl = url;
+        for(int i =0; i< messageModel.picture!.length; i++){
+          final contentType = getImageContentType(messageModel.picture![i]);
+          Reference referenceDirectory = reference
+              .child("$pathFiles/${messageModel.picture![i]!.uri.pathSegments.last}");
+          await referenceDirectory.putFile(
+              messageModel.picture![i],
+              SettableMetadata(
+                contentType: contentType,
+                customMetadata: {'fileType': 'image'},
+              ));
+          String url = await referenceDirectory.getDownloadURL();
+          imgUrl.add(url);
+        }
       } on FirebaseException catch (e) {
         print(e.message.toString());
         //ke here kena guna technique alert stack trace
@@ -97,5 +106,24 @@ class ChatProvider with ChangeNotifier {
     final int index = lengthMessage;
     final json = messageModel.toJson(imgUrl, index);
     await collection.add(json);
+  }
+
+  String getImageContentType(File file) {
+    final fileExtension = file.path.split('.').last.toLowerCase();
+    if (fileExtension == 'jpeg' || fileExtension == 'jpg') {
+      return 'image/jpeg';
+    } else if (fileExtension == 'png') {
+      return 'image/png';
+    } else if (fileExtension == 'gif') {
+      return 'image/gif';
+    } else if (fileExtension == 'bmp') {
+      return 'image/bmp';
+    } else if (fileExtension == 'webp') {
+      return 'image/webp';
+    }
+    // Add more image types as needed
+
+    // Default to 'application/octet-stream' for unknown file types
+    return 'application/octet-stream';
   }
 }

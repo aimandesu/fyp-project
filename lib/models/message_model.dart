@@ -4,7 +4,7 @@ class MessageModel {
   final String requestID;
   final String uid;
   final String message;
-  final File? picture;
+  final List<File>? picture;
 
   MessageModel({
     required this.requestID,
@@ -14,10 +14,10 @@ class MessageModel {
   });
 
   Map<String, dynamic> toJson(
-    String picture,
+    List<String> picture,
     int index,
   ) {
-    if (picture == "") {
+    if (picture.isEmpty) {
       return {
         'index': index,
         'uid': uid,

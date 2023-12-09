@@ -237,7 +237,7 @@ class _ReportIncidenceState extends State<ReportIncidence> {
         margin: marginDefined,
         child: FilledButton.tonal(
           onPressed: () => submitReport(),
-          child: const Text("Submit"),
+          child: const Text("Hantar"),
         ),
       ),
     );

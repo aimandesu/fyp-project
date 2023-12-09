@@ -6,7 +6,7 @@ class Bubble extends StatelessWidget {
 
   final String message;
   final bool isUser;
-  final String? picture;
+  final List<dynamic>? picture;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,11 @@ class Bubble extends StatelessWidget {
                         SizedBox(
                             height: 300,
                             width: 300,
-                            child: Image.network(picture.toString())),
+                            child: ListView.builder(
+                              itemCount: picture!.length,
+                                itemBuilder: (context, index){
+                                  return Image.network(picture![index].toString());
+                                })),
                         Text(
                           message,
                           textAlign: TextAlign.start,

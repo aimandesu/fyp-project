@@ -17,7 +17,7 @@ class TextEntered extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        width: size.width * 0.82,
+        width: size.width * 0.7,
         margin: marginDefined,
         padding: paddingDefined,
         decoration: decorationDefined(color, circular),

@@ -44,8 +44,8 @@ class _NewsState extends State<News> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                        snapshot.data![index]["date"].toString(),
-                          style: const TextStyle(fontSize: 20),
+                          snapshot.data![index]["date"].toString(),
+                          style: textStyling20,
                         ),
                       ),
                       ..._buildContent(size, snapshot.data![index]["content"])
@@ -114,17 +114,18 @@ class _NewsState extends State<News> {
       right: 0,
       child: SizedBox(
         width: ResponsiveLayoutController.isMobile(context)
-            ? size.width * 0.5
+            ? size.width * 0.55
             : size.width * 0.2,
         height: ResponsiveLayoutController.isMobile(context)
             ? size.height * 0.1
             : size.height * 0.45,
         child: ListTile(
           title: Text(title),
-          subtitle: SingleChildScrollView(
-            child: Text(
-              content,
-            ),
+          subtitle: Text(
+            content,
+            textAlign: TextAlign.justify,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),

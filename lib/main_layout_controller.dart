@@ -133,11 +133,15 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     if (_pages[_selectedPageIndex]['title'].toString() == "Rumah") {
       return FloatingActionButton(
         onPressed: () async {
-              String args = await ChatProvider().askAssistance();
-              if (context.mounted) {
-                Navigator.pushNamed(context, Chat.routeName, arguments: args);
-              }
-            },
+          String args = await ChatProvider().askAssistance();
+          if (context.mounted) {
+            Navigator.pushNamed(context, Chat.routeName, arguments: args);
+          }
+        },
+        shape: RoundedRectangleBorder(
+          side:  BorderSide(width: 1, color: Theme.of(context).colorScheme.onPrimaryContainer,),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: const Icon(
           Icons.support_agent,
         ),
