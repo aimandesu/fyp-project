@@ -27,6 +27,13 @@ class _PendingState extends State<Pending> {
     super.initState();
   }
 
+  void updateHasComplete(){
+    setState(() {
+      callsForm = FormProvider().pickForms(false);
+      formToRender = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -42,7 +49,8 @@ class _PendingState extends State<Pending> {
                 height: size.height * 0.8,
                 decoration: decorationDefinedShadow(
                     Theme.of(context).colorScheme.onPrimary, 35),
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 margin: marginDefined,
                 child: ListView.builder(
                   itemCount: snapshot.data!.length,
@@ -116,7 +124,6 @@ class _PendingState extends State<Pending> {
                                 pdf.toString(),
                               ),
                             ),
-
                           ],
                         )
                   : Container(
@@ -127,86 +134,128 @@ class _PendingState extends State<Pending> {
                         Theme.of(context).colorScheme.onPrimary,
                         25,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
                         children: [
+                          const Text(
+                            "Help Form Residents",
+                            style: textStyling30,
+                          ),
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ScrollConfiguration(
-                                behavior: ScrollConfiguration.of(context)
-                                    .copyWith(dragDevices: {
-                                  PointerDeviceKind.touch,
-                                  PointerDeviceKind.mouse,
-                                }),
-                                child: PageView.builder(
-                                  itemCount: (formToRender!["pictures"] as List)
-                                      .length,
-                                  itemBuilder: (context, index) {
-                                    return Image.network(
-                                      formToRender!["pictures"][index],
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
-                                          ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: size.width * 0.4,
+                                  margin: marginDefined,
+                                  decoration: decorationDefinedShadow(
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    25,
+                                  ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ScrollConfiguration(
+                                    behavior: ScrollConfiguration.of(context)
+                                        .copyWith(dragDevices: {
+                                      PointerDeviceKind.touch,
+                                      PointerDeviceKind.mouse,
+                                    }),
+                                    child: PageView.builder(
+                                      itemCount:
+                                          (formToRender!["pictures"] as List)
+                                              .length,
+                                      itemBuilder: (context, index) {
+                                        return Image.network(
+                                          formToRender!["pictures"][index],
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 300,
-                            height: size.height * 0.5,
-                            margin: marginDefined,
-                            padding: paddingDefined,
-                            decoration: decorationDefinedShadow(
-                              Theme.of(context).colorScheme.primaryContainer,
-                              25,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(formToRender!["name"]),
-                                Text(formToRender!["noIC"]),
-                                Text(formToRender!["category"]),
-                                Text(formToRender!["phone"]),
-                                Text(
-                                  "${formToRender!['address']} ${formToRender!['postcode']} ${formToRender!['district']}",
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          showPDF = true;
-                                        });
-                                      },
-                                      child: const Text("show pdf"),
                                     ),
-                                    const ElevatedButton(
-                                      onPressed: null,
-                                      child: Text("Next"),
-                                    )
-                                  ],
-                                )
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    margin: marginDefined,
+                                    padding: paddingDefined,
+                                    decoration: decorationDefinedShadow(
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .primaryContainer,
+                                      25,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        buildRowSpaceBetween(
+                                          const Text("Date"),
+                                          Text(formToRender!["date"].toString()),
+                                        ),
+                                        buildRowSpaceBetween(
+                                          const Text("Name"),
+                                          Text(formToRender!["name"]),
+                                        ),
+                                        buildRowSpaceBetween(
+                                          const Text("IC No"),
+                                          Text(formToRender!["noIC"]),
+                                        ),
+                                        buildRowSpaceBetween(
+                                          const Text("Category"),
+                                          Text(formToRender!["category"]),
+                                        ),
+                                        buildRowSpaceBetween(
+                                          const Text("Phone"),
+                                          Text(formToRender!["phone"]),
+                                        ),
+                                        buildRowSpaceBetween(
+                                          const Text("Address"),
+                                          Text(
+                                            "${formToRender!['address']} ${formToRender!['postcode']} ${formToRender!['district']}",
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  showPDF = true;
+                                                });
+                                              },
+                                              child: const Text("Validation"),
+                                            ),
+                                             ElevatedButton(
+                                              onPressed: () {
+                                                FormProvider().updateHelpForm(formOn!);
+                                                updateHasComplete();
+                                              },
+                                              child: const Text("Process"),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -215,6 +264,16 @@ class _PendingState extends State<Pending> {
                     ),
         ),
       ],
+    );
+  }
+
+  Row buildRowSpaceBetween(
+    Widget text,
+    Widget display,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [text, display],
     );
   }
 }

@@ -8,7 +8,6 @@ import 'package:fyp_project/admin/report_notify/widgets/notify_people.dart';
 import 'package:fyp_project/admin/report_notify/widgets/report_description.dart';
 import 'package:fyp_project/models/admin/notification_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 
 import '../../constant.dart';
 import '../providers/form_provider.dart';
@@ -25,6 +24,10 @@ class _ReportNotifyState extends State<ReportNotify> {
   String? reportOn;
   Map<String, dynamic>? formToRender;
 
+
+  //formatted address
+  String address = "";
+
   //notification
   TextEditingController title = TextEditingController();
   TextEditingController body = TextEditingController();
@@ -33,11 +36,43 @@ class _ReportNotifyState extends State<ReportNotify> {
   List<GeoPoint>? geoPoints = [];
 
   List<String> district = [
+    "Ampang",
+   "Bercham",
+    "Buntong",
+    "Falim",
+    "Gugusan Manjoi",
+    "Gunung Rapat",
     "Ipoh",
+    "Jelapang",
+    "Klebang",
     "Lahat",
+    "Meru",
+    "Menglembu",
+    "Pasir Puteh",
+    "Pekan Baru",
+    "Pekan Lama",
+    "Pengkalan",
+    "Simpang Pulai",
+    "Silibin"
+    "Station 18",
+    "Sunway City",
+    "Tambun",
+    "Taman Cempaka Ipoh",
     "Tanjung Rambutan",
+    "Tasek",
     "Chemor",
   ];
+
+  void showPlace(var lat, var long) async{
+    final response = await http.get(
+        Uri.parse("https://api.geoapify.com/v1/geocode/reverse?lat=$lat&lon=$long&apiKey=$reverseGeoApiKey")
+    );
+    final json = jsonDecode(response.body);
+    print("called here geo reverse");
+   setState(() {
+     address = json["features"][0]["properties"]["formatted"].toString();
+   });
+  }
 
   void changeReportOn(String reportID,
       Map<String, dynamic> reportForm,) {
@@ -45,6 +80,8 @@ class _ReportNotifyState extends State<ReportNotify> {
       reportOn = reportID;
       formToRender = reportForm;
     });
+    showPlace(formToRender!["currentLocation"].latitude,
+        formToRender!["currentLocation"].longitude);
   }
 
   void showPopUp(String title, String content) {
@@ -149,6 +186,7 @@ class _ReportNotifyState extends State<ReportNotify> {
         ),
         ReportDescription(
           formToRender: formToRender,
+          address: address,
         ),
         Container(
           width: size.width * 0.25,

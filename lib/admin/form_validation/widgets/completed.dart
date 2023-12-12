@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
-
 import '../../providers/form_provider.dart';
 
 class Completed extends StatefulWidget {
@@ -60,17 +59,15 @@ class _CompletedState extends State<Completed> {
             children: <TableRow>[
               TableRow(
                 children: [
-                  ...tableCells
-                      .map((e) => TableCell(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                e,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ))
-                      .toList(),
+                  ...tableCells.map((e) => TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            e,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )),
                 ],
               ),
               ...snapshot.data!.fold(

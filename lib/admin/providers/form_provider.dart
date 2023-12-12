@@ -12,7 +12,18 @@ class FormProvider {
     return instance;
   }
 
-  //report forms
+  Stream<dynamic> getFormCounts() async* {
+    yield* FirebaseFirestore.instance.collection("form").snapshots().map(
+        (event) => event.docs.map((doc) => doc.data()["reviewed"]).toList());
+  }
+
+  void updateHelpForm(String id) async {
+    await FirebaseFirestore.instance.collection("form").doc(id).update({
+      "reviewed": true,
+    });
+  }
+
+  //report forms - report notify
   Future<List<Map<String, dynamic>>> pickReports() async {
     final instance = await FirebaseFirestore.instance
         .collection("report")
@@ -22,7 +33,7 @@ class FormProvider {
     return instance;
   }
 
-  //identification list
+  //identification list - identification verify
   Future<List<Map<String, dynamic>>> pickIdentificationList() async {
     final instance = await FirebaseFirestore.instance
         .collection("community")
@@ -32,7 +43,7 @@ class FormProvider {
     return instance;
   }
 
-  //for fcm notifications
+  //for fcm notifications - report notify
   Future<List<String>> getUserAssociated(String district) async {
     List<String> token = [];
 

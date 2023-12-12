@@ -18,12 +18,11 @@ class FormValidation extends StatefulWidget {
 
 class _FormValidationState extends State<FormValidation>
     with SingleTickerProviderStateMixin {
+  Stream<dynamic>? formCounts;
+
   static const List<Tab> myTabs = <Tab>[
     Tab(
       child: Text("Pending"),
-    ),
-    Tab(
-      child: Text("OnWatch"),
     ),
     Tab(
       child: Text("Completed"),
@@ -37,7 +36,7 @@ class _FormValidationState extends State<FormValidation>
       length: myTabs.length,
       vsync: this,
     );
-
+    formCounts = FormProvider().getFormCounts();
     super.initState();
   }
 
@@ -46,10 +45,13 @@ class _FormValidationState extends State<FormValidation>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormCounts(),
+        FormCounts(
+          formCounts: formCounts,
+        ),
         DefaultTabController(
           length: myTabs.length,
           child: TabBar(
+            dividerColor: Colors.transparent,
             onTap: (selectedTabIndex) {
               setState(() {
                 _tabController.index = selectedTabIndex;
@@ -66,7 +68,6 @@ class _FormValidationState extends State<FormValidation>
             controller: _tabController,
             children: [
               const Pending(),
-              const OnWatch(),
               Container(
                 margin: marginDefined,
                 child: const Completed(),

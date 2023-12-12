@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,28 +6,26 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../constant.dart';
-import 'package:http/http.dart' as http;
 
 class ReportDescription extends StatelessWidget {
-  const ReportDescription({super.key, required this.formToRender});
+  const ReportDescription({
+    super.key,
+    required this.formToRender,
+    required this.address,
+  });
 
   final Map<String, dynamic>? formToRender;
-  
-  void showPlace(var lat, var long) async{
-    final response = await http.get(
-      Uri.parse("https://api.geoapify.com/v1/geocode/reverse?lat=$lat&lon=$long&apiKey=$reverseGeoApiKey")
-    );
-    final json = jsonDecode(response.body);
-    print("called here geo reverse");
-    print(json);
-  }
+  final String address;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    DateTime? date = formToRender == null ? null : (formToRender!["date"] as Timestamp).toDate();
-    String? dateIncident = date == null ? null : DateFormat.yMMMMd('en_US').format(date);
+    DateTime? date = formToRender == null
+        ? null
+        : (formToRender!["date"] as Timestamp).toDate();
+    String? dateIncident =
+        date == null ? null : DateFormat.yMMMMd('en_US').format(date);
 
     return Expanded(
       child: formToRender == null
@@ -50,10 +47,6 @@ class ReportDescription extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  OutlinedButton(onPressed: () => showPlace(
-                      formToRender!["currentLocation"].latitude,
-                      formToRender!["currentLocation"].longitude
-                  ), child: Text("fe")),
                   Text(
                     formToRender!["disaster"].join(", "),
                     style: textStyling30,
@@ -78,12 +71,15 @@ class ReportDescription extends StatelessWidget {
                           return Stack(
                             fit: StackFit.passthrough,
                             children: [
-                              Image.network(
-                                formToRender!["pictures"][index],
-                                fit: BoxFit.contain,
+                              Padding(
+                                padding: const EdgeInsets.all(11.0),
+                                child: Image.network(
+                                  formToRender!["pictures"][index],
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                               Positioned(
-                                bottom: 0,
+                                bottom: 2,
                                 right: 10,
                                 child: Container(
                                   padding: paddingDefined,
@@ -112,51 +108,81 @@ class ReportDescription extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: marginDefined,
-                    decoration: decorationDefinedShadow(
-                        Theme.of(context).colorScheme.primaryContainer, 25),
-                    child: Column(
-                      children: [
-                        Text(dateIncident!),
-                        formToRender!["description"] != ""
-                            ? Text(formToRender!["description"])
-                            : Container(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                                "latitude: ${formToRender!["currentLocation"].latitude}"),
-                            Text(
-                                "longitude: ${formToRender!["currentLocation"].longitude}"),
-                            Container(
-                              padding: paddingDefined,
-                              margin: marginDefined,
-                              decoration: decorationDefinedShadow(
-                                Theme.of(context).colorScheme.onPrimary,
-                                25,
-                              ),
-                              child: Draggable<GeoPoint>(
-                                data: formToRender!["currentLocation"],
-                                feedback: Container(
-                                  height: 20,
-                                  width: 20,
-                                  decoration: decorationDefined(
-                                    Colors.blue,
-                                    35,
+                  Expanded(
+                    child: Container(
+                      margin: marginDefined,
+                      padding: paddingDefined,
+                      decoration: decorationDefinedShadow(
+                          Theme.of(context).colorScheme.primaryContainer, 25),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          buildRowSpaceBetween(
+                            const Text("Address"),
+                            Text(address),
+                          ),
+                          buildRowSpaceBetween(
+                            const Text("Date / Time"),
+                            Text(dateIncident!),
+                          ),
+                          formToRender!["description"] != ""
+                              ? buildRowSpaceBetween(
+                                  const Text("Description"),
+                                  Text(formToRender!["description"]),
+                                )
+                              : Container(),
+                          buildRowSpaceBetween(
+                            const Text("Latitude / Longitude"),
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                        "${formToRender!["currentLocation"].latitude}, "),
+                                    Text(formToRender!["currentLocation"]
+                                        .longitude
+                                        .toString()),
+                                  ],
+                                ),
+                                Container(
+                                  padding: paddingDefined,
+                                  decoration: decorationDefinedShadow(
+                                    Theme.of(context).colorScheme.onPrimary,
+                                    25,
+                                  ),
+                                  child: Draggable<GeoPoint>(
+                                    data: formToRender!["currentLocation"],
+                                    feedback: Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: decorationDefined(
+                                        Colors.blue,
+                                        35,
+                                      ),
+                                    ),
+                                    child: const Text("Drag"),
                                   ),
                                 ),
-                                child: const Text("Drag"),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
               ),
             ),
+    );
+  }
+
+  Row buildRowSpaceBetween(
+    Widget text,
+    Widget display,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [text, display],
     );
   }
 }
