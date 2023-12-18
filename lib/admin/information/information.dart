@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/screen/statistic/widgets/column_chart.dart';
+import 'package:fyp_project/screen/statistic/widgets/gauche_chart.dart';
 
 import '../../screen/statistic/widgets/circular_chart.dart';
 import '../../screen/statistic/widgets/funnel_chart.dart';
@@ -100,7 +101,7 @@ class _InformationState extends State<Information> {
                       height: size.height * 0.5,
                       margin: marginDefined,
                       decoration: decorationDefinedShadow(color, circular),
-                      child: const StackedBarChart(),
+                      // child: const StackedBarChart(),
                     ),
                   ),
                 ],
@@ -112,7 +113,7 @@ class _InformationState extends State<Information> {
                     height: size.height * 0.4,
                     margin: marginDefined,
                     decoration: decorationDefinedShadow(color, circular),
-                    child: const SplineChart(),
+                    child: const GaucheChart(), //const SplineChart()
                   ),
                   Expanded(
                     child: Container(
@@ -124,7 +125,7 @@ class _InformationState extends State<Information> {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         );

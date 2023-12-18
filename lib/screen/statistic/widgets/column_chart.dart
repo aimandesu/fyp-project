@@ -15,13 +15,13 @@ class ColumnChart extends StatelessWidget {
     List<CasesCountModel> chartData = (snapshot).map((data) {
       return CasesCountModel(
         month: data['month'],
-        numberCases: data['numberCases'],
+        numberCases: data['inPPS'],
       );
     }).toList();
 
     return SfCartesianChart(
       title: ChartTitle(
-        text: "Bilangan Mangsa di Pusat Pemindahan",
+        text: "Victims Count in Shelter",
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       primaryXAxis: CategoryAxis(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/models/charts/race_percentage_model.dart';
+import 'package:fyp_project/models/charts/hazard_percentage_model.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -13,7 +13,6 @@ class CircularChart extends StatefulWidget {
 }
 
 class _CircularChartState extends State<CircularChart> {
-
   final List<String> _months = [
     "Jan",
     "Feb",
@@ -63,9 +62,29 @@ class _CircularChartState extends State<CircularChart> {
     super.initState();
   }
 
+  List<HazardPercentageModel> generateDataSource(Map<String, dynamic> dataToShow) {
+    List<HazardPercentageModel> dataSource = [];
+    dataToShow['hazard'].forEach((hazard, value) {
+      if (value != null && value > 0) {
+        dataSource.add(
+          HazardPercentageModel(
+            hazard: hazard,
+            numberCases: dataToShow["numberCases"],
+            hazardCases: value,
+          ),
+        );
+      }
+    });
+    return dataSource;
+  }
+
   @override
   Widget build(BuildContext context) {
     setDataToShow(_selectedMonth);
+
+    List<HazardPercentageModel> dynamicDataSource = dataToShow == null
+        ? []
+        : generateDataSource(dataToShow! as Map<String, dynamic>);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -97,41 +116,27 @@ class _CircularChartState extends State<CircularChart> {
         dataToShow == null
             ? Container()
             : SfCircularChart(
-                title:  ChartTitle(
-                  text: "Kes berdasarkan demografi",
-                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                ),
-                legend: const Legend(isVisible: true),
-                series: <PieSeries<RacePercentageModel, String>>[
-                  PieSeries<RacePercentageModel, String>(
-                    explode: true,
-                    explodeIndex: 0,
-                    dataSource: <RacePercentageModel>[
-                      RacePercentageModel(
-                        race: "Malay",
-                        numberCases: dataToShow!["numberCases"],
-                        raceCases: dataToShow!["race"]["malay"],
-                      ),
-                      RacePercentageModel(
-                        race: "Chinese",
-                        numberCases: dataToShow!["numberCases"],
-                        raceCases: dataToShow!["race"]["chinese"],
-                      ),
-                      RacePercentageModel(
-                        race: "Indian",
-                        numberCases: dataToShow!["numberCases"],
-                        raceCases: dataToShow!["race"]["indian"],
-                      )
-                    ],
-                    xValueMapper: (RacePercentageModel data, _) => data.race,
-                    yValueMapper: (RacePercentageModel data, _) =>
-                        data.percentage(),
-                    dataLabelMapper: (RacePercentageModel data, _) =>
-                        "${data.percentage()}%",
-                    dataLabelSettings: const DataLabelSettings(isVisible: true),
-                  ),
-                ],
-              ),
+          title: ChartTitle(
+            text: "Natural Hazard Cases Based on Demography",
+            backgroundColor:
+            Theme.of(context).colorScheme.primaryContainer,
+          ),
+          legend: const Legend(isVisible: true),
+          series: <PieSeries<HazardPercentageModel, String>>[
+            PieSeries<HazardPercentageModel, String>(
+              explode: true,
+              explodeIndex: 0,
+              dataSource: dynamicDataSource,
+              xValueMapper: (HazardPercentageModel data, _) => "${data.hazard} / ${data.hazardCases} cases",
+              yValueMapper: (HazardPercentageModel data, _) =>
+                  data.percentage(),
+              dataLabelMapper: (HazardPercentageModel data, _) =>
+              "${data.percentage()}%",
+              dataLabelSettings:
+              const DataLabelSettings(isVisible: true),
+            ),
+          ],
+        ),
       ],
     );
   }
