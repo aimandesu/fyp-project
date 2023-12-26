@@ -23,7 +23,7 @@ class FcmService {
     //foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
-       _triggerSnackBar(message);
+        _triggerSnackBar(message);
       }
     });
   }
@@ -36,21 +36,22 @@ class FcmService {
     );
   }
 
-  void _triggerSnackBar(RemoteMessage message){
+  void _triggerSnackBar(RemoteMessage message) {
     ScaffoldMessenger.of(navigatorKey.currentContext as BuildContext)
-        .showSnackBar(SnackBar(
-      content: Column(
-        children: [
-          Text(message.notification!.title.toString()),
-          Text(message.notification!.body.toString())
-        ],
+        .showSnackBar(
+      SnackBar(
+        content: Column(
+          children: [
+            Text(message.notification!.title.toString()),
+            Text(message.notification!.body.toString())
+          ],
+        ),
+        duration: const Duration(seconds: 10),
+        action: SnackBarAction(
+          label: 'View',
+          onPressed: () => _handleMessage(message),
+        ),
       ),
-      duration: const Duration(seconds: 10),
-      action: SnackBarAction(
-        label: 'View',
-        onPressed: () => _handleMessage(message),
-      ),
-    ));
+    );
   }
-
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../data/chips_data.dart';
 
 class ChipChoices extends StatefulWidget {

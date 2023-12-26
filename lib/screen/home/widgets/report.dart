@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../report_incident/report_incident.dart';
 
 class Report extends StatelessWidget {

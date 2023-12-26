@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
 import '../../../constant.dart';
-import '../../../responsive_layout_controller.dart';
 
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails({

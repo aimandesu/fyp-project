@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/providers/news_provider.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/news/widgets/news_content.dart';
-import 'package:intl/intl.dart';
 
 class News extends StatefulWidget {
   const News({super.key});

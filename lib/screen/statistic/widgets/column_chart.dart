@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_project/models/charts/shelter_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../../../models/charts/cases_count_model.dart';
 
 class ColumnChart extends StatelessWidget {

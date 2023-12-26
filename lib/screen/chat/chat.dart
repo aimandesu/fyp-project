@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -9,7 +7,6 @@ import 'package:fyp_project/screen/chat/widgets/chat_area.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/chat/widgets/text_entered.dart';
 import 'package:provider/provider.dart';
-
 import '../help_form/widgets/camera/picture_upload.dart';
 
 class Chat extends StatefulWidget {

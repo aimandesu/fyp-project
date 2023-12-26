@@ -3,18 +3,13 @@ import 'package:flutter/material.dart';
 class TableInput extends StatelessWidget {
   const TableInput({
     required this.listFamilies,
-    // required this.addFamilyMember,
-    // required this.removeLast,
     super.key,
   });
 
   final List<Map<String, TextEditingController>> listFamilies;
-  // final VoidCallback addFamilyMember;
-  // final VoidCallback removeLast;
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -58,29 +53,6 @@ class TableInput extends StatelessWidget {
               ]);
             }).toList(),
           ),
-          // SizedBox(
-          //   width: size.width * 1,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       Expanded(
-          //         child: Container(
-          //           margin: marginDefined,
-          //           child: ElevatedButton(
-          //               onPressed: addFamilyMember,
-          //               child: const Text("Tambah Ahli Keluarga")),
-          //         ),
-          //       ),
-          //       Expanded(
-          //         child: Container(
-          //           margin: marginDefined,
-          //           child: ElevatedButton(
-          //               onPressed: removeLast, child: const Text("Padam ")),
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

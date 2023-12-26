@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_display.dart';
-
 import '../../../../constant.dart';
 
 class CameraOption extends StatelessWidget {

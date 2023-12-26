@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ChipsModel {
   final String label;
   bool selected = false;

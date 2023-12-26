@@ -21,7 +21,6 @@ import 'package:fyp_project/services/fcm_service.dart';
 import 'package:fyp_project/signlogin/signlogin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'screen/chat/chat.dart';
 import 'firebase_options.dart';

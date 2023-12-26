@@ -6,12 +6,10 @@ class InputField extends StatefulWidget {
   const InputField({
     required this.emailController,
     required this.passwordController,
-    // required this.usernameController,
     super.key,
   });
 
   final TextEditingController emailController;
-  // final TextEditingController usernameController;
   final TextEditingController passwordController;
 
   @override
@@ -31,15 +29,6 @@ class _InputFieldState extends State<InputField> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // InputSetup(
-        //   textFormField: TextFormField(
-        //     controller: widget.usernameController,
-        //     decoration: const InputDecoration.collapsed(
-        //       hintStyle: TextStyle(),
-        //       hintText: "Username",
-        //     ),
-        //   ),
-        // ),
         InputSetup(
           textFormField: TextFormField(
             controller: widget.emailController,

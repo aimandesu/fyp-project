@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/screen/statistic/widgets/column_chart.dart';
 import 'package:fyp_project/screen/statistic/widgets/gauche_chart.dart';
-
 import '../../screen/statistic/widgets/circular_chart.dart';
-import '../../screen/statistic/widgets/funnel_chart.dart';
 import '../../screen/statistic/widgets/line_chart.dart';
-import '../../screen/statistic/widgets/spline_chart.dart';
-import '../../screen/statistic/widgets/stackedbar_chart.dart';
 import '../providers/dataset_provider.dart';
 
 class Information extends StatefulWidget {

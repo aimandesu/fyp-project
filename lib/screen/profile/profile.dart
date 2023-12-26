@@ -5,7 +5,6 @@ import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/verification/verification.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/profile_provider.dart';
 import 'widgets/ic_profile.dart';
 import 'widgets/profile_details.dart';
@@ -17,11 +16,6 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*
-    here I want to be able first to check if user has put their ic card 
-    or whatever like that, if none yet do like the user can't sign in
-    help form won't be submitted
-     */
 
     Size size = MediaQuery.of(context).size;
 
@@ -39,9 +33,6 @@ class Profile extends StatelessWidget {
             final name = snapshot.data!['name'];
             final identificationNo = snapshot.data!['identificationNo'];
             final bool verified = snapshot.data!['verified'];
-
-            //here buat update profile guna widget sama update profile using concep yg push navigation?
-            //amik snapshot.data
 
             final data = snapshot.data;
 

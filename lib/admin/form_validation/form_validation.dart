@@ -1,13 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/form_validation/widgets/completed.dart';
 import 'package:fyp_project/admin/form_validation/widgets/form_counts.dart';
-import 'package:fyp_project/admin/form_validation/widgets/onwatch.dart';
 import 'package:fyp_project/admin/form_validation/widgets/pending.dart';
 import 'package:fyp_project/admin/providers/form_provider.dart';
-import 'package:lottie/lottie.dart';
 import '../../constant.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class FormValidation extends StatefulWidget {
   const FormValidation({super.key});

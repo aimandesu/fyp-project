@@ -1,5 +1,3 @@
-//this one is okay for defining the model of the user of the app
-
 import 'dart:io';
 
 class UserModel {

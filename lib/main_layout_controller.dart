@@ -28,22 +28,11 @@ class MainLayoutController extends StatefulWidget {
 }
 
 class _MainLayoutControllerState extends State<MainLayoutController> {
-  //check if user has data or not, then give according to their page i think
 
   late List<Map<String, Object>> _pages;
   late List<NavigationRailDestination> _railPages;
 
   int _selectedPageIndex = 0;
-
-  // bool? themeDefault;
-
-  // late SharedPreferences prefs;
-
-  // Future<void> triggerSharedPreference() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool currentTheme = prefs.getBool('switchTheme') ?? false;
-  //   themeDefault = currentTheme;
-  // }
 
   void _selectPage(int index) {
     setState(() {
@@ -76,22 +65,6 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
           size: 30,
         ),
       },
-      // {
-      //   'page': const DisasterGuide(),
-      //   'title': 'Panduan',
-      //   'icon': const Icon(
-      //     Icons.menu_book_rounded,
-      //     size: 30,
-      //   ),
-      // },
-      // {
-      //   'page': const Places(),
-      //   'title': 'Tempat',
-      //   'icon': const Icon(
-      //     Icons.map,
-      //     size: 30,
-      //   ),
-      // },
       {
         'page': const Profile(),
         'title': 'Profil',
@@ -113,11 +86,6 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
         selectedIcon: Icon(Icons.camera_alt_rounded),
         label: Text('Bantuan'),
       ),
-      // NavigationRailDestination(
-      //   icon: Icon(Icons.menu_book_outlined),
-      //   selectedIcon: Icon(Icons.menu_book_rounded),
-      //   label: Text('Panduan'),
-      // ),
       NavigationRailDestination(
         icon: Icon(Icons.people_outlined),
         selectedIcon: Icon(Icons.people_rounded),
@@ -125,7 +93,6 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
       ),
     ];
 
-    //signUserInfo check if dia dh sign info or not
     super.initState();
   }
 

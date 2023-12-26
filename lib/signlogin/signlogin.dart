@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
-
 import 'package:fyp_project/services/auth_service.dart';
 import 'package:fyp_project/signlogin/widgets/input_field.dart';
 import 'package:lottie/lottie.dart';
-
 import 'widgets/login_sign_button.dart';
 
 class SignLogin extends StatefulWidget {

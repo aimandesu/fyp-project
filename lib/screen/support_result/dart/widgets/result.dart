@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../providers/support_result_provider.dart';
-
 import 'result_container.dart';
 
 class Result extends StatelessWidget {

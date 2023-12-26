@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/data/chips_data.dart';
@@ -13,10 +11,8 @@ import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/report_incident/widgets/chip_choices.dart';
 import 'package:fyp_project/screen/report_incident/widgets/picture_display.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart' as lt;
-
 import '../../constant.dart';
 import '../help_form/widgets/camera/picture_upload.dart';
 import '../help_form/widgets/textfield_decoration.dart';
@@ -43,7 +39,6 @@ class _ReportIncidenceState extends State<ReportIncidence> {
   bool backTo = false;
 
   void submitReport() {
-    //wrap with try catch
     try {
       String userUID = FirebaseAuth.instance.currentUser!.uid;
 
@@ -64,7 +59,7 @@ class _ReportIncidenceState extends State<ReportIncidence> {
         const SnackBar(
           content: Text("There is input field that is not completed"),
           duration:
-              Duration(seconds: 2), // You can adjust the duration as needed
+              Duration(seconds: 2),
         ),
       );
     }

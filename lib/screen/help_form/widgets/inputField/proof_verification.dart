@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
 import '../../../../constant.dart';
 import '../files_upload.dart';
 import '../images_upload.dart';

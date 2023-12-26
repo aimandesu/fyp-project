@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/assistance/widgets/chat_place.dart';
 import 'package:fyp_project/admin/assistance/widgets/list_need_assistance.dart';
@@ -80,9 +78,6 @@ class _AssistanceState extends State<Assistance> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    // there are other calls but once you pick a call to deal with, close the othr calls from seeing
 
     return Row(
       children: [

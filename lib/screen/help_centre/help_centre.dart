@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
-import 'package:fyp_project/screen/help_centre/widgets/donation_list.dart';
 import 'package:fyp_project/screen/help_centre/widgets/map_location.dart';
-
 import '../../constant.dart';
 
 class HelpCentre extends StatefulWidget {
@@ -49,15 +47,6 @@ class _HelpCentreState extends State<HelpCentre> {
                         child: const MapLocation(),
                       )
                     : Container(),
-                // Container(
-                //   height: (mediaQuery.size.height - paddingTop) * 0.3,
-                //   width: size.width * 1,
-                //   decoration: decorationDefined(
-                //     Theme.of(context).colorScheme.primaryContainer,
-                //     25,
-                //   ),
-                //   child: const DonationList(),
-                // )
               ],
             ),
           ),
@@ -73,16 +62,6 @@ class _HelpCentreState extends State<HelpCentre> {
                         child: const MapLocation(),
                       )
                     : Container(),
-                // Expanded(
-                //   child: Container(
-                //     height: (mediaQuery.size.height - paddingTop) * 1,
-                //     decoration: decorationDefined(
-                //       Theme.of(context).colorScheme.primaryContainer,
-                //       25,
-                //     ),
-                //     child: const DonationList(),
-                //   ),
-                // )
               ],
             ),
           ),

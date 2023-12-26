@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'package:fyp_project/screen/home/widgets/report.dart';
-import 'package:fyp_project/screen/home/widgets/tab_views.dart';
 import 'package:fyp_project/screen/news/news.dart';
-import 'package:fyp_project/screen/report_incident/report_incident.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'widgets/shelter_map.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -33,9 +30,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    // print(ResponsiveLayoutController.isMobile(context));
-    // print(ResponsiveLayoutController.isTablet(context));
 
     return ResponsiveLayoutController(
       mobile: Column(

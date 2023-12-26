@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/constant.dart';
 
-import '../../../responsive_layout_controller.dart';
-
 class NameIdentification extends StatelessWidget {
   const NameIdentification({
     required this.name,

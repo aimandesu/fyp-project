@@ -8,8 +8,6 @@ class NotificationModel {
   final List<GeoPoint> geoPoints;
   final DateTime date;
 
-  //add date here,
-
   NotificationModel({
     required this.title,
     required this.content,
