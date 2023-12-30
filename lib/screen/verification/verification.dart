@@ -4,6 +4,7 @@ import 'package:fyp_project/providers/profile_provider.dart';
 import 'package:fyp_project/responsive_layout_controller.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import '../../constant.dart';
 import 'widgets/all_text_fields.dart';
 import 'widgets/bottom_bar.dart';
 import 'widgets/ic_image.dart';
@@ -22,12 +23,13 @@ class Verification extends StatefulWidget {
 class _VerificationState extends State<Verification> {
   late Map<String, dynamic> args;
   bool _isInit = true;
+  List<String> subDistrict = districtPlaces;
 
   //communityAt
-  final districtController = TextEditingController(text: "Kinta");
+  var district = "Kinta";
+  String currentSubDistrict = districtPlaces.first;
   final addressController = TextEditingController();
   final postcodeController = TextEditingController();
-  final subDistrictController = TextEditingController(text: "Ipoh");
 
   //identificationImage
   File? frontIC;
@@ -36,6 +38,12 @@ class _VerificationState extends State<Verification> {
   //the rest
   final identificationNoController = TextEditingController();
   final nameController = TextEditingController();
+
+  void changeSubDistrict(String value) {
+    setState(() {
+      currentSubDistrict = value;
+    });
+  }
 
   Future<void> takePicture(bool isFront) async {
     final picker = ImagePicker();
@@ -102,10 +110,10 @@ class _VerificationState extends State<Verification> {
 
     final userModel = UserModel(
       communityAt: {
-        'district': districtController.text,
+        'district': district,
         'place': addressController.text,
         'postcode': postcodeController.text,
-        'subDistrict': subDistrictController.text,
+        'subDistrict': currentSubDistrict,
       },
       identificationImage: {
         'back': backIC as File,
@@ -160,10 +168,9 @@ class _VerificationState extends State<Verification> {
         nameController.text = args['name'];
         identificationNoController.text = args['identificationNo'];
         addressController.text = args['communityAt']['place'];
-        districtController.text = args['communityAt']['district'];
+        district = args['communityAt']['district'];
         postcodeController.text = args['communityAt']['postcode'];
-        subDistrictController.text = args['communityAt']['subDistrict'];
-
+        currentSubDistrict = args['communityAt']['subDistrict'];
         handlePicLoad(args['identificationImage']);
       }
     }
@@ -178,9 +185,7 @@ class _VerificationState extends State<Verification> {
     nameController.dispose();
     identificationNoController.dispose();
     addressController.dispose();
-    districtController.dispose();
     postcodeController.dispose();
-    subDistrictController.dispose();
     super.dispose();
   }
 
@@ -218,11 +223,12 @@ class _VerificationState extends State<Verification> {
                   AllTextFields(
                     nameController: nameController,
                     identificationNoController: identificationNoController,
-                    districtController: districtController,
                     addressController: addressController,
                     postcodeController: postcodeController,
-                    subDistrictController: subDistrictController,
+                    subDistrict: subDistrict,
                     isHide: args['identificationNo'] == "",
+                    currentSubDistrict: currentSubDistrict,
+                    changeSubDistrict: changeSubDistrict,
                   ),
                   BottomBar(
                     sendForm: sendForm,
@@ -251,11 +257,12 @@ class _VerificationState extends State<Verification> {
                           nameController: nameController,
                           identificationNoController:
                               identificationNoController,
-                          districtController: districtController,
                           addressController: addressController,
                           postcodeController: postcodeController,
-                          subDistrictController: subDistrictController,
+                          subDistrict: subDistrict,
                           isHide: args['identificationNo'] == "",
+                          currentSubDistrict: currentSubDistrict,
+                          changeSubDistrict: changeSubDistrict,
                         ),
                         BottomBar(
                           sendForm: sendForm,

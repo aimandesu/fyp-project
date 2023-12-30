@@ -52,7 +52,7 @@ class FormProvider {
 
     for (var doc in querySnapshot.docs) {
       final communityData = doc.data();
-      final communityDistrict = communityData['communityAt']['district'];
+      final communityDistrict = communityData['communityAt']['subDistrict'];
 
       if (communityDistrict == district) {
         token.add(communityData['fcmToken'].toString());

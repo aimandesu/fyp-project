@@ -91,6 +91,7 @@ flutter:
     - assets/disaster.json
     - assets/chat.json
     - assets/gallery.json
+    - assets/profile.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

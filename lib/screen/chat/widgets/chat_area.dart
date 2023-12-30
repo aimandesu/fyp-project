@@ -7,7 +7,8 @@ import '../../../providers/chat_provider.dart';
 class ChatArea extends StatefulWidget {
   const ChatArea({
     super.key,
-    required this.arguments, required this.callsHasBeenPicked,
+    required this.arguments,
+    required this.callsHasBeenPicked,
   });
 
   final String arguments;
@@ -19,6 +20,7 @@ class ChatArea extends StatefulWidget {
 
 class _ChatAreaState extends State<ChatArea> {
   late Stream<List<Map<String, dynamic>>> chatStream;
+
   /*
    for this part, we need this kind of logic, where
    there will be assistance class, which has bool -> to detect whether
@@ -36,52 +38,44 @@ class _ChatAreaState extends State<ChatArea> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Map<String, dynamic>>>(
-        stream: chatStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container();
-          }
+      stream: chatStream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
+        }
 
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
 
-          if (snapshot.hasData) {
-            final authUID = FirebaseAuth.instance.currentUser!.uid;
+        if (snapshot.hasData) {
+          final authUID = FirebaseAuth.instance.currentUser!.uid;
 
-            if (snapshot.data!.isEmpty) {
-              return const Text("awaiting calls");
-            } else {
-
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                widget.callsHasBeenPicked();
-              });
-
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) {
-                  String text = snapshot.data![index]['text'];
-                  String uid = snapshot.data![index]['uid'];
-                  List<dynamic>? picture = snapshot.data![index]['picture'];
-                  return Bubble(
-                    message: text,
-                    isUser: uid == authUID,
-                    picture: picture,
-                  );
-
-                  // Container(
-                  // margin: marginDefined,
-                  // child: Card(
-                  //   color: uid == userUID ? Colors.red : Colors.green,
-                  //   child: Text(text),
-                  // ),
-                  // );
-                },
-              );
-            }
+          if (snapshot.data!.isEmpty) {
+            return const Text("awaiting calls");
           } else {
-            return const Text("some error occurred");
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.callsHasBeenPicked();
+            });
+
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (_, index) {
+                String text = snapshot.data![index]['text'];
+                String uid = snapshot.data![index]['uid'];
+                List<dynamic>? picture = snapshot.data![index]['picture'];
+                return Bubble(
+                  message: text,
+                  isUser: uid == authUID,
+                  picture: picture,
+                );
+              },
+            );
           }
-        });
+        } else {
+          return const Text("some error occurred");
+        }
+      },
+    );
   }
 }

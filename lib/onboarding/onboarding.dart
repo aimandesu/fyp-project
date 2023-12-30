@@ -48,7 +48,7 @@ class _OnboardingState extends State<Onboarding> {
           children: const [
             OnboardingPage(
               lottieDir: 'assets/map.json',
-              text: "Disaster Place Donation",
+              text: "Location Disaster Alert",
             ),
             OnboardingPage(
               lottieDir: 'assets/help.json',

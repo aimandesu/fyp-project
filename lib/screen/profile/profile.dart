@@ -16,7 +16,6 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
 
     return FutureBuilder(
@@ -43,7 +42,7 @@ class Profile extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Lottie.asset(
-                      "assets/map.json",
+                      "assets/profile.json",
                       repeat: false,
                     ),
                   ),
@@ -54,7 +53,12 @@ class Profile extends StatelessWidget {
                         arguments: data,
                       );
                     }, //send snapshot.data
-                    child: const Text("Update Profile"),
+                    child: const Text(
+                      "Kemaskini Profil",
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 100,
@@ -62,7 +66,16 @@ class Profile extends StatelessWidget {
                 ],
               );
             } else if (identificationNo != "" && verified == false) {
-              return const Text("Your application is waiting for verification");
+              return Center(
+                child: Text(
+                  "Profil sedang menunggu pengesahan",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              );
             } else {
               return ResponsiveLayoutController(
                 //ganti future builder

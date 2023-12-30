@@ -11,6 +11,8 @@ import 'package:fyp_project/screen/help_form/widgets/inputField/victim_category.
 import 'package:fyp_project/screen/help_form/widgets/inputField/your_information.dart';
 import 'package:fyp_project/screen/help_form/widgets/pdf/pdf_upload.dart';
 import 'package:fyp_project/screen/help_form/widgets/camera/picture_upload.dart';
+import 'package:provider/provider.dart';
+import '../../providers/profile_provider.dart';
 
 class HelpForm extends StatefulWidget {
   const HelpForm({super.key});
@@ -25,14 +27,22 @@ class _HelpFormState extends State<HelpForm> {
   final phoneController = TextEditingController();
   final noICController = TextEditingController();
   final postcodeController = TextEditingController();
-  final subDistrictController = TextEditingController(text: "Ipoh");
+  String currentSubDistrict = districtPlaces.first;
   String gender = "Lelaki";
   final ageController = TextEditingController();
-  String category = "Berpindah ke PPS";
+  String category = "Banjir";
   final List<Map<String, TextEditingController>> listFamilies = [];
+  List<String> subDistrict = districtPlaces;
+  bool _isInit = true;
 
   File? selectedPDF;
   List<File>? pictures = [];
+
+  void changeSubDistrict(String value) {
+    setState(() {
+      currentSubDistrict = value;
+    });
+  }
 
   void changeGender(String value) {
     setState(() {
@@ -99,7 +109,7 @@ class _HelpFormState extends State<HelpForm> {
       name: nameController.text,
       address: addressController.text,
       postcode: postcodeController.text,
-      subDistrict: subDistrictController.text,
+      subDistrict: currentSubDistrict,
       phone: phoneController.text,
       noIC: noICController.text,
       gender: gender,
@@ -119,28 +129,10 @@ class _HelpFormState extends State<HelpForm> {
     //call alert dialog
     popLoadingDialog(context);
 
-    //clear all text field
-    _clearTextFields();
   }
 
-  void _clearTextFields() {
-    nameController.clear();
-    addressController.clear();
-    phoneController.clear();
-    noICController.clear();
-    postcodeController.clear();
-    subDistrictController.clear();
-    ageController.clear();
-    for (var controllers in listFamilies) {
-      // deleteField(_listFamilies.indexOf(controllers));
-      for (var controller in controllers.values) {
-        controller.clear();
-      }
-    }
-  }
 
   //pictures and pdf callback
-
   Future<void> navigatePictureUpload(BuildContext context) async {
     var result = await Navigator.pushNamed(
       context,
@@ -179,7 +171,6 @@ class _HelpFormState extends State<HelpForm> {
     phoneController.dispose();
     noICController.dispose();
     postcodeController.dispose();
-    subDistrictController.dispose();
     ageController.dispose();
     for (var controllers in listFamilies) {
       for (var controller in controllers.values) {
@@ -190,17 +181,54 @@ class _HelpFormState extends State<HelpForm> {
   }
 
   @override
+  Future<void> didChangeDependencies() async {
+    Map<String, dynamic> data =
+        await Provider.of<ProfileProvider>(context, listen: false)
+            .fetchOwnProfile();
+    if (_isInit) {
+      if (data['identificationNo'] == "" && data["reviewed"] == false) {
+        return;
+      } else {
+        nameController.text = data['name'];
+        addressController.text = data['communityAt']['place'];
+        noICController.text = data['identificationNo'];
+        postcodeController.text = data['communityAt']['postcode'];
+        currentSubDistrict = data['communityAt']['subDistrict'];
+      }
+    }
+
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: HelpFormProvider().hasIdentificationVerified(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!["identificationNo"] == "") {
-            return const Text("Please verify identity first");
+            return Center(
+              child: Text(
+                "Please verify identity first",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            );
           }
 
           if (snapshot.data!["verified"] == false) {
-            return const Text("identification is being reviewed");
+            return Center(
+              child: Text(
+                "identification is being reviewed",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            );
           }
 
           if (snapshot.data!["identificationNo"] != "" &&
@@ -216,8 +244,10 @@ class _HelpFormState extends State<HelpForm> {
                     ageController: ageController,
                     gender: gender,
                     changeGender: changeGender,
-                    subDistrictController: subDistrictController,
                     postcodeController: postcodeController,
+                    changeSubDistrict: changeSubDistrict,
+                    currentSubDistrict: currentSubDistrict,
+                    subDistrict: subDistrict,
                   ),
                   VictimCategory(
                     category: category,

@@ -26,7 +26,7 @@ class _CompletedState extends State<Completed> {
       "No IC",
       "Phone No",
       "Address",
-      "District",
+      "Sub District",
       "Postcode",
       "Category"
     ];
@@ -85,7 +85,7 @@ class _CompletedState extends State<Completed> {
                             buildSizedBox(Text(item['noIC'])),
                             buildSizedBox(Text(item['phone'])),
                             buildSizedBox(Text(item['address'])),
-                            buildSizedBox(Text(item['district'])),
+                            buildSizedBox(Text(item['subDistrict'])),
                             buildSizedBox(Text(item['postcode'])),
                             buildSizedBox(Text(item['category'])),
                           ],

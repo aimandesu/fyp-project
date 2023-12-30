@@ -36,6 +36,7 @@ class _SignLoginState extends State<SignLogin> {
     AuthService().signInWithEmail(
       emailController.text,
       passwordController.text,
+      context,
     );
   }
 
@@ -43,6 +44,7 @@ class _SignLoginState extends State<SignLogin> {
     AuthService().signUpEmail(
       emailController.text,
       passwordController.text,
+      context,
     );
   }
 

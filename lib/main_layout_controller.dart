@@ -133,10 +133,6 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
     }
   }
 
-  profileUpdate(Map<String, dynamic> data) {
-    Navigator.of(context).pushNamed(Verification.routeName, arguments: data);
-  }
-
   Drawer? _buildDrawer() {
     if (_pages[_selectedPageIndex]['title'].toString() == "Profil") {
       return Drawer(
@@ -157,7 +153,9 @@ class _MainLayoutControllerState extends State<MainLayoutController> {
                 Map<String, dynamic> data =
                     await Provider.of<ProfileProvider>(context, listen: false)
                         .fetchOwnProfile();
-                profileUpdate(data);
+                if(context.mounted){
+                  Navigator.of(context).pushNamed(Verification.routeName, arguments: data);
+                }
               },
               title: const Text("Kemaskini Profil"),
             ),

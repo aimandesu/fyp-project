@@ -35,7 +35,7 @@ class Bubble extends StatelessWidget {
                       : const Radius.circular(12),
                 ),
               ),
-              width: message.length > 48 ? size.width * 0.7 : null,
+              // width: message.length > 48 ? size.width * 0.4 : null,
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
@@ -49,17 +49,16 @@ class Bubble extends StatelessWidget {
                   : Column(
                       children: [
                         SizedBox(
-                            height: 300,
-                            width: 300,
-                            child: ListView.builder(
-                              itemCount: picture!.length,
-                                itemBuilder: (context, index){
-                                  return Image.network(picture![index].toString());
-                                })),
-                        Text(
-                          message,
-                          textAlign: TextAlign.start,
-                        )
+                          height: 300,
+                          width: 300,
+                          child: ListView.builder(
+                            itemCount: picture!.length,
+                            itemBuilder: (context, index) {
+                              return Image.network(picture![index].toString());
+                            },
+                          ),
+                        ),
+                        Text(message, textAlign: TextAlign.start)
                       ],
                     ),
             ),

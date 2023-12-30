@@ -13,8 +13,10 @@ class YourInformation extends StatelessWidget {
     required this.ageController,
     required this.gender,
     required this.changeGender,
-    required this.subDistrictController,
     required this.postcodeController,
+    required this.changeSubDistrict,
+    required this.currentSubDistrict,
+    required this.subDistrict,
   });
 
   final TextEditingController nameController;
@@ -22,10 +24,12 @@ class YourInformation extends StatelessWidget {
   final TextEditingController addressController;
   final TextEditingController phoneController;
   final TextEditingController ageController;
-  final TextEditingController subDistrictController;
   final TextEditingController postcodeController;
   String gender;
   final Function(String value) changeGender;
+  final Function changeSubDistrict;
+  final String currentSubDistrict;
+  final List<String> subDistrict;
 
   @override
   Widget build(BuildContext context) {
@@ -153,12 +157,21 @@ class YourInformation extends StatelessWidget {
             margin: marginDefined,
             padding: paddingDefined,
             height: 60,
-            // width: size.width * 0.5,
+            width: size.width * 1,
             decoration: inputDecorationDefined(context),
-            child: TextFieldDecoration(
-              hintText: "Daerah",
-              textInputType: TextInputType.none,
-              textEditingController: subDistrictController,
+            child: DropdownButton(
+              underline: const SizedBox(),
+              isExpanded: true,
+              value: currentSubDistrict,
+              items: subDistrict.map((value) {
+                return DropdownMenuItem(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? value) {
+                changeSubDistrict(value);
+              },
             ),
           ),
         ),

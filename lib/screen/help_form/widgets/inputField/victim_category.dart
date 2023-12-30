@@ -29,11 +29,11 @@ class VictimCategory extends StatelessWidget {
         const Padding(
           padding: paddingDefined,
           child: Text(
-            "Kategori Mangsa",
+            "Kategori Bencana",
             style: textStyling30,
           ),
         ),
-        kategoriMangsa(size, context),
+        disasterCategory(size, context),
         const SizedBox(
           height: 30,
         ),
@@ -41,7 +41,7 @@ class VictimCategory extends StatelessWidget {
     );
   }
 
-  Container kategoriMangsa(Size size, BuildContext context) {
+  Container disasterCategory(Size size, BuildContext context) {
     return Container(
       margin: marginDefined,
       padding: paddingDefined,
@@ -60,12 +60,10 @@ class VictimCategory extends StatelessWidget {
           // });
         },
         items: [
-          "Berpindah ke PPS",
-          "Berpindah Ke Selain PPS",
-          "Tidak Berpindah",
-          "Pemilik Gerai / Rumah Kedai",
-          "Pemilik Rumah",
-          "Penyewa Rumah",
+          "Banjir",
+          "Tanah Runtuh",
+          "Angin Taufan",
+          "Lain-lain",
         ].map((value) {
           return DropdownMenuItem(
             value: value,

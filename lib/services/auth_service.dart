@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/models/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,18 +22,68 @@ class AuthService {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  signInWithEmail(String email, String password) async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  signInWithEmail(
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
+    String errorMessage = 'An error occurred';
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        if (e.code == 'user-not-found') {
+          errorMessage = 'No user found';
+        } else if (e.code == 'wrong-password') {
+          errorMessage = 'Wrong password';
+        } else if (e.code == 'invalid-email') {
+          errorMessage = 'Invalid email address';
+        } else {
+          errorMessage = e.message ?? 'Unknown error occurred.';
+        }
+        showAlertDialog(
+          context,
+          errorMessage,
+          e.message.toString(),
+        );
+      }
+    }
   }
 
-  signUpEmail(String email, String password) async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  signUpEmail(
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
+    String errorMessage = 'An error occurred';
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        errorMessage = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        errorMessage = 'The account already exists for that email.';
+      } else if (e.code == 'invalid-email') {
+        errorMessage = 'Invalid email address.';
+      } else {
+        errorMessage = e.message ?? 'Unknown error occurred.';
+      }
+      if (context.mounted){
+        showAlertDialog(
+          context,
+          errorMessage,
+          e.message.toString(),
+        );
+      }
+    }
   }
 
   //dptkn firebase id here when I sign in, this one only do when we load into the display

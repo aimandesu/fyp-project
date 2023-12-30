@@ -33,33 +33,7 @@ class _ReportNotifyState extends State<ReportNotify> {
   List<String>? images = [];
   List<GeoPoint>? geoPoints = [];
 
-  List<String> district = [
-    "Ampang",
-   "Bercham",
-    "Buntong",
-    "Falim",
-    "Gugusan Manjoi",
-    "Gunung Rapat",
-    "Ipoh",
-    "Jelapang",
-    "Klebang",
-    "Lahat",
-    "Meru",
-    "Menglembu",
-    "Pasir Puteh",
-    "Pekan Baru",
-    "Pekan Lama",
-    "Pengkalan",
-    "Simpang Pulai",
-    "Silibin"
-    "Station 18",
-    "Sunway City",
-    "Tambun",
-    "Taman Cempaka Ipoh",
-    "Tanjung Rambutan",
-    "Tasek",
-    "Chemor",
-  ];
+  List<String> district = districtPlaces;
 
   void showPlace(var lat, var long) async{
     final response = await http.get(
