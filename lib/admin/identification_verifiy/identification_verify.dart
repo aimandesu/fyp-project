@@ -30,6 +30,14 @@ class _IdentificationVerificationState
     });
   }
 
+  void resetId() {
+    setState(() {
+      identificationInfo = null;
+      userUID = null;
+      identificationList = FormProvider().pickIdentificationList();
+    });
+  }
+
   @override
   void initState() {
     identificationList = FormProvider().pickIdentificationList();
@@ -77,6 +85,7 @@ class _IdentificationVerificationState
                       Expanded(
                         child: IdentificationInfo(
                           identificationInfo: identificationInfo,
+                          resetId: resetId,
                         ),
                       ),
                     ],

@@ -84,7 +84,7 @@ class ChatPlace extends StatelessWidget {
                                       margin: marginDefined,
                                       child: Column(
                                         children: [
-                                          const Text("Perbualan Ditamatkan"),
+                                          const Text("Calls has ended"),
                                           const SizedBox(height: 20,),
                                           ElevatedButton(
                                             onPressed: () {
@@ -92,7 +92,7 @@ class ChatPlace extends StatelessWidget {
                                                   .endChat(callsOn!);
                                               resetChat();
                                             },
-                                            child: const Text("Tamatkan Panggilan"),
+                                            child: const Text("End the call"),
                                           )
                                         ],
                                       )));

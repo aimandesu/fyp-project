@@ -125,12 +125,12 @@ class _HelpFormState extends State<HelpForm> {
     HelpFormProvider.sendHelpForm(helpForm, context).whenComplete(() {
       Navigator.pop(context);
       popSnackBar(context, "Permohonan bantuan dihantar.");
-    }).onError((error, stackTrace) => popSnackBar(context, error.toString()));
+    }).onError(
+      (error, stackTrace) => popSnackBar(context, error.toString()),
+    );
     //call alert dialog
     popLoadingDialog(context);
-
   }
-
 
   //pictures and pdf callback
   Future<void> navigatePictureUpload(BuildContext context) async {

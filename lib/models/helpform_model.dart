@@ -16,6 +16,8 @@ class HelpFormModel {
   final bool reviewed;
   final String authUID;
   final bool approved;
+  final String actions;
+  final String comment;
 
   HelpFormModel({
     required this.name,
@@ -33,6 +35,8 @@ class HelpFormModel {
     this.reviewed = false,
     required this.authUID,
     this.approved = false,
+    this.actions = "",
+    this.comment = "",
   });
 
   Map<String, dynamic> toJson(
@@ -57,5 +61,7 @@ class HelpFormModel {
         'authUID': authUID,
         'approved': approved,
         'date': date,
+        'actions': actions,
+        'comment': comment,
       };
 }

@@ -22,7 +22,6 @@ class _ReportNotifyState extends State<ReportNotify> {
   String? reportOn;
   Map<String, dynamic>? formToRender;
 
-
   //formatted address
   String address = "";
 
@@ -35,19 +34,19 @@ class _ReportNotifyState extends State<ReportNotify> {
 
   List<String> district = districtPlaces;
 
-  void showPlace(var lat, var long) async{
-    final response = await http.get(
-        Uri.parse("https://api.geoapify.com/v1/geocode/reverse?lat=$lat&lon=$long&apiKey=$reverseGeoApiKey")
-    );
+  void showPlace(var lat, var long) async {
+    final response = await http.get(Uri.parse(
+        "https://api.geoapify.com/v1/geocode/reverse?lat=$lat&lon=$long&apiKey=$reverseGeoApiKey"));
     final json = jsonDecode(response.body);
-    print("called here geo reverse");
-   setState(() {
-     address = json["features"][0]["properties"]["formatted"].toString();
-   });
+    setState(() {
+      address = json["features"][0]["properties"]["formatted"].toString();
+    });
   }
 
-  void changeReportOn(String reportID,
-      Map<String, dynamic> reportForm,) {
+  void changeReportOn(
+    String reportID,
+    Map<String, dynamic> reportForm,
+  ) {
     setState(() {
       reportOn = reportID;
       formToRender = reportForm;
@@ -65,14 +64,16 @@ class _ReportNotifyState extends State<ReportNotify> {
     );
   }
 
-  void sendNotification(Map<String, dynamic> message,
-      String district,
-      List<String> images,
-      List<GeoPoint> geoPoints,
-      DateTime date,) async {
+  void sendNotification(
+    Map<String, dynamic> message,
+    String district,
+    List<String> images,
+    List<GeoPoint> geoPoints,
+    DateTime date,
+  ) async {
     final List<String> userList;
 
-     date =  DateTime(date.year, date.month, date.day);
+    date = DateTime(date.year, date.month, date.day);
 
     if (message['title'] == "" ||
         message['body'] == "" ||
@@ -80,7 +81,6 @@ class _ReportNotifyState extends State<ReportNotify> {
         geoPoints.isEmpty) {
       showPopUp("Error", "There appear to be field missing");
     } else {
-
       //send to database
       final notificationModel = NotificationModel(
         title: message['title'],
@@ -88,7 +88,8 @@ class _ReportNotifyState extends State<ReportNotify> {
         district: district,
         images: images,
         geoPoints: geoPoints,
-        date: date,);
+        date: date,
+      );
       final Map<String, dynamic> notificationData = notificationModel.toJson();
 
       String newsID = await NewsProvider().createNews(notificationData);
@@ -108,19 +109,16 @@ class _ReportNotifyState extends State<ReportNotify> {
 
       message.putIfAbsent("newsID", () => newsID);
 
-      print(message); //here what we gonna send notification
-
       final encodedMessage = Uri.encodeComponent(jsonEncode(message));
 
       final response = await http
           .get(Uri.parse("http://localhost:3000/api/fcm/$encodedMessage"));
-      //handle response in node js, not complete yet, if succeed i want to show message
+
       final json = jsonDecode(response.body);
 
       if (json == "success") {
-        showPopUp("mesej", "message dihntr");
+        showPopUp("mesej", "alert has been sent");
       }
-
     }
   }
 

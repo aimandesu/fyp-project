@@ -17,9 +17,22 @@ class FormProvider {
         (event) => event.docs.map((doc) => doc.data()["reviewed"]).toList());
   }
 
-  void updateHelpForm(String id) async {
+  void updateHelpForm(
+    String id,
+    String actions,
+    String comment,
+  ) async {
+    bool approved = false;
+
+    if (actions.contains("diterima")) {
+      approved = true;
+    }
+
     await FirebaseFirestore.instance.collection("form").doc(id).update({
+      "actions": actions,
       "reviewed": true,
+      "approved": approved,
+      "comment": comment,
     });
   }
 
@@ -41,6 +54,15 @@ class FormProvider {
         .get()
         .then((value) => value.docs.map((e) => e.data()).toList());
     return instance;
+  }
+
+  void updateIdVerification(String userUID) async {
+    await FirebaseFirestore.instance
+        .collection("community")
+        .doc(userUID)
+        .update({
+      "verified": true,
+    });
   }
 
   //for fcm notifications - report notify

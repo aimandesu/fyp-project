@@ -18,6 +18,12 @@ class _PendingState extends State<Pending> {
   Map<String, dynamic>? formToRender;
   String? pdf;
   bool showPDF = false;
+  bool showAction = false;
+  final TextEditingController commentController =
+      TextEditingController(text: "");
+
+  List<String> actions = actionsList;
+  String actionsTodo = actionsList.first;
 
   @override
   void initState() {
@@ -25,7 +31,7 @@ class _PendingState extends State<Pending> {
     super.initState();
   }
 
-  void updateHasComplete(){
+  void updateHasComplete() {
     setState(() {
       callsForm = FormProvider().pickForms(false);
       formToRender = null;
@@ -199,59 +205,145 @@ class _PendingState extends State<Pending> {
                                           .primaryContainer,
                                       25,
                                     ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        buildRowSpaceBetween(
-                                          const Text("Date"),
-                                          Text(formToRender!["date"].toString()),
-                                        ),
-                                        buildRowSpaceBetween(
-                                          const Text("Name"),
-                                          Text(formToRender!["name"]),
-                                        ),
-                                        buildRowSpaceBetween(
-                                          const Text("IC No"),
-                                          Text(formToRender!["noIC"]),
-                                        ),
-                                        buildRowSpaceBetween(
-                                          const Text("Category"),
-                                          Text(formToRender!["category"]),
-                                        ),
-                                        buildRowSpaceBetween(
-                                          const Text("Phone"),
-                                          Text(formToRender!["phone"]),
-                                        ),
-                                        buildRowSpaceBetween(
-                                          const Text("Address"),
-                                          Text(
-                                            "${formToRender!['address']} ${formToRender!['postcode']} ${formToRender!['district']}",
+                                    child: !showAction
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              buildRowSpaceBetween(
+                                                const Text("Date"),
+                                                Text(formToRender!["date"]
+                                                    .toString()),
+                                              ),
+                                              buildRowSpaceBetween(
+                                                const Text("Name"),
+                                                Text(formToRender!["name"]),
+                                              ),
+                                              buildRowSpaceBetween(
+                                                const Text("IC No"),
+                                                Text(formToRender!["noIC"]),
+                                              ),
+                                              buildRowSpaceBetween(
+                                                const Text("Category"),
+                                                Text(formToRender!["category"]),
+                                              ),
+                                              buildRowSpaceBetween(
+                                                const Text("Phone"),
+                                                Text(formToRender!["phone"]),
+                                              ),
+                                              buildRowSpaceBetween(
+                                                const Text("Address"),
+                                                Text(
+                                                  "${formToRender!['address']} ${formToRender!['postcode']} ${formToRender!['district']}",
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        showPDF = true;
+                                                      });
+                                                    },
+                                                    child: const Text(
+                                                        "Supporting Document"),
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        showAction = true;
+                                                      });
+                                                    },
+                                                    child: const Text(
+                                                        "Verify"), //then ni tukar tindakan kita apa
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10),
+                                                      decoration:
+                                                          decorationDefinedShadow(
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .onPrimary,
+                                                        25,
+                                                      ),
+                                                      child: const Text(
+                                                          "Tindakan")),
+                                                  StatefulBuilder(builder:
+                                                      (context, setState) {
+                                                    return DropdownButton(
+                                                      value: actionsTodo,
+                                                      items:
+                                                          actions.map((value) {
+                                                        return DropdownMenuItem(
+                                                          value: value,
+                                                          child: Text(value),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (String? value) {
+                                                        setState(() {
+                                                          actionsTodo =
+                                                              value.toString();
+                                                        });
+                                                      },
+                                                    );
+                                                  }),
+                                                  Container(
+                                                    width: 300,
+                                                    height: 300,
+                                                    padding: paddingDefined,
+                                                    decoration:
+                                                        decorationDefinedShadow(
+                                                            Theme.of(context)
+                                                                .colorScheme
+                                                                .onPrimary,
+                                                            25),
+                                                    child: TextFormField(
+                                                      controller:
+                                                          commentController,
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        border:
+                                                            InputBorder.none,
+                                                        hintText: "Description",
+                                                      ),
+                                                      maxLines: null,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    FormProvider()
+                                                        .updateHelpForm(
+                                                      formOn!,
+                                                      actionsTodo,
+                                                      commentController.text,
+                                                    );
+                                                    updateHasComplete();
+                                                  },
+                                                  child: const Text("Done"))
+                                            ],
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  showPDF = true;
-                                                });
-                                              },
-                                              child: const Text("Validation"),
-                                            ),
-                                             ElevatedButton(
-                                              onPressed: () {
-                                                FormProvider().updateHelpForm(formOn!);
-                                                updateHasComplete();
-                                              },
-                                              child: const Text("Process"),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
                                   ),
                                 ),
                               ],

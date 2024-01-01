@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_project/admin/providers/form_provider.dart';
 import '../../../constant.dart';
 
 class IdentificationInfo extends StatelessWidget {
-  const IdentificationInfo({super.key, required this.identificationInfo});
+  const IdentificationInfo(
+      {super.key, required this.identificationInfo, required this.resetId});
 
   final Map<String, dynamic>? identificationInfo;
+  final VoidCallback resetId;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +50,16 @@ class IdentificationInfo extends StatelessWidget {
                   const Text("District"),
                   Text(identificationInfo!["communityAt"]["district"]),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Verified"),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      FormProvider()
+                          .updateIdVerification(identificationInfo!["userUID"]);
+                      resetId();
+                    },
+                    child: const Text("Verified"),
+                  ),
                 )
               ],
             ),

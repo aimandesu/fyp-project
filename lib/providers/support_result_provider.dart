@@ -7,8 +7,6 @@ class SupportResultProvider with ChangeNotifier {
     final instance = await FirebaseFirestore.instance
         .collection("form")
         .doc(docPath)
-        // .where("authUID", isEqualTo: authUID)
-        // .where("reviewed", isEqualTo: false)
         .get()
         .then((event) => event.data());
 

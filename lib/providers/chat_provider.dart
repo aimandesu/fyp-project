@@ -76,23 +76,18 @@ class ChatProvider with ChangeNotifier {
     String pathFiles = "message/${messageModel.uid}/${messageModel.requestID}";
     List<String> imgUrl = [];
     if (messageModel.picture != null) {
-      try {
-        for(int i =0; i< messageModel.picture!.length; i++){
-          final contentType = getImageContentType(messageModel.picture![i]);
-          Reference referenceDirectory = reference
-              .child("$pathFiles/${messageModel.picture![i]!.uri.pathSegments.last}");
-          await referenceDirectory.putFile(
-              messageModel.picture![i],
-              SettableMetadata(
-                contentType: contentType,
-                customMetadata: {'fileType': 'image'},
-              ));
-          String url = await referenceDirectory.getDownloadURL();
-          imgUrl.add(url);
-        }
-      } on FirebaseException catch (e) {
-        print(e.message.toString());
-        //ke here kena guna technique alert stack trace
+      for (int i = 0; i < messageModel.picture!.length; i++) {
+        final contentType = getImageContentType(messageModel.picture![i]);
+        Reference referenceDirectory = reference.child(
+            "$pathFiles/${messageModel.picture![i]!.uri.pathSegments.last}");
+        await referenceDirectory.putFile(
+            messageModel.picture![i],
+            SettableMetadata(
+              contentType: contentType,
+              customMetadata: {'fileType': 'image'},
+            ));
+        String url = await referenceDirectory.getDownloadURL();
+        imgUrl.add(url);
       }
     }
 

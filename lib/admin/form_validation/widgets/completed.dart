@@ -28,13 +28,14 @@ class _CompletedState extends State<Completed> {
       "Address",
       "Sub District",
       "Postcode",
-      "Category"
+      "Category",
+      "Action"
     ];
 
     final rowSpacer = TableRow(
       children: [
         ...List.generate(
-          8,
+          9,
           (_) => const SizedBox(height: 8),
         )
       ],
@@ -88,6 +89,7 @@ class _CompletedState extends State<Completed> {
                             buildSizedBox(Text(item['subDistrict'])),
                             buildSizedBox(Text(item['postcode'])),
                             buildSizedBox(Text(item['category'])),
+                            buildSizedBox(Text(item['actions']))
                           ],
                         ),
                         rowSpacer,
