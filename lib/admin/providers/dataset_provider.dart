@@ -29,6 +29,26 @@ class DatasetProvider {
     return null;
   }
 
+  Future<List<Map<String, dynamic>>?> fetchDisasterDetails(String year, String month) async {
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection("dataset")
+        .doc("cases")
+        .collection("year")
+        .doc(year)
+    .collection("details")
+    .doc(month)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data();
+      if (data != null && data.containsKey("hazard")) {
+        return List<Map<String, dynamic>>.from(data["hazard"]);
+      }
+    }
+
+    return null;
+  }
+
   //not in use as of now
   void updateDataset(
     String year,

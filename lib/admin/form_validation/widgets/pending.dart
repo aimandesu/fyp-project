@@ -141,7 +141,7 @@ class _PendingState extends State<Pending> {
                       child: Column(
                         children: [
                           const Text(
-                            "Help Form Residents",
+                            "Victim assistance form",
                             style: textStyling30,
                           ),
                           Expanded(

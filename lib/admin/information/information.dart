@@ -17,6 +17,7 @@ class _InformationState extends State<Information> {
   Future<dynamic>? chart;
   List<String> _years = [];
   String _selectedYear = DateTime.now().year.toString();
+  String get selectedYear => _selectedYear;
 
   void initialiseYear() async {
     final List<String> yearsAvailable = await DatasetProvider().fetchYear();
@@ -83,21 +84,15 @@ class _InformationState extends State<Information> {
                       snapshot: snapshot.data,
                     ),
                   ),
-                  Container(
-                    width: size.width * 0.3,
-                    height: size.height * 0.5,
-                    margin: marginDefined,
-                    decoration: decorationDefinedShadow(color, circular),
-                    child: CircularChart(
-                      snapshot: snapshot.data,
-                    ),
-                  ),
                   Expanded(
                     child: Container(
                       height: size.height * 0.5,
                       margin: marginDefined,
                       decoration: decorationDefinedShadow(color, circular),
-                      // child: const StackedBarChart(),
+                      child: CircularChart(
+                        snapshot: snapshot.data,
+                          selectedYear: selectedYear,
+                      ),
                     ),
                   ),
                 ],

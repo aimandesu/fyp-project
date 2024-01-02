@@ -60,7 +60,7 @@ class _AdminState extends State<Admin> {
       ),
       const NavigationRailDestination(
         icon: Icon(Icons.note),
-        label: Text('HelpFrom Verification'),
+        label: Text('Victim assistance form'),
       ),
       const NavigationRailDestination(
         icon: Icon(Icons.face),
