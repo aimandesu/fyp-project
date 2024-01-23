@@ -53,13 +53,21 @@ class _ReportIncidenceState extends State<ReportIncidence> {
         userUID: userUID,
       );
 
-      ReportProvider.submitIncident(reportIncidenceModel, context);
+      ReportProvider.submitIncident(
+        reportIncidenceModel,
+        context,
+      ).whenComplete(() {
+        Navigator.pop(context);
+        popSnackBar(context, "Laporan dihantar.");
+      }).onError(
+        (error, stackTrace) => popSnackBar(context, error.toString()),
+      );
+      popLoadingDialog(context);
     } on Exception catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("There is input field that is not completed"),
-          duration:
-              Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
     }

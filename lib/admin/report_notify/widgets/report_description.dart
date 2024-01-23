@@ -22,8 +22,9 @@ class ReportDescription extends StatelessWidget {
     DateTime? date = formToRender == null
         ? null
         : (formToRender!["date"] as Timestamp).toDate();
-    String? dateIncident =
-        date == null ? null : DateFormat.yMMMMd('en_US').format(date);
+    String? dateIncident = date == null
+        ? null
+        : "${DateFormat.yMMMMd('en_US').format(date)} / ${date.hour}:${date.minute}";
 
     return Expanded(
       child: formToRender == null
@@ -32,7 +33,7 @@ class ReportDescription extends StatelessWidget {
               children: [
                 Lottie.asset("assets/chat.json"),
                 const Text(
-                  "Helping people is a good deed. Have a nice day!",
+                  "None selected",
                   style: textStyling30,
                 )
               ],
@@ -77,7 +78,7 @@ class ReportDescription extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                bottom: 2,
+                                bottom: 10,
                                 right: 10,
                                 child: Container(
                                   padding: paddingDefined,
@@ -137,11 +138,14 @@ class ReportDescription extends StatelessWidget {
                                   children: [
                                     Text(
                                         "${formToRender!["currentLocation"].latitude}, "),
-                                    Text(formToRender!["currentLocation"]
-                                        .longitude
-                                        .toString()),
+                                    Text(
+                                      formToRender!["currentLocation"]
+                                          .longitude
+                                          .toString(),
+                                    ),
                                   ],
                                 ),
+                                const SizedBox(width: 5,),
                                 Container(
                                   padding: paddingDefined,
                                   decoration: decorationDefinedShadow(

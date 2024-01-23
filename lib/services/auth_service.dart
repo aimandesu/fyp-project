@@ -76,7 +76,7 @@ class AuthService {
       } else {
         errorMessage = e.message ?? 'Unknown error occurred.';
       }
-      if (context.mounted){
+      if (context.mounted) {
         showAlertDialog(
           context,
           errorMessage,
@@ -103,10 +103,28 @@ class AuthService {
     return result;
   }
 
+  Future<void> saveTokenToDatabase(String token) async {
+
+    String authUID = FirebaseAuth.instance.currentUser!.uid;
+
+    String userUID = "";
+    userUID = await FirebaseFirestore.instance
+        .collection('community')
+        .where("authUID", isEqualTo: authUID)
+        .get()
+        .then((value) => value.docs.map((e) => userUID = e.data()["userUID"]).toString());
+
+    await FirebaseFirestore.instance
+        .collection('community')
+        .doc(userUID.replaceAll(RegExp(r'[()]'), ''))
+        .update({
+      'fcmToken': token,
+    });
+  }
+
   void signUserInfo() async {
     final result = await checkUserHasSignedBefore();
     String? fcmToken = await FirebaseMessaging.instance.getToken();
-
     if (!result) {
       final authUID = FirebaseAuth.instance.currentUser!.uid;
       //check if no data associated with this auth, then baru msukkn
@@ -143,6 +161,9 @@ class AuthService {
           'verified': false,
         });
       });
+    } else {
+      await saveTokenToDatabase(fcmToken!);
+      FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
     }
   }
 }

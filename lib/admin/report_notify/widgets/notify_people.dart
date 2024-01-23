@@ -31,7 +31,7 @@ class NotifyPeople extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          "Beri Amaran",
+          "Alert",
           style: textStyling30,
         ),
         StatefulBuilder(builder: (context, setState) {
@@ -141,7 +141,7 @@ class NotifyPeople extends StatelessWidget {
                       child: PageView.builder(
                         itemCount: geoPoints?.length,
                         itemBuilder: (context, index) {
-                          return Row(
+                          return Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text("latitude: ${geoPoints![index].latitude}"),
@@ -191,7 +191,7 @@ class NotifyPeople extends StatelessWidget {
                   DateTime.now() //here should have mcm option utk pick time
                 );
               },
-              child: const Text("Beri Amaran"),
+              child: const Text("Send Alert"),
             ),
           ),
         )

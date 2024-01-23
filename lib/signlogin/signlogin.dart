@@ -98,7 +98,11 @@ class _SignLoginState extends State<SignLogin> {
   IconButton buildIconButton() {
     return IconButton(
       onPressed: () => AuthService().signInWithGoogle(),
-      icon: const Icon(Icons.login),
+      icon: const Image(
+        image: AssetImage('assets/images/google.png'),
+        width: 50,
+        height: 50,
+      ),
     );
   }
 
@@ -147,7 +151,7 @@ class _SignLoginState extends State<SignLogin> {
         children: [
           Center(
             child: Text(
-              "Natural Hazard ub",
+              "Natural Hazard Hub",
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,

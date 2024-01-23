@@ -51,8 +51,10 @@ class _ReportNotifyState extends State<ReportNotify> {
       reportOn = reportID;
       formToRender = reportForm;
     });
-    showPlace(formToRender!["currentLocation"].latitude,
-        formToRender!["currentLocation"].longitude);
+    showPlace(
+      formToRender!["currentLocation"].latitude,
+      formToRender!["currentLocation"].longitude,
+    );
   }
 
   void showPopUp(String title, String content) {

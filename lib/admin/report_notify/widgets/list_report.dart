@@ -28,21 +28,27 @@ class ListReport extends StatelessWidget {
                 Theme.of(context).colorScheme.onPrimary, 35),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             margin: marginDefined,
-            child: ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                String reportID = snapshot.data![index]["reportID"];
-                return ListTile(
-                  trailing: reportOn == reportID
-                      ? const Icon(Icons.select_all_rounded)
-                      : null,
-                  title: const Text("ID report"),
-                  subtitle: Text(reportID),
-                  onTap: () {
-                    changeReportOn(reportID, snapshot.data![index]);
-                  },
-                );
-              },
+            child: Column(
+              children: [
+                const Text("ID report"),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      String reportID = snapshot.data![index]["reportID"];
+                      return ListTile(
+                        trailing: reportOn == reportID
+                            ? const Icon(Icons.select_all_rounded)
+                            : null,
+                        title: Text(reportID),
+                        onTap: () {
+                          changeReportOn(reportID, snapshot.data![index]);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         } else {
