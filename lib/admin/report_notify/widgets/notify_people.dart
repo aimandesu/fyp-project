@@ -9,24 +9,35 @@ class NotifyPeople extends StatelessWidget {
     required this.sendNotification,
     required this.title,
     required this.body,
+    required this.place,
     required this.images,
     required this.geoPoints,
     required this.district,
+    required this.hazard,
   });
 
-  final void Function(Map<String, dynamic>, String, List<String>, List<GeoPoint>, DateTime,)
-      sendNotification;
+  final void Function(
+    Map<String, dynamic>,
+    String,
+    String,
+    List<String>,
+    List<GeoPoint>,
+    DateTime,
+  ) sendNotification;
   final TextEditingController title;
   final TextEditingController body;
+  final TextEditingController place;
   final List<String>? images;
   final List<GeoPoint>? geoPoints;
   final List<String> district;
+  final List<String> hazard;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     String currentDistrict = district.first;
+    String currentHazard = hazard.first;
 
     return Column(
       children: [
@@ -34,22 +45,43 @@ class NotifyPeople extends StatelessWidget {
           "Alert",
           style: textStyling30,
         ),
-        StatefulBuilder(builder: (context, setState) {
-          return DropdownButton(
-            value: currentDistrict,
-            items: district.map((value) {
-              return DropdownMenuItem(
-                value: value,
-                child: Text(value),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            StatefulBuilder(builder: (context, setState) {
+              return DropdownButton(
+                value: currentDistrict,
+                items: district.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    currentDistrict = value.toString();
+                  });
+                },
               );
-            }).toList(),
-            onChanged: (String? value) {
-              setState(() {
-                currentDistrict = value.toString();
-              });
-            },
-          );
-        }),
+            }),
+            StatefulBuilder(builder: (context, setState) {
+              return DropdownButton(
+                value: currentHazard,
+                items: hazard.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    currentHazard = value.toString();
+                  });
+                },
+              );
+            }),
+          ],
+        ),
         Container(
           width: size.width * 0.25,
           margin: marginDefined,
@@ -61,6 +93,20 @@ class NotifyPeople extends StatelessWidget {
             decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: "Title",
+            ),
+          ),
+        ),
+        Container(
+          width: size.width * 0.25,
+          margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+          padding: paddingDefined,
+          decoration: decorationDefinedShadow(
+              Theme.of(context).colorScheme.primaryContainer, 25),
+          child: TextFormField(
+            controller: place,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: "Place",
             ),
           ),
         ),
@@ -186,9 +232,10 @@ class NotifyPeople extends StatelessWidget {
                     "body": body.text,
                   },
                   currentDistrict,
+                  currentHazard,
                   images!,
                   geoPoints!,
-                  DateTime.now() //here should have mcm option utk pick time
+                  DateTime.now(), //here should have mcm option utk pick time
                 );
               },
               child: const Text("Send Alert"),

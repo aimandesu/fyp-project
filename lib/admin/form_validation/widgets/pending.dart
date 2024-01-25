@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../../constant.dart';
@@ -212,8 +213,15 @@ class _PendingState extends State<Pending> {
                                             children: [
                                               buildRowSpaceBetween(
                                                 const Text("Date"),
-                                                Text(formToRender!["date"]
-                                                    .toString()),
+                                                Text(
+                                                  DateFormat.yMMMMd('en_US')
+                                                      .format(DateTime
+                                                          .fromMicrosecondsSinceEpoch(
+                                                              formToRender![
+                                                                      "date"]
+                                                                  .microsecondsSinceEpoch))
+                                                      .toString(),
+                                                ),
                                               ),
                                               buildRowSpaceBetween(
                                                 const Text("Name"),

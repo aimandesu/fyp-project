@@ -75,4 +75,79 @@ class NewsProvider {
     }
     return newsID;
   }
+
+  Future<void> saveToDashboard(
+    String hazard,
+    String place,
+  ) async {
+    DateTime date = DateTime.now();
+    String currentYear = date.year.toString();
+    int currentMonth =
+        date.month - 1; //-1 because in our database, it starts with 0 = January
+
+    String monthInText = DateFormat("MMMM").format(date).substring(0, 3);
+    Map<String, dynamic>? allData;
+
+    final collection = FirebaseFirestore.instance
+        .collection("dataset")
+        .doc("cases")
+        .collection("year")
+        .doc(currentYear);
+
+    final detailCollection = collection.collection("details").doc(monthInText);
+
+    collection.get().then((value) async {
+      allData = value.data();
+      Map dataInCurrentMonth = allData!["data"][currentMonth];
+
+      if (dataInCurrentMonth["numberCases"] == 0) {
+        dataInCurrentMonth['hazard'][hazard] = 1;
+        dataInCurrentMonth["numberCases"] = 1;
+
+        await collection.update(allData!.cast<Object, Object?>());
+      } else {
+        if (dataInCurrentMonth["hazard"][hazard] != null) {
+          int hazardTarget = dataInCurrentMonth["hazard"][hazard] + 1;
+          int casesCount = dataInCurrentMonth["numberCases"] + 1;
+
+          dataInCurrentMonth['hazard'][hazard] = hazardTarget;
+          dataInCurrentMonth["numberCases"] = casesCount;
+
+          await collection.update(allData!.cast<Object, Object?>());
+        }
+      }
+    });
+
+    detailCollection.get().then((value) async {
+      allData = value.data();
+
+      List<dynamic> mapDataDetails = allData!["hazard"];
+      bool found = false;
+
+      for (Map<String, dynamic> element in mapDataDetails) {
+        if (element["type"] == hazard) {
+          for (Map<String, dynamic> e in element["place"] as List<dynamic>) {
+            if (e["name"] == place) {
+              e["count"] += 1;
+            }
+          }
+        }
+        found = element["type"] == hazard;
+      }
+      if (found) {
+      } else {
+        (allData!["hazard"] as List<dynamic>).add({
+          "place": [
+            {
+              "count": 1,
+              "name": place,
+            }
+          ],
+          "type": hazard
+        });
+      }
+
+      await detailCollection.update(allData!.cast<Object, Object?>());
+    });
+  }
 }

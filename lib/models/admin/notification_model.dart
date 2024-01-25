@@ -7,6 +7,7 @@ class NotificationModel {
   final List<String> images;
   final List<GeoPoint> geoPoints;
   final DateTime date;
+  final String place;
 
   NotificationModel({
     required this.title,
@@ -15,12 +16,14 @@ class NotificationModel {
     required this.images,
     required this.geoPoints,
     required this.date,
+    required this.place,
   });
 
   Map<String, dynamic> toJson() => {
         "title": title,
         "content": content,
         "district": district,
+        "place": place,
         "images": images,
         "geoPoints": geoPoints,
         "date": date,

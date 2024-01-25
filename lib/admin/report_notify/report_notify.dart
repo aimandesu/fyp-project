@@ -28,11 +28,13 @@ class _ReportNotifyState extends State<ReportNotify> {
   //notification
   TextEditingController title = TextEditingController();
   TextEditingController body = TextEditingController();
+  TextEditingController place = TextEditingController();
 
   List<String>? images = [];
   List<GeoPoint>? geoPoints = [];
 
   List<String> district = districtPlaces;
+  List<String> hazard = hazardsList;
 
   void showPlace(var lat, var long) async {
     final response = await http.get(Uri.parse(
@@ -69,6 +71,7 @@ class _ReportNotifyState extends State<ReportNotify> {
   void sendNotification(
     Map<String, dynamic> message,
     String district,
+    String currentHazard,
     List<String> images,
     List<GeoPoint> geoPoints,
     DateTime date,
@@ -88,6 +91,7 @@ class _ReportNotifyState extends State<ReportNotify> {
         title: message['title'],
         content: message['body'],
         district: district,
+        place: place.text,
         images: images,
         geoPoints: geoPoints,
         date: date,
@@ -95,6 +99,9 @@ class _ReportNotifyState extends State<ReportNotify> {
       final Map<String, dynamic> notificationData = notificationModel.toJson();
 
       String newsID = await NewsProvider().createNews(notificationData);
+
+      //save to dashboard
+      // NewsProvider().saveToDashboard(currentHazard, place.text);
 
       //get tokens, and pass to message for notification
       userList = await FormProvider().getUserAssociated(district);
@@ -172,9 +179,11 @@ class _ReportNotifyState extends State<ReportNotify> {
             sendNotification: sendNotification,
             title: title,
             body: body,
+            place: place,
             images: images,
             geoPoints: geoPoints,
             district: district,
+            hazard: hazard,
           ),
         ),
       ],
