@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_project/constant.dart';
+import 'package:lottie/lottie.dart';
 import '../../providers/form_provider.dart';
 
 class Completed extends StatefulWidget {
@@ -96,8 +97,22 @@ class _CompletedState extends State<Completed> {
                       ]),
             ],
           );
-        } else {
+        } else if(snapshot.connectionState == ConnectionState.waiting){
           return Container();
+        }else {
+          return  Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 400,
+                child: Lottie.asset("assets/no_data.json", repeat: false),
+              ),
+              const Text(
+                "No records found!",
+                style: textStyling30,
+              )
+            ],
+          );
         }
       },
     );

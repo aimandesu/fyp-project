@@ -31,6 +31,8 @@ class NewsProvider {
                   "district": item["district"],
                   "images": item["images"],
                   "geoPoints": item["geoPoints"],
+                  "date": item["date"],
+                  "place": item["place"]
                 };
               }).toList()
             })

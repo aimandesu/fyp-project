@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/providers/support_result_provider.dart';
 import 'package:fyp_project/screen/support_result/dart/widgets/result.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../../constant.dart';
 
 class SupportResult extends StatelessWidget {
   static const routeName = "/support-result";
@@ -35,7 +38,10 @@ class SupportResult extends StatelessWidget {
                   child: ListTile(
                     tileColor: Theme.of(context).colorScheme.primaryContainer,
                     title: Text(
-                      "${timestamp.toDate().day}, ${timestamp.toDate().month}, ${timestamp.toDate().year}"
+                      DateFormat.yMMMMd('en_US')
+                          .format(DateTime.fromMicrosecondsSinceEpoch(
+                          timestamp.microsecondsSinceEpoch))
+                          .toString(),
                     ),
                     subtitle: Text(snapshot.data![index]['caseID']),
                   ),

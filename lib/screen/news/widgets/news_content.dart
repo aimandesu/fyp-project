@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_project/admin/providers/news_provider.dart';
 import 'package:fyp_project/constant.dart';
 import 'package:fyp_project/screen/news/widgets/news_map.dart';
+import 'package:intl/intl.dart';
 
 class NewsContent extends StatefulWidget {
   static const routeName = "/news-content";
@@ -49,13 +50,13 @@ class _NewsContentState extends State<NewsContent> {
     final mediaQuery = MediaQuery.of(context);
 
     AppBar appBar2 = AppBar(
-      title: Text(toDisplay!["title"]),
+      title: const Text("Content"),
     );
 
     final paddingTop = appBar2.preferredSize.height + mediaQuery.padding.top;
 
     return Scaffold(
-      appBar: appBar2,
+      appBar: toDisplay == null ? AppBar() : appBar2,
       body: toDisplay == null
           ? Container()
           : SizedBox(
@@ -96,8 +97,8 @@ class _NewsContentState extends State<NewsContent> {
                   ),
                   //images
                   Container(
-                    decoration: decorationDefined(
-                      Theme.of(context).colorScheme.primaryContainer,
+                    decoration: decorationDefinedShadow(
+                      Theme.of(context).colorScheme.onPrimary,
                       25,
                     ),
                     margin: marginDefined,
@@ -107,17 +108,44 @@ class _NewsContentState extends State<NewsContent> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          toDisplay!["district"],
-                          style: textStyling20,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              toDisplay!["title"],
+                              style: textStyling20,
+                            ),
+                            Text(
+                              DateFormat.yMMMMd('en_US')
+                                  .format(DateTime.fromMicrosecondsSinceEpoch(
+                                  toDisplay!["date"].microsecondsSinceEpoch))
+                                  .toString(),
+                              style: textStyling17,
+                            ),
+                          ],
                         ),
+                        Text(
+                          "${toDisplay!["place"].toString()}, ${toDisplay!["district"]}",
+                          style: textStyling17,
+                        ),
+
                         const SizedBox(
                           height: 10,
                         ),
-                        //this should be some kind of place, sbb we already make it only ipoh lol
-                        Text(
-                          toDisplay!["content"],
-                          style: textStyling17,
+                        Expanded(
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child: Container(
+                              padding: paddingDefined,
+                              decoration: decorationDefinedShadow(
+                                  Theme.of(context).colorScheme.primaryContainer,
+                                  25),
+                              child: Text(
+                                toDisplay!["content"],
+                                style: textStyling17,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

@@ -57,26 +57,32 @@ class _PendingState extends State<Pending> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 margin: marginDefined,
-                child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    String caseID = snapshot.data![index]["caseID"];
-                    return ListTile(
-                      trailing: formOn == caseID
-                          ? const Icon(Icons.select_all_rounded)
-                          : null,
-                      title: const Text("caseID"),
-                      subtitle: Text(caseID),
-                      onTap: () {
-                        setState(() {
-                          showPDF = false;
-                          formOn = caseID;
-                          formToRender = snapshot.data![index];
-                          pdf = formToRender!["selectedPDF"];
-                        });
-                      },
-                    );
-                  },
+                child: Column(
+                  children: [
+                    const Text("Case form"),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          String caseID = snapshot.data![index]["caseID"];
+                          return ListTile(
+                            trailing: formOn == caseID
+                                ? const Icon(Icons.select_all_rounded)
+                                : null,
+                            title: Text(caseID),
+                            onTap: () {
+                              setState(() {
+                                showPDF = false;
+                                formOn = caseID;
+                                formToRender = snapshot.data![index];
+                                pdf = formToRender!["selectedPDF"];
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               );
             } else {
@@ -89,9 +95,12 @@ class _PendingState extends State<Pending> {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Lottie.asset("assets/chat.json"),
+                    SizedBox(
+                      height: 400,
+                      child: Lottie.asset("assets/form.json", repeat: false),
+                    ),
                     const Text(
-                      "Helping people is a good deed. Have a nice day!",
+                      "Pick any form from the pending list.",
                       style: textStyling30,
                     )
                   ],
@@ -242,7 +251,7 @@ class _PendingState extends State<Pending> {
                                               buildRowSpaceBetween(
                                                 const Text("Address"),
                                                 Text(
-                                                  "${formToRender!['address']} ${formToRender!['postcode']} ${formToRender!['district']}",
+                                                  "${formToRender!['address']} ${formToRender!['postcode']} ${formToRender!['subDistrict']}",
                                                 ),
                                               ),
                                               Row(
@@ -282,19 +291,29 @@ class _PendingState extends State<Pending> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        showAction = false;
+                                                      });
+                                                    },
+                                                    icon: const Icon(
+                                                        Icons.arrow_back),
+                                                  ),
                                                   Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10),
-                                                      decoration:
-                                                          decorationDefinedShadow(
-                                                        Theme.of(context)
-                                                            .colorScheme
-                                                            .onPrimary,
-                                                        25,
-                                                      ),
-                                                      child: const Text(
-                                                          "Tindakan")),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10),
+                                                    decoration:
+                                                        decorationDefinedShadow(
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .onPrimary,
+                                                      25,
+                                                    ),
+                                                    child:
+                                                        const Text("Tindakan"),
+                                                  ),
                                                   StatefulBuilder(builder:
                                                       (context, setState) {
                                                     return DropdownButton(

@@ -92,6 +92,8 @@ flutter:
     - assets/chat.json
     - assets/gallery.json
     - assets/profile.json
+    - assets/form.json
+    - assets/no_data.json
     - assets/images/google.png
   #   - images/a_dot_ham.jpeg
 

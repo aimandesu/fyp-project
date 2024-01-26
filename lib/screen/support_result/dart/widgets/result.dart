@@ -39,7 +39,7 @@ class Result extends StatelessWidget {
               nama: snapshot.data!['name'].toString(),
               noPhone: snapshot.data!['phone'].toString(),
               noKadPengenalan: snapshot.data!['noIC'].toString(),
-              message: 'message diterima or whatnot',
+              message: snapshot.data!['comment'],
               approval: snapshot.data!['approved'],
             );
           } else {

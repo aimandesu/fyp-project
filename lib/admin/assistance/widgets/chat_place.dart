@@ -40,7 +40,7 @@ class ChatPlace extends StatelessWidget {
               children: [
                 Lottie.asset("assets/help.json", repeat: false),
                 const Text(
-                  "Helping people is a good deed. Have a nice day!",
+                  "Chat is active. Pick any from messages list.",
                   style: textStyling30,
                 )
               ],

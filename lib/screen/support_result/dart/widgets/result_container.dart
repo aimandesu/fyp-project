@@ -27,57 +27,93 @@ class ResultContainer extends StatelessWidget {
       alignment: Alignment.center,
       child: Container(
         margin: marginDefined,
-        height: mediaQuery.size.height * 0.5,
+        height: mediaQuery.size.height * 0.6,
         width: mediaQuery.size.width * 1,
         decoration: decorationDefinedShadow(
-            Theme.of(context).colorScheme.primaryContainer, 25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              margin: marginDefined,
-              child: Text("Kes ID: $kesID"),
-            ),
-            Container(
-              height: mediaQuery.size.height * 0.3,
-              width: mediaQuery.size.width * 0.9,
-              margin: marginDefined,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [const Text("Nama"), Text("$nama")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("No Phone"), Text("$noPhone")],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("No Kad Pengenalan"),
-                      Text(" $noKadPengenalan")
-                    ],
-                  )
-                ],
+            Theme.of(context).colorScheme.onPrimary, 25),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                margin: marginDefined,
+                child: Text(
+                  "Kes ID: $kesID",
+                  style: textStyling20,
+                ),
               ),
-            ),
-            approval != null
-                ? approval == true
-                    ? const Text("diterima")
-                    : const Text("ditolak")
-                : Container(),
-            Container(
-              margin: marginDefined,
-              child: message == ''
-                  ? const Text(
-                      "Harap maklum, maklumat dan kes anda sedang disiasat. Maklum balas akan disampaikan apabila sudah selesai",
+              Container(
+                height: mediaQuery.size.height * 0.4,
+                width: mediaQuery.size.width * 0.9,
+                margin: marginDefined,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Nama",
+                          style: textStyling17,
+                        ),
+                        Text(
+                          nama,
+                          style: textStyling17,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "No Phone",
+                          style: textStyling17,
+                        ),
+                        Text(
+                          noPhone,
+                          style: textStyling17,
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "No Kad Pengenalan",
+                          style: textStyling17,
+                        ),
+                        Text(
+                          noKadPengenalan,
+                          style: textStyling17,
+                        )
+                      ],
                     )
-                  : Text(message),
-            ),
-          ],
+                  ],
+                ),
+              ),
+              approval != null
+                  ? approval == true
+                      ? const Text(
+                          "Permohonan Diterima",
+                          style: textStyling17,
+                        )
+                      : const Text(
+                          "Permohonan Sedang Dipantau",
+                          style: textStyling17,
+                        )
+                  : Container(),
+              Container(
+                margin: marginDefined,
+                child: message == ''
+                    ? const Text(
+                        "Harap maklum, maklumat dan kes anda sedang disiasat. Maklum balas akan disampaikan apabila sudah selesai",
+                        style: textStyling17,
+                      )
+                    : Text(message,   style: textStyling17,),
+              ),
+            ],
+          ),
         ),
       ),
     );

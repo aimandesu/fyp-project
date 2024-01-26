@@ -146,6 +146,16 @@ class _ReportNotifyState extends State<ReportNotify> {
     );
   }
 
+  void updateListAgain() {
+    reportIncidence = FormProvider().pickReports();
+  }
+
+  void removeFormToRender() {
+    setState(() {
+      formToRender = null;
+    });
+  }
+
   @override
   void initState() {
     reportIncidence = FormProvider().pickReports();
@@ -166,6 +176,8 @@ class _ReportNotifyState extends State<ReportNotify> {
         ReportDescription(
           formToRender: formToRender,
           address: address,
+          updateListAgain: updateListAgain,
+          removeFormToRender: removeFormToRender,
         ),
         Container(
           width: size.width * 0.25,

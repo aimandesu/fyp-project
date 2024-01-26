@@ -10,10 +10,14 @@ class ReportDescription extends StatelessWidget {
     super.key,
     required this.formToRender,
     required this.address,
+    required this.updateListAgain,
+    required this.removeFormToRender,
   });
 
   final Map<String, dynamic>? formToRender;
   final String address;
+  final VoidCallback updateListAgain;
+  final VoidCallback removeFormToRender;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,8 @@ class ReportDescription extends StatelessWidget {
               children: [
                 Lottie.asset("assets/chat.json"),
                 const Text(
-                  "None selected",
+                  textAlign: TextAlign.center,
+                  "Pick any ID report from the report list.",
                   style: textStyling30,
                 )
               ],
@@ -46,9 +51,30 @@ class ReportDescription extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text(
-                    formToRender!["disaster"].join(", "),
-                    style: textStyling30,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          formToRender!["disaster"].join(", "),
+                          style: textStyling30,
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await FirebaseFirestore.instance
+                                .collection("report")
+                                .doc(formToRender!["reportID"])
+                                .update({
+                              "reviewed": true,
+                            });
+                            updateListAgain();
+                            removeFormToRender();
+                          },
+                          icon: const Icon(Icons.remove),
+                        ),
+                      ],
+                    ),
                   ),
                   ScrollConfiguration(
                     behavior: ScrollConfiguration.of(context).copyWith(
@@ -145,7 +171,9 @@ class ReportDescription extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(width: 5,),
+                                const SizedBox(
+                                  width: 5,
+                                ),
                                 Container(
                                   padding: paddingDefined,
                                   decoration: decorationDefinedShadow(
