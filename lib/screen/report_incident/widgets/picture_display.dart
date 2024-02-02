@@ -60,7 +60,7 @@ class _PictureDisplayState extends State<PictureDisplay> {
             right: 5,
             child: IconButton.filledTonal(
               onPressed: () => widget.navigatePictureUpload(context),
-              icon: const Icon(Icons.camera),
+              icon: const Icon(Icons.camera_alt),
             ),
           )
         ],

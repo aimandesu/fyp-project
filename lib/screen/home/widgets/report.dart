@@ -22,7 +22,11 @@ class Report extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(width: 10),
-                Icon(Icons.camera_alt),
+                Image(
+                  image: AssetImage('assets/images/alarm.png'),
+                  width: 50,
+                  height: 50,
+                ),
                 SizedBox(width: 10),
                 Flexible(
                   child: ListTile(

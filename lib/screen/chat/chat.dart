@@ -47,7 +47,7 @@ class _ChatState extends State<Chat> {
     Provider.of<ChatProvider>(context, listen: false).addMessage(messageModel);
 
     //check picture empty or not
-    if(pictures!.isNotEmpty){
+    if (pictures!.isNotEmpty) {
       setState(() {
         pictures = [];
       });
@@ -118,23 +118,24 @@ class _ChatState extends State<Chat> {
                 width: size.width * 0.4,
                 height: 50,
                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.horizontal,
                     itemCount: pictures!.length ?? 0,
-                    itemBuilder: (context, index){
-                  if(pictures!.isNotEmpty){
-                    return SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: GestureDetector(
-                          onLongPress: (){
-                            _removePicture(index);
-                          },
-                          child: Image.file(pictures![index])),
-                    );
-                  }else{
-                    return Container();
-                  }
-                }),
+                    itemBuilder: (context, index) {
+                      if (pictures!.isNotEmpty) {
+                        return SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: GestureDetector(
+                            onLongPress: () {
+                              _removePicture(index);
+                            },
+                            child: Image.file(pictures![index]),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }),
               ),
             ),
             //here textfield

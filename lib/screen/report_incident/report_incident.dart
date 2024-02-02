@@ -39,38 +39,37 @@ class _ReportIncidenceState extends State<ReportIncidence> {
   bool backTo = false;
 
   void submitReport() {
-    try {
-      String userUID = FirebaseAuth.instance.currentUser!.uid;
+    String userUID = FirebaseAuth.instance.currentUser!.uid;
 
-      final reportIncidenceModel = ReportIncidenceModel(
-        pictures: pictures as List<File>,
-        currentLocation: GeoPoint(
-          currentLocation!.latitude!,
-          currentLocation!.longitude!,
-        ),
-        disaster: disaster,
-        description: incidentController.text,
-        userUID: userUID,
-      );
-
-      ReportProvider.submitIncident(
-        reportIncidenceModel,
-        context,
-      ).whenComplete(() {
-        Navigator.pop(context);
-        popSnackBar(context, "Laporan dihantar.");
-      }).onError(
-        (error, stackTrace) => popSnackBar(context, error.toString()),
-      );
-      popLoadingDialog(context);
-    } on Exception catch (_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("There is input field that is not completed"),
-          duration: Duration(seconds: 2),
-        ),
-      );
+    if (incidentController.text == "" ||
+        currentLocation == null ||
+        disaster == [] ||
+        pictures == null) {
+      popSnackBar(context, "Ada informasi tidak lengkap");
+      return;
     }
+
+    final reportIncidenceModel = ReportIncidenceModel(
+      pictures: pictures as List<File>,
+      currentLocation: GeoPoint(
+        currentLocation!.latitude!,
+        currentLocation!.longitude!,
+      ),
+      disaster: disaster,
+      description: incidentController.text,
+      userUID: userUID,
+    );
+
+    ReportProvider.submitIncident(
+      reportIncidenceModel,
+      context,
+    ).whenComplete(() {
+      Navigator.pop(context);
+      popSnackBar(context, "Laporan dihantar.");
+    }).onError(
+      (error, stackTrace) => popSnackBar(context, error.toString()),
+    );
+    popLoadingDialog(context);
   }
 
   Future<void> navigatePictureUpload(BuildContext context) async {
@@ -157,6 +156,7 @@ class _ReportIncidenceState extends State<ReportIncidence> {
   @override
   void dispose() {
     incidentController.dispose();
+    super.dispose();
   }
 
   @override

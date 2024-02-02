@@ -52,7 +52,7 @@ class _ChatAreaState extends State<ChatArea> {
           final authUID = FirebaseAuth.instance.currentUser!.uid;
 
           if (snapshot.data!.isEmpty) {
-            return const Text("awaiting calls");
+            return const Text("sedang menunggu pangilan diangkat");
           } else {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               widget.callsHasBeenPicked();

@@ -22,7 +22,7 @@ class SupportResult extends StatelessWidget {
         future: Provider.of<SupportResultProvider>(context, listen: false)
             .getAppliedForm(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             return ListView.separated(
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
@@ -40,7 +40,7 @@ class SupportResult extends StatelessWidget {
                     title: Text(
                       DateFormat.yMMMMd('en_US')
                           .format(DateTime.fromMicrosecondsSinceEpoch(
-                          timestamp.microsecondsSinceEpoch))
+                              timestamp.microsecondsSinceEpoch))
                           .toString(),
                     ),
                     subtitle: Text(snapshot.data![index]['caseID']),
@@ -54,7 +54,17 @@ class SupportResult extends StatelessWidget {
               },
             );
           } else {
-            return Container();
+            return Center(
+              child: Text(
+                textAlign: TextAlign.center,
+                "Tiada rekod kes dijumpai",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            );
+            ;
           }
         },
       ),

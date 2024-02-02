@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:fyp_project/constant.dart';
 
 class PDFUpload extends StatefulWidget {
   static const routeName = "/pdf-upload";
+
   const PDFUpload({super.key});
 
   @override
@@ -59,7 +61,10 @@ class _PDFUploadState extends State<PDFUpload> {
             _selectedPDF == null
                 ? const Expanded(
                     child: Center(
-                      child: Text("Tiada Pengesahan PDF"),
+                      child: Text(
+                        "Tiada Pengesahan PDF",
+                        style: textStyling30,
+                      ),
                     ),
                   )
                 : Expanded(

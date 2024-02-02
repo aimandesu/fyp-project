@@ -210,7 +210,8 @@ class _HelpFormState extends State<HelpForm> {
           if (snapshot.data!["identificationNo"] == "") {
             return Center(
               child: Text(
-                "Please verify identity first",
+                textAlign: TextAlign.center,
+                "Tolong verifikasi informasi diri terlebih dahulu",
                 style: TextStyle(
                   fontSize: 25,
                   color: Theme.of(context).colorScheme.primary,
@@ -222,7 +223,8 @@ class _HelpFormState extends State<HelpForm> {
           if (snapshot.data!["verified"] == false) {
             return Center(
               child: Text(
-                "identification is being reviewed",
+                textAlign: TextAlign.center,
+                "Identifikasi kad pengenalan \nsedang disemak",
                 style: TextStyle(
                   fontSize: 25,
                   color: Theme.of(context).colorScheme.primary,
