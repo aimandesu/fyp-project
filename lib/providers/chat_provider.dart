@@ -75,6 +75,8 @@ class ChatProvider with ChangeNotifier {
     Reference reference = FirebaseStorage.instance.ref();
     String pathFiles = "message/${messageModel.uid}/${messageModel.requestID}";
     List<String> imgUrl = [];
+    GeoPoint? currentLocation = messageModel.currentLocation;
+
     if (messageModel.picture != null) {
       for (int i = 0; i < messageModel.picture!.length; i++) {
         final contentType = getImageContentType(messageModel.picture![i]);
@@ -99,7 +101,7 @@ class ChatProvider with ChangeNotifier {
     final lengthMessage =
         await collection.get().then((value) => value.docs.length);
     final int index = lengthMessage;
-    final json = messageModel.toJson(imgUrl, index);
+    final json = messageModel.toJson(imgUrl, index, currentLocation);
     await collection.add(json);
   }
 

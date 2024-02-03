@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,8 +8,11 @@ import 'package:fyp_project/models/message_model.dart';
 import 'package:fyp_project/screen/chat/widgets/chat_area.dart';
 import 'package:fyp_project/providers/chat_provider.dart';
 import 'package:fyp_project/screen/chat/widgets/text_entered.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import '../../constant.dart';
 import '../help_form/widgets/camera/picture_upload.dart';
+import 'package:http/http.dart' as http;
 
 class Chat extends StatefulWidget {
   static const routeName = "/chat";
@@ -22,11 +27,58 @@ class _ChatState extends State<Chat> {
   final TextEditingController chatText = TextEditingController();
   bool callsPicked = false;
   List<File>? pictures = [];
+  LocationData? currentLocation;
+  bool option = false;
+
+  void getCurrentLocation() async {
+    if (mounted) {
+      Location location = Location();
+      location.getLocation().then((location) {
+        setState(() {
+          currentLocation = location;
+        });
+      });
+    }
+  }
 
   void callsHasBeenPicked() {
     setState(() {
       callsPicked = true;
     });
+  }
+
+  void sendLocation(
+    String requestID,
+  ) async {
+    final authUID = FirebaseAuth.instance.currentUser!.uid;
+
+    final response = await http.get(
+      Uri.parse(
+          "https://api.geoapify.com/v1/geocode/reverse?lat=${currentLocation!.latitude!}&lon=${currentLocation!.longitude!}&apiKey=$reverseGeoApiKey"),
+    );
+    final json = jsonDecode(response.body);
+    String message = json["features"][0]["properties"]["formatted"].toString();
+
+    final messageModel = MessageModel(
+      requestID: requestID,
+      uid: authUID,
+      message: message,
+      currentLocation: GeoPoint(
+        currentLocation!.latitude!,
+        currentLocation!.longitude!,
+      ),
+    );
+
+    if (context.mounted) {
+      Provider.of<ChatProvider>(context, listen: false)
+          .addMessage(messageModel);
+    }
+
+    if (currentLocation != null) {
+      setState(() {
+        currentLocation = null;
+      });
+    }
   }
 
   void sendMessage(
@@ -76,6 +128,12 @@ class _ChatState extends State<Chat> {
   }
 
   @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     /**
      * here we need to first do a function and have like loading
@@ -112,32 +170,60 @@ class _ChatState extends State<Chat> {
                 callsHasBeenPicked: callsHasBeenPicked,
               ),
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: SizedBox(
-                width: size.width * 0.4,
-                height: 50,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: pictures!.length ?? 0,
-                    itemBuilder: (context, index) {
-                      if (pictures!.isNotEmpty) {
-                        return SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: GestureDetector(
-                            onLongPress: () {
-                              _removePicture(index);
-                            },
-                            child: Image.file(pictures![index]),
-                          ),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }),
-              ),
-            ),
+            option == true || pictures!.isNotEmpty
+                ? Align(
+                    alignment: Alignment.bottomLeft,
+                    child: SizedBox(
+                      height: 50,
+                      child: option == false || pictures!.isNotEmpty
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: pictures!.length ?? 0,
+                              itemBuilder: (context, index) {
+                                if (pictures!.isNotEmpty) {
+                                  return SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: GestureDetector(
+                                      onLongPress: () {
+                                        _removePicture(index);
+                                      },
+                                      child: Image.file(pictures![index]),
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              })
+                          : Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    IconButton.filledTonal(
+                                      onPressed: () =>
+                                          navigatePictureUpload(context),
+                                      icon: const Icon(Icons.photo),
+                                    ),
+                                    const Text("Gallery"),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton.filledTonal(
+                                      onPressed: () => sendLocation(arguments),
+                                      icon: const Icon(Icons.map),
+                                    ),
+                                    const Text("Location"),
+                                  ],
+                                ),
+                              ],
+                            ),
+                    ).animate().fade(),
+                  )
+                : Container().animate().fade(),
             //here textfield
             callsPicked
                 ? Row(
@@ -145,8 +231,12 @@ class _ChatState extends State<Chat> {
                     children: [
                       TextEntered(chatText: chatText),
                       IconButton.filledTonal(
-                        onPressed: () => navigatePictureUpload(context),
-                        icon: const Icon(Icons.photo),
+                        onPressed: () {
+                          setState(() {
+                            option = !option;
+                          });
+                        },
+                        icon: const Icon(Icons.add_box_outlined),
                       ),
                       IconButton.filledTonal(
                         onPressed: () => sendMessage(

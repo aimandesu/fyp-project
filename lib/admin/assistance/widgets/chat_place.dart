@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fyp_project/admin/providers/assistance_provider.dart';
@@ -70,6 +71,7 @@ class ChatPlace extends StatelessWidget {
                             String text = snapshot.data![index]['text'];
                             String uid = snapshot.data![index]['uid'];
                             List<dynamic>? picture = snapshot.data[index]['picture'];
+                            GeoPoint? location =  snapshot.data![index]['location'];
 
                             if (text == "exit") {
                               return Align(
@@ -101,6 +103,7 @@ class ChatPlace extends StatelessWidget {
                                 message: text,
                                 isUser: uid == authUID,
                                 picture: picture,
+                                location: location,
                               );
                             }
                           },

@@ -1,12 +1,59 @@
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Bubble extends StatelessWidget {
-  const Bubble(
-      {required this.message, required this.isUser, super.key, this.picture});
+class Bubble extends StatefulWidget {
+  const Bubble({
+    required this.message,
+    required this.isUser,
+    super.key,
+    this.picture,
+    this.location,
+  });
 
   final String message;
   final bool isUser;
   final List<dynamic>? picture;
+  final GeoPoint? location;
+
+  @override
+  State<Bubble> createState() => _BubbleState();
+}
+
+class _BubbleState extends State<Bubble> {
+  final Completer<GoogleMapController> controller =
+      Completer<GoogleMapController>();
+
+  final Set<Marker> markers = <Marker>{};
+  CameraPosition? currentPlex;
+
+  @override
+  void didChangeDependencies() {
+    bool isInit = true;
+    if (isInit) {
+      if (widget.picture == null && widget.location != null) {
+        currentPlex = CameraPosition(
+          target: LatLng(widget.location!.latitude, widget.location!.longitude),
+          zoom: 14,
+        );
+        String markerId = "location";
+        markers.add(
+          Marker(
+            markerId: MarkerId('marker$markerId'),
+            // infoWindow: const InfoWindow(title: "From Json Marker"),
+            icon:
+                BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            position:
+                LatLng(widget.location!.latitude, widget.location!.longitude),
+          ),
+        );
+      }
+    }
+    isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,25 +64,31 @@ class Bubble extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment:
-              isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+              widget.isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             Container(
               decoration: BoxDecoration(
-                color: isUser
+                color: widget.isUser
                     ? Theme.of(context).colorScheme.primaryContainer
                     : Theme.of(context).colorScheme.inversePrimary,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(12),
                   topRight: const Radius.circular(12),
-                  bottomLeft: !isUser
+                  bottomLeft: !widget.isUser
                       ? const Radius.circular(0)
                       : const Radius.circular(12),
-                  bottomRight: isUser
+                  bottomRight: widget.isUser
                       ? const Radius.circular(0)
                       : const Radius.circular(12),
                 ),
               ),
-              // width: message.length > 48 ? size.width * 0.4 : null,
+              width: kIsWeb
+                  ? widget.message.length > 70
+                      ? size.width * 0.6
+                      : null
+                  : widget.message.length > 48
+                      ? size.width * 0.8
+                      : null,
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
                 horizontal: 15,
@@ -44,23 +97,53 @@ class Bubble extends StatelessWidget {
                 vertical: 16,
                 horizontal: 8,
               ),
-              child: picture == null
-                  ? Text(message, textAlign: TextAlign.start)
-                  : Column(
-                      children: [
-                        SizedBox(
+              child: widget.picture == null && widget.location == null
+                  ? Text(widget.message, textAlign: TextAlign.start)
+                  : widget.picture != null && widget.location == null
+                      ? Column(
+                          children: [
+                            Text(widget.message, textAlign: TextAlign.start),
+                            SizedBox(
+                              height: 300,
+                              width: 300,
+                              child: ListView.builder(
+                                itemCount: widget.picture!.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return Image.network(
+                                    widget.picture![index].toString(),
+                                    fit: BoxFit.contain,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                      : SizedBox(
                           height: 300,
                           width: 300,
-                          child: ListView.builder(
-                            itemCount: picture!.length,
-                            itemBuilder: (context, index) {
-                              return Image.network(picture![index].toString());
-                            },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.message),
+                              Text(
+                                  "${widget.location!.latitude},${widget.location!.longitude}"),
+                              Expanded(
+                                child: GoogleMap(
+                                  mapType: MapType.normal,
+                                  markers: markers,
+                                  zoomControlsEnabled: false,
+                                  initialCameraPosition:
+                                      currentPlex as CameraPosition,
+                                  onMapCreated:
+                                      (GoogleMapController controllers) {
+                                    controller.complete(controllers);
+                                  },
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        Text(message, textAlign: TextAlign.start)
-                      ],
-                    ),
             ),
           ],
         ),

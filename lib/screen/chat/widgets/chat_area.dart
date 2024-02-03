@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_project/screen/chat/widgets/bubble.dart';
@@ -64,10 +65,13 @@ class _ChatAreaState extends State<ChatArea> {
                 String text = snapshot.data![index]['text'];
                 String uid = snapshot.data![index]['uid'];
                 List<dynamic>? picture = snapshot.data![index]['picture'];
+                GeoPoint? location =  snapshot.data![index]['location'];
+
                 return Bubble(
                   message: text,
                   isUser: uid == authUID,
                   picture: picture,
+                  location: location,
                 );
               },
             );
